@@ -111,6 +111,34 @@ namespace Yiyou.SQLServerDAL
         {
             return SqlHelper.ExecuteQuery(queryString, null);
         }
+        /// <summary>
+        /// Get multiple data table
+        /// </summary>
+        /// <param name="queryString"></param>
+        /// <returns></returns>
+        public static DataSet ExecuteMultiQuery(string queryString1, string queryString2)
+        {
+            DataSet dataset = new DataSet();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionStringSettings))
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(queryString1, conn);
+                    adapter.Fill(dataset, "table1");
+
+                    adapter = new SqlDataAdapter(queryString2, conn);
+                    adapter.Fill(dataset, "table2");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log4NetLogger.GetLogger().Error(ex.Message);
+                throw;
+            }
+
+            return dataset;
+        }
         public static string ExecuteSingleValueQuery(string queryString)
         {
             DataSet ds = SqlHelper.ExecuteQuery(queryString, null);

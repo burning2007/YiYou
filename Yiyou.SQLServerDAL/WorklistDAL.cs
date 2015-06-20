@@ -10,13 +10,17 @@ namespace Yiyou.SQLServerDAL
     {
         public static DataSet GetWorklist(string strFilterStatus)
         {
-            string strSQL = "SELECT app.*, p.name, p.gender, '' as gendertext, p.birthday, 3 AS HospitalCount FROM [mhCloudEMR].[dbo].[consult_application]  app LEFT JOIN [mhCloudEMR].[dbo].[emr_patient] p ON P.patient_guid = app.patient_guid WHERE 1=1 ";
+            string strSQL = @"SELECT app.*, p.name, p.gender, '' as gendertext, p.birthday
+                                FROM [mhCloudEMR].[dbo].[consult_application]  app 
+                                LEFT JOIN [mhCloudEMR].[dbo].[emr_patient] p ON P.patient_guid = app.patient_guid WHERE 1=1 ";
             if (!string.IsNullOrEmpty(strFilterStatus))
             {
-                strSQL += " AND app.status=" + strFilterStatus;
+                strSQL += " AND app.status in(" + strFilterStatus + ") ";
             }
             strSQL += "ORDER BY app.created_dt DESC";
-            return SqlHelper.ExecuteQuery(strSQL);
+
+            string strSQL2 = @"select * FROM [mhCloudEMR].[dbo].[consult_application_consultant] ";
+            return SqlHelper.ExecuteMultiQuery(strSQL, strSQL2);
         }
 
         public static string GetApplicationCount(string strFilterStatus)
@@ -24,7 +28,7 @@ namespace Yiyou.SQLServerDAL
             string strSQL = "select count(*) FROM [mhCloudEMR].[dbo].[consult_application] where 1=1 ";
             if (!string.IsNullOrEmpty(strFilterStatus))
             {
-                strSQL += " and status=" + strFilterStatus;
+                strSQL += " and status in (" + strFilterStatus + ")";
             }
             DataSet ds = SqlHelper.ExecuteQuery(strSQL);
             return ds.Tables[0].Rows[0][0].ToString();

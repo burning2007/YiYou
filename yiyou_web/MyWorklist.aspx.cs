@@ -33,16 +33,6 @@ namespace ICUPro.Portal
         }
         /// <summary>
         /// 状态
-        // 0—未提交（开始用户阶段）
-        // 1—已提交
-        // 10—已审核（客服介入阶段）
-        // 11—已签约
-        // 12—已付款
-        // 20—已递交（开始专家阶段）
-        // 21—已拒绝
-        // 22—已出结论
-        // 99—已完成（客服确认）
-        // ********** Update Status ********** 
         //0—未提交（开始用户阶段）
         //1—已提交
         //2—已接受（待付初审费）
@@ -58,19 +48,9 @@ namespace ICUPro.Portal
         /// </summary>
         private void RefreshApplicationStatusCnt()
         {
-            this.lblStatus_All.Text = WorklistDAL.GetApplicationCount("");
-            this.lblStatus_0.Text = WorklistDAL.GetApplicationCount("0");
-            this.lblStatus_1.Text = WorklistDAL.GetApplicationCount("1");
-            this.lblStatus_2.Text = WorklistDAL.GetApplicationCount("2");
-            this.lblStatus_3.Text = WorklistDAL.GetApplicationCount("3");
-            this.lblStatus_4.Text = WorklistDAL.GetApplicationCount("4");
-            this.lblStatus_5.Text = WorklistDAL.GetApplicationCount("5");
-            this.lblStatus_6.Text = WorklistDAL.GetApplicationCount("6");
-            this.lblStatus_7.Text = WorklistDAL.GetApplicationCount("7");
-            this.lblStatus_8.Text = WorklistDAL.GetApplicationCount("8");
-            this.lblStatus_9.Text = WorklistDAL.GetApplicationCount("9");
-            this.lblStatus_99.Text = WorklistDAL.GetApplicationCount("99");
-            this.lblStatus_100.Text = WorklistDAL.GetApplicationCount("100");
+            this.lblStatus_0.Text = WorklistDAL.GetApplicationCount("");
+            this.lblStatus_1.Text = WorklistDAL.GetApplicationCount("0,2,5");
+            this.lblStatus_2.Text = WorklistDAL.GetApplicationCount("99");
         }
 
         private void RefreshGUI()
@@ -81,14 +61,29 @@ namespace ICUPro.Portal
             string strFilterStatus = "";
             if (this.hidFilter.Value.Trim() != string.Empty)
             {
-                strFilterStatus = this.hidFilter.Value;
+                string type = this.hidFilter.Value;
+
+                // Maybe different role will have the different status list
+                // This is for the Patient
+                if (type == "1")
+                {
+                    strFilterStatus = "0,2,5";
+                }
+                else if (type == "2")
+                {
+                    strFilterStatus = "99";
+                }
             }
             DataSet ds = WorklistDAL.GetWorklist(strFilterStatus);
             ds.Tables[0].Columns.Add("CommandText");
             ds.Tables[0].Columns.Add("StatusText");
+            ds.Tables[0].Columns.Add("hospitalList");
             foreach (DataRow item in ds.Tables[0].Rows)
             {
                 item["CommandText"] = "详情";
+
+
+                #region Gender
                 string gender = item["gender"].ToString();
                 if (gender == "")
                     item["gendertext"] = "未知";
@@ -98,7 +93,9 @@ namespace ICUPro.Portal
                     item["gendertext"] = "女";
                 else if (gender == "2")
                     item["gendertext"] = "男";
+                #endregion
 
+                #region Status
                 string Status = item["Status"].ToString();
                 item["StatusText"] = Status; // Default
                 if (Status == "0")
@@ -120,14 +117,29 @@ namespace ICUPro.Portal
                 else if (Status == "8")
                     item["StatusText"] = "已出结论";
                 else if (Status == "9")
-                    item["StatusText"] = "已翻译";        
+                    item["StatusText"] = "已翻译";
                 else if (Status == "99")
                     item["StatusText"] = "已完成";
                 else if (Status == "100")
                     item["StatusText"] = "已拒绝";
+                #endregion
+
+                #region HospitalList
+                string strAPPGuid = item["guid"].ToString();
+                List<string> lstHospital = new List<string>();
+                DataRow[] hospitalRows = ds.Tables[1].Select(string.Format("consult_application_guid='{0}'", strAPPGuid));
+                foreach (var row in hospitalRows)
+                {
+                    if (row["hospital_name"].ToString().Trim().Length > 0)
+                    {
+                        lstHospital.Add(row["hospital_name"].ToString().Trim());
+                    }
+                }
+                item["hospitalList"] = string.Join(",", lstHospital.ToArray());
+                #endregion
             }
             this.GridView1.PageIndex = 0;
-            this.GridView1.DataSource = ds;
+            this.GridView1.DataSource = ds.Tables[0];
             this.GridView1.DataBind();
 
             Session["gridData"] = ds;
