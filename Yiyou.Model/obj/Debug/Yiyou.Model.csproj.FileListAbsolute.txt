@@ -6,3 +6,23 @@ D:\== My Ducument ==\MyProject\MeeHealth\yiyou - metro css v2 版本\Yiyou.Model
 D:\== My Ducument ==\MyProject\MeeHealth\yiyou - metro css v2 版本\Yiyou.Model\bin\Debug\Yiyou.Model.pdb
 D:\== My Ducument ==\MyProject\MeeHealth\yiyou - metro css v2 版本\Yiyou.Model\obj\Debug\Yiyou.Model.dll
 D:\== My Ducument ==\MyProject\MeeHealth\yiyou - metro css v2 版本\Yiyou.Model\obj\Debug\Yiyou.Model.pdb
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.Model\bin\Debug\Yiyou.Model.dll
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.Model\bin\Debug\Yiyou.Model.pdb
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.Model\obj\Debug\Yiyou.Model.csprojResolveAssemblyReference.cache
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.Model\obj\Debug\Yiyou.Model.dll
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.Model\obj\Debug\Yiyou.Model.pdb
+F:\YiYou\yiyousrc\Yiyou.Model\bin\Debug\Yiyou.Model.dll
+F:\YiYou\yiyousrc\Yiyou.Model\bin\Debug\Yiyou.Model.pdb
+F:\YiYou\yiyousrc\Yiyou.Model\obj\Debug\Yiyou.Model.csprojResolveAssemblyReference.cache
+F:\YiYou\yiyousrc\Yiyou.Model\obj\Debug\Yiyou.Model.dll
+F:\YiYou\yiyousrc\Yiyou.Model\obj\Debug\Yiyou.Model.pdb
+F:\YiYou\Code\Yiyou.Model\bin\Debug\Yiyou.Model.dll
+F:\YiYou\Code\Yiyou.Model\bin\Debug\Yiyou.Model.pdb
+F:\YiYou\Code\Yiyou.Model\obj\Debug\Yiyou.Model.dll
+F:\YiYou\Code\Yiyou.Model\obj\Debug\Yiyou.Model.pdb
+F:\YiYou\Code\Yiyou.Model\obj\Debug\Yiyou.Model.csprojResolveAssemblyReference.cache
+E:\MeeHealth\YiYou\Yiyou.Model\bin\Debug\Yiyou.Model.dll
+E:\MeeHealth\YiYou\Yiyou.Model\bin\Debug\Yiyou.Model.pdb
+E:\MeeHealth\YiYou\Yiyou.Model\obj\Debug\Yiyou.Model.csprojResolveAssemblyReference.cache
+E:\MeeHealth\YiYou\Yiyou.Model\obj\Debug\Yiyou.Model.dll
+E:\MeeHealth\YiYou\Yiyou.Model\obj\Debug\Yiyou.Model.pdb

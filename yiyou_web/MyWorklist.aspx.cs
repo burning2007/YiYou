@@ -20,7 +20,10 @@ namespace ICUPro.Portal
         {
             if (!Page.IsPostBack)
             {
+                Session["USER_GUID"] = "7";
+
                 RefreshGUI();
+
             }
         }
 
@@ -39,17 +42,35 @@ namespace ICUPro.Portal
         // 21—已拒绝
         // 22—已出结论
         // 99—已完成（客服确认）
+        // ********** Update Status ********** 
+        //0—未提交（开始用户阶段）
+        //1—已提交
+        //2—已接受（待付初审费）
+        //3—已付初审费
+        //4—初审中
+        //5—已初审（待付会诊费）
+        //6—已付会诊费
+        //7—会诊中
+        //8—已出结论
+        //9—已翻译
+        //99—已完成
+
         /// </summary>
         private void RefreshApplicationStatusCnt()
         {
             this.lblStatus_All.Text = WorklistDAL.GetApplicationCount("");
             this.lblStatus_0.Text = WorklistDAL.GetApplicationCount("0");
             this.lblStatus_1.Text = WorklistDAL.GetApplicationCount("1");
-            this.lblStatus_10.Text = WorklistDAL.GetApplicationCount("10");
-            this.lblStatus_11.Text = WorklistDAL.GetApplicationCount("11");
-            this.lblStatus_12.Text = WorklistDAL.GetApplicationCount("12");
-            this.lblStatus_21.Text = WorklistDAL.GetApplicationCount("21");
+            this.lblStatus_2.Text = WorklistDAL.GetApplicationCount("2");
+            this.lblStatus_3.Text = WorklistDAL.GetApplicationCount("3");
+            this.lblStatus_4.Text = WorklistDAL.GetApplicationCount("4");
+            this.lblStatus_5.Text = WorklistDAL.GetApplicationCount("5");
+            this.lblStatus_6.Text = WorklistDAL.GetApplicationCount("6");
+            this.lblStatus_7.Text = WorklistDAL.GetApplicationCount("7");
+            this.lblStatus_8.Text = WorklistDAL.GetApplicationCount("8");
+            this.lblStatus_9.Text = WorklistDAL.GetApplicationCount("9");
             this.lblStatus_99.Text = WorklistDAL.GetApplicationCount("99");
+            this.lblStatus_100.Text = WorklistDAL.GetApplicationCount("100");
         }
 
         private void RefreshGUI()
@@ -68,6 +89,15 @@ namespace ICUPro.Portal
             foreach (DataRow item in ds.Tables[0].Rows)
             {
                 item["CommandText"] = "详情";
+                string gender = item["gender"].ToString();
+                if (gender == "")
+                    item["gendertext"] = "未知";
+                else if (gender == "0")
+                    item["gendertext"] = "未知";
+                else if (gender == "1")
+                    item["gendertext"] = "女";
+                else if (gender == "2")
+                    item["gendertext"] = "男";
 
                 string Status = item["Status"].ToString();
                 item["StatusText"] = Status; // Default
@@ -75,20 +105,26 @@ namespace ICUPro.Portal
                     item["StatusText"] = "未提交";
                 else if (Status == "1")
                     item["StatusText"] = "已提交";
-                else if (Status == "10")
-                    item["StatusText"] = "已审核";
-                else if (Status == "11")
-                    item["StatusText"] = "已签约";
-                else if (Status == "12")
-                    item["StatusText"] = "已付款";
-                else if (Status == "20")
-                    item["StatusText"] = "已递交";
-                else if (Status == "21")
-                    item["StatusText"] = "已拒绝";
-                else if (Status == "22")
+                else if (Status == "2")
+                    item["StatusText"] = "已接受";
+                else if (Status == "3")
+                    item["StatusText"] = "已付初审费";
+                else if (Status == "4")
+                    item["StatusText"] = "初审中";
+                else if (Status == "5")
+                    item["StatusText"] = "已初审";
+                else if (Status == "6")
+                    item["StatusText"] = "已付会诊费";
+                else if (Status == "7")
+                    item["StatusText"] = "会诊中";
+                else if (Status == "8")
                     item["StatusText"] = "已出结论";
+                else if (Status == "9")
+                    item["StatusText"] = "已翻译";        
                 else if (Status == "99")
                     item["StatusText"] = "已完成";
+                else if (Status == "100")
+                    item["StatusText"] = "已拒绝";
             }
             this.GridView1.PageIndex = 0;
             this.GridView1.DataSource = ds;

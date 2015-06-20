@@ -16,3 +16,43 @@ D:\== My Ducument ==\MyProject\MeeHealth\yiyou - metro css v2 版本\Yiyou.SQLSe
 D:\== My Ducument ==\MyProject\MeeHealth\yiyou - metro css v2 版本\Yiyou.SQLServerDAL\obj\Debug\Yiyou.SQLServerDAL.pdb
 D:\== My Ducument ==\MyProject\MeeHealth\yiyou - metro css v2 版本\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Model.dll
 D:\== My Ducument ==\MyProject\MeeHealth\yiyou - metro css v2 版本\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Model.pdb
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.SQLServerDAL\bin\Debug\Yiyou.SQLServerDAL.dll
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.SQLServerDAL\bin\Debug\Yiyou.SQLServerDAL.pdb
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.SQLServerDAL\bin\Debug\log4net.dll
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Log.dll
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Model.dll
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Log.pdb
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Model.pdb
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.SQLServerDAL\obj\Debug\Yiyou.SQLServerDAL.csprojResolveAssemblyReference.cache
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.SQLServerDAL\obj\Debug\Yiyou.SQLServerDAL.dll
+F:\YiYou\yiyou - metro css v2 版本\Yiyou.SQLServerDAL\obj\Debug\Yiyou.SQLServerDAL.pdb
+F:\YiYou\yiyousrc\Yiyou.SQLServerDAL\bin\Debug\Yiyou.SQLServerDAL.dll
+F:\YiYou\yiyousrc\Yiyou.SQLServerDAL\bin\Debug\Yiyou.SQLServerDAL.pdb
+F:\YiYou\yiyousrc\Yiyou.SQLServerDAL\bin\Debug\log4net.dll
+F:\YiYou\yiyousrc\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Log.dll
+F:\YiYou\yiyousrc\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Model.dll
+F:\YiYou\yiyousrc\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Log.pdb
+F:\YiYou\yiyousrc\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Model.pdb
+F:\YiYou\yiyousrc\Yiyou.SQLServerDAL\obj\Debug\Yiyou.SQLServerDAL.csprojResolveAssemblyReference.cache
+F:\YiYou\yiyousrc\Yiyou.SQLServerDAL\obj\Debug\Yiyou.SQLServerDAL.dll
+F:\YiYou\yiyousrc\Yiyou.SQLServerDAL\obj\Debug\Yiyou.SQLServerDAL.pdb
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Debug\Yiyou.SQLServerDAL.dll
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Debug\Yiyou.SQLServerDAL.pdb
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Debug\log4net.dll
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Log.dll
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Model.dll
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Log.pdb
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Model.pdb
+F:\YiYou\Code\Yiyou.SQLServerDAL\obj\Debug\Yiyou.SQLServerDAL.csprojResolveAssemblyReference.cache
+F:\YiYou\Code\Yiyou.SQLServerDAL\obj\Debug\Yiyou.SQLServerDAL.dll
+F:\YiYou\Code\Yiyou.SQLServerDAL\obj\Debug\Yiyou.SQLServerDAL.pdb
+E:\MeeHealth\YiYou\Yiyou.SQLServerDAL\bin\Debug\Yiyou.SQLServerDAL.dll
+E:\MeeHealth\YiYou\Yiyou.SQLServerDAL\bin\Debug\Yiyou.SQLServerDAL.pdb
+E:\MeeHealth\YiYou\Yiyou.SQLServerDAL\bin\Debug\log4net.dll
+E:\MeeHealth\YiYou\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Log.dll
+E:\MeeHealth\YiYou\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Model.dll
+E:\MeeHealth\YiYou\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Log.pdb
+E:\MeeHealth\YiYou\Yiyou.SQLServerDAL\bin\Debug\Yiyou.Model.pdb
+E:\MeeHealth\YiYou\Yiyou.SQLServerDAL\obj\Debug\Yiyou.SQLServerDAL.csprojResolveAssemblyReference.cache
+E:\MeeHealth\YiYou\Yiyou.SQLServerDAL\obj\Debug\Yiyou.SQLServerDAL.dll
+E:\MeeHealth\YiYou\Yiyou.SQLServerDAL\obj\Debug\Yiyou.SQLServerDAL.pdb

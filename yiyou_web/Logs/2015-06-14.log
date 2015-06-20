@@ -1,0 +1,39 @@
+2015-06-14 22:55:57,167 INFO  - Application_Start....
+2015-06-14 22:55:57,167 INFO  - ConnectionStringSettings: Data Source=.;Initial Catalog=mhCloudEMR;User ID=sa;Password=SQL2008;Persist Security Info=True;
+2015-06-14 22:56:17,880 ERROR - Invalid column name 'hospital_guid'.
+Invalid column name 'hospital_name'.
+Invalid column name 'doctor_guid'.
+Invalid column name 'doctor_name'.
+Invalid column name 'conclusion'.
+Invalid column name 'conclusion_t'.
+Invalid column name 'conclusion_doctor_guid'.
+Invalid column name 'conclusion_doctor_name'.
+Invalid column name 'delivered_dt'.
+Invalid column name 'deliver_guid'.
+Invalid column name 'deliver_name'.
+2015-06-14 22:56:17,927 ERROR - Invalid column name 'hospital_guid'.
+Invalid column name 'hospital_name'.
+Invalid column name 'doctor_guid'.
+Invalid column name 'doctor_name'.
+Invalid column name 'conclusion'.
+Invalid column name 'conclusion_t'.
+Invalid column name 'conclusion_doctor_guid'.
+Invalid column name 'conclusion_doctor_name'.
+Invalid column name 'delivered_dt'.
+Invalid column name 'deliver_guid'.
+Invalid column name 'deliver_name'.
+2015-06-14 22:57:42,012 INFO  - Application_Start....
+2015-06-14 22:57:42,012 INFO  - ConnectionStringSettings: Data Source=.;Initial Catalog=mhCloudEMR;User ID=sa;Password=SQL2008;Persist Security Info=True;
+2015-06-14 23:04:04,955 INFO  - Application_Start....
+2015-06-14 23:04:04,955 INFO  - ConnectionStringSettings: Data Source=.;Initial Catalog=mhCloudEMR;User ID=sa;Password=SQL2008;Persist Security Info=True;
+2015-06-14 23:08:17,233 ERROR - 未将对象引用设置到对象的实例。
+2015-06-14 23:16:46,282 INFO  - Application_Start....
+2015-06-14 23:16:46,290 INFO  - ConnectionStringSettings: Data Source=.;Initial Catalog=mhCloudEMR;User ID=sa;Password=SQL2008;Persist Security Info=True;
+2015-06-14 23:17:49,382 INFO  - Application_Start....
+2015-06-14 23:17:49,389 INFO  - ConnectionStringSettings: Data Source=.;Initial Catalog=mhCloudEMR;User ID=sa;Password=SQL2008;Persist Security Info=True;
+2015-06-14 23:39:13,644 INFO  - Application_Start....
+2015-06-14 23:39:13,660 INFO  - ConnectionStringSettings: Data Source=.;Initial Catalog=mhCloudEMR;User ID=sa;Password=SQL2008;Persist Security Info=True;
+2015-06-14 23:40:15,549 INFO  - Application_Start....
+2015-06-14 23:40:15,565 INFO  - ConnectionStringSettings: Data Source=.;Initial Catalog=mhCloudEMR;User ID=sa;Password=SQL2008;Persist Security Info=True;
+2015-06-14 23:40:49,607 ERROR - 未将对象引用设置到对象的实例。
+2015-06-14 23:41:12,904 ERROR - 未将对象引用设置到对象的实例。

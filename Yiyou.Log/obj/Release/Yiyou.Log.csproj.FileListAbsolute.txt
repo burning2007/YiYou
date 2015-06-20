@@ -1,0 +1,5 @@
+F:\YiYou\Code\Yiyou.Log\bin\Release\Yiyou.Log.dll
+F:\YiYou\Code\Yiyou.Log\bin\Release\Yiyou.Log.pdb
+F:\YiYou\Code\Yiyou.Log\bin\Release\log4net.dll
+F:\YiYou\Code\Yiyou.Log\obj\Release\Yiyou.Log.dll
+F:\YiYou\Code\Yiyou.Log\obj\Release\Yiyou.Log.pdb

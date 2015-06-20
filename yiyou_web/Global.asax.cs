@@ -23,7 +23,6 @@ namespace ICUPro.Portal
             Log4NetLogger.GetLogger().Info("Application_Start....");
             SqlHelper.ConnectionStringSettings = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString;
             Log4NetLogger.GetLogger().Info("ConnectionStringSettings: " + SqlHelper.ConnectionStringSettings);
-            
 
             //DataSet dsGlobalInfo = new DataSet();
             //Log4NetLogger.GetLogger().Info("Get tbProject");
@@ -39,5 +38,6 @@ namespace ICUPro.Portal
             //dsGlobalInfo.Tables.Add(ApplicationDAL.GetDoctorList().Tables[0].Copy().TableName = "tbDoctor");
             //Application["dsGlobalInfo"] = dsGlobalInfo;
         }
+
     }
 }

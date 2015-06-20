@@ -385,7 +385,7 @@ namespace Yiyou.SQLServerDAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select  top 1 guid,user_guid,user_name,status,project_guid,project_name,location_guid,location_name,hospital_guid,hospital_name,doctor_guid,doctor_name,purpose,purpose_t,local_hospital,local_hospital_t,conclusion,conclusion_t,conclusion_doctor_guid,conclusion_doctor_name,created_dt,submitted_dt,approved_dt,delivered_dt,concluded_dt,rejected_dt,completed_dt,approver_guid,approver_name,deliver_guid,deliver_name,contract_content,amount_payable,amount_receivable,paid_dt from consult_application ");
+            strSql.Append("select  top 1 * from consult_application ");
             strSql.Append(" where guid=@guid");
             SqlParameter[] parameters = { new SqlParameter("@guid", SqlDbType.VarChar, 36) };
             parameters[0].Value = guid;
@@ -526,14 +526,14 @@ namespace Yiyou.SQLServerDAL
                 {
                     model.status = int.Parse(row["status"].ToString());
                 }
-                if (row["project_guid"] != null)
-                {
-                    model.project_guid = row["project_guid"].ToString();
-                }
-                if (row["project_name"] != null)
-                {
-                    model.project_name = row["project_name"].ToString();
-                }
+                //if (row["project_guid"] != null)
+                //{
+                //    model.project_guid = row["project_guid"].ToString();
+                //}
+                //if (row["project_name"] != null)
+                //{
+                //    model.project_name = row["project_name"].ToString();
+                //}
                 if (row["location_guid"] != null)
                 {
                     model.location_guid = row["location_guid"].ToString();
@@ -542,22 +542,22 @@ namespace Yiyou.SQLServerDAL
                 {
                     model.location_name = row["location_name"].ToString();
                 }
-                if (row["hospital_guid"] != null)
-                {
-                    model.hospital_guid = row["hospital_guid"].ToString();
-                }
-                if (row["hospital_name"] != null)
-                {
-                    model.hospital_name = row["hospital_name"].ToString();
-                }
-                if (row["doctor_guid"] != null)
-                {
-                    model.doctor_guid = row["doctor_guid"].ToString();
-                }
-                if (row["doctor_name"] != null)
-                {
-                    model.doctor_name = row["doctor_name"].ToString();
-                }
+                //if (row["hospital_guid"] != null)
+                //{
+                //    model.hospital_guid = row["hospital_guid"].ToString();
+                //}
+                //if (row["hospital_name"] != null)
+                //{
+                //    model.hospital_name = row["hospital_name"].ToString();
+                //}
+                //if (row["doctor_guid"] != null)
+                //{
+                //    model.doctor_guid = row["doctor_guid"].ToString();
+                //}
+                //if (row["doctor_name"] != null)
+                //{
+                //    model.doctor_name = row["doctor_name"].ToString();
+                //}
                 if (row["purpose"] != null)
                 {
                     model.purpose = row["purpose"].ToString();
@@ -574,22 +574,22 @@ namespace Yiyou.SQLServerDAL
                 {
                     model.local_hospital_t = row["local_hospital_t"].ToString();
                 }
-                if (row["conclusion"] != null)
-                {
-                    model.conclusion = row["conclusion"].ToString();
-                }
-                if (row["conclusion_t"] != null)
-                {
-                    model.conclusion_t = row["conclusion_t"].ToString();
-                }
-                if (row["conclusion_doctor_guid"] != null)
-                {
-                    model.conclusion_doctor_guid = row["conclusion_doctor_guid"].ToString();
-                }
-                if (row["conclusion_doctor_name"] != null)
-                {
-                    model.conclusion_doctor_name = row["conclusion_doctor_name"].ToString();
-                }
+                //if (row["conclusion"] != null)
+                //{
+                //    model.conclusion = row["conclusion"].ToString();
+                //}
+                //if (row["conclusion_t"] != null)
+                //{
+                //    model.conclusion_t = row["conclusion_t"].ToString();
+                //}
+                //if (row["conclusion_doctor_guid"] != null)
+                //{
+                //    model.conclusion_doctor_guid = row["conclusion_doctor_guid"].ToString();
+                //}
+                //if (row["conclusion_doctor_name"] != null)
+                //{
+                //    model.conclusion_doctor_name = row["conclusion_doctor_name"].ToString();
+                //}
                 if (row["created_dt"] != null && row["created_dt"].ToString() != "")
                 {
                     model.created_dt = DateTime.Parse(row["created_dt"].ToString());
@@ -602,14 +602,14 @@ namespace Yiyou.SQLServerDAL
                 {
                     model.approved_dt = DateTime.Parse(row["approved_dt"].ToString());
                 }
-                if (row["delivered_dt"] != null && row["delivered_dt"].ToString() != "")
-                {
-                    model.delivered_dt = DateTime.Parse(row["delivered_dt"].ToString());
-                }
-                if (row["concluded_dt"] != null && row["concluded_dt"].ToString() != "")
-                {
-                    model.concluded_dt = DateTime.Parse(row["concluded_dt"].ToString());
-                }
+                //if (row["delivered_dt"] != null && row["delivered_dt"].ToString() != "")
+                //{
+                //    model.delivered_dt = DateTime.Parse(row["delivered_dt"].ToString());
+                //}
+                //if (row["concluded_dt"] != null && row["concluded_dt"].ToString() != "")
+                //{
+                //    model.concluded_dt = DateTime.Parse(row["concluded_dt"].ToString());
+                //}
                 if (row["rejected_dt"] != null && row["rejected_dt"].ToString() != "")
                 {
                     model.rejected_dt = DateTime.Parse(row["rejected_dt"].ToString());
@@ -626,14 +626,14 @@ namespace Yiyou.SQLServerDAL
                 {
                     model.approver_name = row["approver_name"].ToString();
                 }
-                if (row["deliver_guid"] != null)
-                {
-                    model.deliver_guid = row["deliver_guid"].ToString();
-                }
-                if (row["deliver_name"] != null)
-                {
-                    model.deliver_name = row["deliver_name"].ToString();
-                }
+                //if (row["deliver_guid"] != null)
+                //{
+                //    model.deliver_guid = row["deliver_guid"].ToString();
+                //}
+                //if (row["deliver_name"] != null)
+                //{
+                //    model.deliver_name = row["deliver_name"].ToString();
+                //}
                 if (row["contract_content"] != null)
                 {
                     model.contract_content = row["contract_content"].ToString();

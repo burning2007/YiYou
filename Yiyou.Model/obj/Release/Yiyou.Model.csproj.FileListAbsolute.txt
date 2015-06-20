@@ -1,0 +1,5 @@
+F:\YiYou\Code\Yiyou.Model\bin\Release\Yiyou.Model.dll
+F:\YiYou\Code\Yiyou.Model\bin\Release\Yiyou.Model.pdb
+F:\YiYou\Code\Yiyou.Model\obj\Release\Yiyou.Model.csprojResolveAssemblyReference.cache
+F:\YiYou\Code\Yiyou.Model\obj\Release\Yiyou.Model.dll
+F:\YiYou\Code\Yiyou.Model\obj\Release\Yiyou.Model.pdb

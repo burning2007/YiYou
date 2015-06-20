@@ -8,47 +8,94 @@
                 <ContentTemplate>
                     <table style="width: 100%; background: none; margin: 0; table-layout: fixed;">
                         <tr>
-                            <td class="size6" style="vertical-align: top;">
-                                <div class="fg-gray">会诊项目</div>
+                            <td class="size6" style="vertical-align: top;">                               
+                                <div class="fg-gray">账号</div>
                                 <div>
-                                    <div class="input-control select">
-                                        <asp:DropDownList ID="ddlProject" runat="server" DataTextField="name" DataValueField="guid"></asp:DropDownList>
+                                    <div class="input-control">
+                                        <asp:TextBox ID="txtName" runat="server" Width="100%"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="fg-gray">目的地</div>
-                                <div class="input-control select">
-                                    <asp:DropDownList ID="ddlLocation" runat="server" DataTextField="name" DataValueField="guid" AutoPostBack="true" OnSelectedIndexChanged="ddlLocation_SelectedIndexChanged"></asp:DropDownList>
-                                </div>
-                                <div class="fg-gray">医院</div>
+                                <div class="fg-gray">手机号</div>
                                 <div>
-                                    <div class="input-control select">
-                                        <asp:DropDownList ID="ddlHospital" runat="server" DataTextField="name" DataValueField="guid" AutoPostBack="true" OnSelectedIndexChanged="ddlHospital_SelectedIndexChanged"></asp:DropDownList>
+                                    <div class="input-control">
+                                        <asp:TextBox ID="txtMobile" runat="server" Width="100%"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="fg-gray">医生</div>
+                                <div class="fg-gray">邮箱</div>
                                 <div>
-                                    <div class="input-control select">
-                                        <asp:DropDownList ID="ddlDoctor" runat="server" DataTextField="name" DataValueField="guid"></asp:DropDownList>
+                                    <div class="input-control">
+                                        <asp:TextBox ID="txtEmail" runat="server" Width="100%"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="fg-gray">当前状态</div>
-                                <div class="fg-main">
-                                    <asp:Label runat="server" ID="lblStatus"></asp:Label><input type="hidden" runat="server" id="hidStatus" />
+                                <div class="fg-gray">患者姓名</div>
+                                <div>
+                                    <div class="input-control">
+                                        <asp:TextBox ID="txtPatientName" runat="server" Width="100%"></asp:TextBox>
+                                    </div>
                                 </div>
+                                <div class="fg-gray">患者性别</div>
+                                <div>
+                                    <div class="input-control select">
+                                        <asp:DropDownList ID="ddlGender" runat="server">
+                                            <asp:ListItem Value="0">未知</asp:ListItem>
+                                            <asp:ListItem Value="1">女</asp:ListItem>
+                                            <asp:ListItem Value="2">男</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="fg-gray">患者年龄</div>
+                                <div>
+                                    <div class="input-control">
+                                        <asp:TextBox ID="txtPatientAge" runat="server" Width="100%"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="fg-gray">会诊目的</div>
+                                <div>
+                                    <div class="input-control textarea">
+                                        <asp:TextBox ID="txtApplicationPurpose" runat="server" TextMode="MultiLine" Width="100%"></asp:TextBox>
+                                    </div>
+                                </div>  
+                                <div>
+                                    <button id="btnUpload" onclick="fnUpload();"><i class="icon-pictures"></i>&nbsp;上传...</button>                                   
+                                </div>                              
+                                
                             </td>
-                            <td style="vertical-align: top; padding-left: 20px;">
+                            <td class="size6" style="vertical-align: top; padding-left: 20px;">
+                                <div class="fg-gray"><a href="#">既往病史</a> <span style="text-align:right; margin-right:10px">点击这里编辑既往病史</span></div>                                
+                                <div class="fg-gray">目的地类型</div>
+                                <div>
+                                    <div class="input-control select">
+                                        <asp:DropDownList ID="ddlLocalType" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlLocalType_SelectedIndexChanged">
+                                            <asp:ListItem Value="1">国内</asp:ListItem>
+                                            <asp:ListItem Value="2">国外</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="fg-gray">会诊医院数量</div>
+                                <div class="input-control select">
+                                    <asp:DropDownList ID="ddlHospitalCount" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlHospitalCount_SelectedIndexChanged" >
+                                        <asp:ListItem Value="1">1</asp:ListItem>
+                                        <asp:ListItem Value="2">2</asp:ListItem>
+                                        <asp:ListItem Value="3" Selected="True">3</asp:ListItem>
+                                        <asp:ListItem Value="4">4</asp:ListItem>
+                                        <asp:ListItem Value="5">5</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>                               
+                                <asp:Panel ID="panDoctorGroup" runat="server"></asp:Panel>  
                                 <div class="fg-gray">当地诊断医院</div>
                                 <div>
                                     <div class="input-control">
                                         <asp:TextBox ID="txtLocalHospital" runat="server" Width="100%"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="fg-gray">当地诊断</div>
-                                <div>
-                                    <div class="input-control textarea" style="margin: 0;">
-                                        <asp:TextBox ID="txtLocalDiagnosis" runat="server" TextMode="MultiLine"></asp:TextBox>
+                               
+                                <div class="fg-gray" style="display:none;">当地诊断医院翻译</div>
+                                <div style="display:none;">
+                                    <div class="input-control">
+                                        <asp:TextBox ID="txtLocalHospitalT" runat="server" Width="100%"></asp:TextBox>
                                     </div>
                                 </div>
+                               
                             </td>
                         </tr>
                     </table>
@@ -59,18 +106,25 @@
                         <asp:Button ID="btnSave" runat="server" Style="display: none" OnClick="btnSave_Click" />
                         <asp:Button ID="btnSubmit" runat="server" Style="display: none" OnClick="btnSubmit_Click" />
                         <asp:Button ID="btnCancel" runat="server" Style="display: none" OnClick="btnCancel_Click" />
+                        <span>当前状态 : <asp:Label runat="server" ID="lblStatus"></asp:Label><input type="hidden" runat="server" id="Hidden1" /></span>
                     </div>
                     <asp:Label runat="server" ID="lblErrorMsg" ForeColor="Red"></asp:Label>
                     <input type="hidden" runat="server" id="hidGUID" />
                 </ContentTemplate>
+                <Triggers>
+
+                </Triggers>
             </asp:UpdatePanel>
+             <div style="display:none;">
+                <asp:FileUpload ID="FileUpload1" runat="server" />                                   
+            </div>
         </div>
     </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ActionHolder" runat="server">
-     <script>
-         // Highlight the menu
-         $(".icon-new").parent().addClass("fg-main bg-main5");
+    <script>
+        // Highlight the menu
+        $(".icon-new").parent().addClass("fg-main bg-main5");
     </script>
     <script type="text/javascript">
         var _status = $("#MainContent_hidStatus").val();
@@ -79,6 +133,10 @@
             // 已提交
             $(".btnSave").hide();
             $(".btnSubmit").hide();
+        }
+
+        function fnUpload() {
+            $("#MainContent_FileUpload1").click();
         }
     </script>
 </asp:Content>

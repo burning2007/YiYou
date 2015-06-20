@@ -36,6 +36,7 @@ namespace Yiyou.SQLServerDAL
 
             return dataset;
         }
+
         public static DataSet ExecuteQuery(string queryString, SqlParameter[] ParaList)
         {
             DataSet dataset = new DataSet();
@@ -61,11 +62,12 @@ namespace Yiyou.SQLServerDAL
             catch (Exception ex)
             {
                 Log4NetLogger.GetLogger().Error(ex.Message);
-                throw;
+               throw;
             }
 
             return dataset;
         }
+
         public static DataSet ExecuteQuery(string queryString, SqlParameter[] ParaList, CommandType commandType)
         {
             DataSet dataset = new DataSet();

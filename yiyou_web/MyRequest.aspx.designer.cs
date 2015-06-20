@@ -13,58 +13,94 @@ namespace ICUPro.Portal {
     public partial class MyRequest {
         
         /// <summary>
-        /// ddlProject control.
+        /// txtName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlProject;
+        protected global::System.Web.UI.WebControls.TextBox txtName;
         
         /// <summary>
-        /// ddlLocation control.
+        /// txtMobile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlLocation;
+        protected global::System.Web.UI.WebControls.TextBox txtMobile;
         
         /// <summary>
-        /// ddlHospital control.
+        /// txtEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlHospital;
+        protected global::System.Web.UI.WebControls.TextBox txtEmail;
         
         /// <summary>
-        /// ddlDoctor control.
+        /// txtPatientName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlDoctor;
+        protected global::System.Web.UI.WebControls.TextBox txtPatientName;
         
         /// <summary>
-        /// lblStatus control.
+        /// ddlGender control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStatus;
+        protected global::System.Web.UI.WebControls.DropDownList ddlGender;
         
         /// <summary>
-        /// hidStatus control.
+        /// txtPatientAge control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hidStatus;
+        protected global::System.Web.UI.WebControls.TextBox txtPatientAge;
+        
+        /// <summary>
+        /// txtApplicationPurpose control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtApplicationPurpose;
+        
+        /// <summary>
+        /// ddlLocalType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlLocalType;
+        
+        /// <summary>
+        /// ddlHospitalCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlHospitalCount;
+        
+        /// <summary>
+        /// panDoctorGroup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel panDoctorGroup;
         
         /// <summary>
         /// txtLocalHospital control.
@@ -76,13 +112,13 @@ namespace ICUPro.Portal {
         protected global::System.Web.UI.WebControls.TextBox txtLocalHospital;
         
         /// <summary>
-        /// txtLocalDiagnosis control.
+        /// txtLocalHospitalT control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLocalDiagnosis;
+        protected global::System.Web.UI.WebControls.TextBox txtLocalHospitalT;
         
         /// <summary>
         /// btnSave control.
@@ -112,6 +148,24 @@ namespace ICUPro.Portal {
         protected global::System.Web.UI.WebControls.Button btnCancel;
         
         /// <summary>
+        /// lblStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblStatus;
+        
+        /// <summary>
+        /// Hidden1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden Hidden1;
+        
+        /// <summary>
         /// lblErrorMsg control.
         /// </summary>
         /// <remarks>
@@ -128,5 +182,14 @@ namespace ICUPro.Portal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hidGUID;
+        
+        /// <summary>
+        /// FileUpload1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
     }
 }

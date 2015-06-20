@@ -53,7 +53,7 @@
                                 <span class="icon-list"></span>
                                 我的会诊</a>
                         </li>
-                        <li>
+                       <li>
                             <a class="menu-item" href="MyEMR_New">
                                 <span class="icon-folder"></span>
                                 我的病历</a>

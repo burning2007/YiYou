@@ -1,0 +1,10 @@
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Release\Yiyou.SQLServerDAL.dll
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Release\Yiyou.SQLServerDAL.pdb
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Release\log4net.dll
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Release\Yiyou.Log.dll
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Release\Yiyou.Model.dll
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Release\Yiyou.Log.pdb
+F:\YiYou\Code\Yiyou.SQLServerDAL\bin\Release\Yiyou.Model.pdb
+F:\YiYou\Code\Yiyou.SQLServerDAL\obj\Release\Yiyou.SQLServerDAL.csprojResolveAssemblyReference.cache
+F:\YiYou\Code\Yiyou.SQLServerDAL\obj\Release\Yiyou.SQLServerDAL.dll
+F:\YiYou\Code\Yiyou.SQLServerDAL\obj\Release\Yiyou.SQLServerDAL.pdb

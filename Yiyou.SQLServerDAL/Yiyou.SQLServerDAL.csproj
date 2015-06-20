@@ -45,10 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationDAL.cs" />
+    <Compile Include="Consult_ApplicationDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\SqlHelper.cs" />
     <Compile Include="Util\SqlWrapper.cs" />
+    <Compile Include="V_Sys_UserDAL.cs" />
     <Compile Include="WorklistDAL.cs" />
   </ItemGroup>
   <ItemGroup>

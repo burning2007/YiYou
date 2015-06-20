@@ -1,0 +1,14 @@
+2015-06-01 23:05:29,878 INFO  - Application_Start....
+2015-06-01 23:05:29,886 INFO  - ConnectionStringSettings: Data Source=.;Initial Catalog=mhCloudEMR;User ID=yiyou;Password=1;Persist Security Info=True;
+2015-06-01 23:05:34,553 ERROR - Login failed for user 'yiyou'.
+2015-06-01 23:06:19,761 ERROR - Login failed for user 'yiyou'.
+2015-06-01 23:06:31,407 INFO  - Application_Start....
+2015-06-01 23:06:31,416 INFO  - ConnectionStringSettings: Data Source=.;Initial Catalog=mhCloudEMR;User ID=sa;Password=Guok2008;Persist Security Info=True;
+2015-06-01 23:06:34,499 ERROR - Login failed for user 'sa'.
+2015-06-01 23:06:49,889 INFO  - Application_Start....
+2015-06-01 23:06:49,892 INFO  - ConnectionStringSettings: Data Source=.;Initial Catalog=mhCloudEMR;User ID=sa;Password=SQL2008;Persist Security Info=True;
+2015-06-01 23:07:11,350 ERROR - 未将对象引用设置到对象的实例。
+2015-06-01 23:07:17,644 ERROR - 正在中止线程。
+2015-06-01 23:30:00,147 INFO  - Application_Start....
+2015-06-01 23:30:00,159 INFO  - ConnectionStringSettings: Data Source=.;Initial Catalog=mhCloudEMR;User ID=sa;Password=SQL2008;Persist Security Info=True;
+2015-06-01 23:44:18,250 ERROR - 未将对象引用设置到对象的实例。

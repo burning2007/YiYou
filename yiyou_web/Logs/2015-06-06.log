@@ -1,0 +1,7 @@
+2015-06-06 16:49:49,103 INFO  - Application_Start....
+2015-06-06 16:49:49,146 INFO  - ConnectionStringSettings: Data Source=.;Initial Catalog=mhCloudEMR;User ID=sa;Password=SQL2008;Persist Security Info=True;
+2015-06-06 21:56:05,854 INFO  - Application_Start....
+2015-06-06 21:56:05,862 INFO  - ConnectionStringSettings: Data Source=.;Initial Catalog=mhCloudEMR;User ID=sa;Password=SQL2008;Persist Security Info=True;
+2015-06-06 21:56:38,117 ERROR - 未将对象引用设置到对象的实例。
+2015-06-06 21:56:40,219 ERROR - 正在中止线程。
+2015-06-06 21:56:44,943 ERROR - 未将对象引用设置到对象的实例。
