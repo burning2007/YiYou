@@ -1,0 +1,12 @@
+2015-05-26 18:08:22,155 INFO  - Application_Start....
+2015-05-26 18:08:22,168 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-05-26 18:08:59,055 ERROR - Thread was being aborted.
+2015-05-26 18:09:11,162 ERROR - Thread was being aborted.
+2015-05-26 18:09:22,233 ERROR - Thread was being aborted.
+2015-05-26 18:09:30,518 ERROR - Thread was being aborted.
+2015-05-26 18:09:34,478 ERROR - Thread was being aborted.
+2015-05-26 18:09:38,233 ERROR - Thread was being aborted.
+2015-05-26 18:26:21,217 INFO  - Application_Start....
+2015-05-26 18:26:21,228 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-05-26 18:37:05,603 INFO  - Application_Start....
+2015-05-26 18:37:05,616 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
