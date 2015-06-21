@@ -151,6 +151,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\easyui.css" />
+    <Content Include="Content\icon.css" />
     <Content Include="Content\iconFont.min.css" />
     <Content Include="Content\main.css" />
     <Content Include="Content\metro-bootstrap-responsive.css" />
@@ -752,6 +754,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ExternalDll\" />
+    <Folder Include="Temp\" />
     <Folder Include="Web\" />
   </ItemGroup>
   <ItemGroup>

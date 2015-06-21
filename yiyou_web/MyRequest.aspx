@@ -10,7 +10,7 @@
                 <i class="icon-folder"></i>&nbsp;患者病历
             </div>
         </div>
-        <div id="panel1" style="padding-top: 15px; border: 1px solid grey;" class="pagetab">
+        <div id="panel1" style="padding: 15px 15px 15px 15px; border: 1px solid grey;" class="pagetab">
             <table style="width: 100%; background: none; margin: 0;">
                 <tr>
                     <td class="size6" style="vertical-align: top;">
@@ -48,10 +48,10 @@
                                 </asp:DropDownList>
                             </div>
                         </div>
-                        <div class="fg-gray">患者年龄</div>
+                        <div class="fg-gray">患者生日</div>
                         <div>
                             <div class="input-control">
-                                <asp:TextBox ID="txtPatientAge" runat="server" Width="100%"></asp:TextBox>
+                                <asp:TextBox ID="txtDOB" runat="server" Text="1987-3-12"></asp:TextBox>
                             </div>
                         </div>
                         <div class="fg-gray">会诊目的</div>
@@ -61,9 +61,11 @@
                             </div>
                         </div>
                         <div>
-                            <button id="btnUpload" onclick="fnUpload();"><i class="icon-pictures"></i>&nbsp;上传...</button>
+                            <asp:FileUpload ID="FileUpload_Purpose" runat="server" />
+                            <asp:Button ID="btnUploadPurpose" runat="server" OnClick="btnUploadPurpose_Click" Text="上传..." />
                         </div>
-
+                        <div id="divImgContainer">
+                            <asp:Literal ID="litPurposeImg" runat="server"></asp:Literal></div>
                     </td>
                     <td class="size6" style="vertical-align: top; padding-left: 20px;">
                         <div class="fg-gray"><a href="#">既往病史</a> <span style="text-align: right; margin-right: 10px">点击这里编辑既往病史</span></div>
@@ -105,14 +107,14 @@
                 </tr>
             </table>
             <div style="padding-top: 20px; margin-top: 20px;" class="border-top">
-                <button class="bg-main fg-white size2 btnSave" onclick="$('#MainContent_btnSave').click();return false;"><i class="icon-floppy"></i>&nbsp;保存</button>
-                <button class="bg-mainb fg-white size2 btnSubmit" onclick="$('#MainContent_btnSubmit').click();return false;"><i class="icon-checkmark"></i>&nbsp;提交申请</button>
-                <button onclick="window.location = 'MyWorklist.aspx';return false;">取消</button>
+                <button style="display: none;" class="bg-main fg-white size2 btnSave" onclick="$('#MainContent_btnSave').click();return false;"><i class="icon-floppy"></i>&nbsp;保存</button>
+                <button class="bg-mainb fg-white size2 btnSubmit" onclick="if(!checkInput()) return false;$('#MainContent_btnSubmit').click();return false;"><i class="icon-checkmark"></i>&nbsp;提交申请</button>
+                <button style="display: none;" onclick="window.location = 'MyWorklist.aspx';return false;">取消</button>
                 <asp:Button ID="btnSave" runat="server" Style="display: none" OnClick="btnSave_Click" />
                 <asp:Button ID="btnSubmit" runat="server" Style="display: none" OnClick="btnSubmit_Click" />
                 <asp:Button ID="btnCancel" runat="server" Style="display: none" OnClick="btnCancel_Click" />
                 <span>当前状态 :
-                            <asp:Label runat="server" ID="lblStatus"></asp:Label><input type="hidden" runat="server" id="Hidden1" /></span>
+                            <asp:Label runat="server" ID="lblStatus"></asp:Label></span>
             </div>
             <asp:Label runat="server" ID="lblErrorMsg" ForeColor="Red"></asp:Label>
             <input type="hidden" runat="server" id="hidGUID" />
@@ -154,8 +156,8 @@
             $(".btnSubmit").hide();
         }
 
-        function fnUpload() {
-            $("#MainContent_FileUpload1").click();
+        function checkInput() {
+            return true;
         }
     </script>
 </asp:Content>

@@ -53,7 +53,7 @@
                                 <span class="icon-list"></span>
                                 我的会诊</a>
                         </li>
-                       <li>
+                        <li>
                             <a class="menu-item" href="MyEMR_New">
                                 <span class="icon-folder"></span>
                                 我的病历</a>
@@ -89,10 +89,10 @@
         <%--bottom--%>
 
         <!-- Load JavaScript Libraries -->
-        <script src="Scripts/jquery/jquery-1.11.0.min.js"></script>
+        <script src="Scripts/jquery/jquery-1.11.3.min.js"></script>
         <script src="Scripts/jquery/jquery-ui-1.10.4.min.js"></script>
         <script src="Scripts/jquery/jquery.widget.min.js"></script>
-        <script src="Scripts/jquery/jquery.mousewheel.js"></script>
+        <script src="Scripts/jquery/jquery.mousewheel.js"></script>        
         <!-- Metro UI CSS JavaScript plugins -->
         <script src="Scripts/load-metro.js"></script>
         <!-- Mustache -->

@@ -81,16 +81,16 @@ namespace ICUPro.Portal
 
             this.CreateDropdownListGroup();
         }
-        
+
         protected void ddlLocation_SelectedIndexChanged(object sender, EventArgs e)
-        {            
+        {
             // Update the Hospital by Location
             //this.ddlHospital.DataSource = ApplicationDAL.GetHospitalList(this.ddlLocation.SelectedValue);
             //this.ddlHospital.DataBind();
             //ddlHospital_SelectedIndexChanged(null, null);
 
             DropDownList ddl = sender as DropDownList;
-            string id = ddl.ID.Replace("ddlLocation","");
+            string id = ddl.ID.Replace("ddlLocation", "");
             DropDownList ddlHospital = this.panDoctorGroup.FindControl("ddlHospital" + id) as DropDownList;
             ddlHospital.DataSource = Consult_ApplicationDAL.GetHospitalList(ddl.SelectedValue);
             ddlHospital.DataBind();
@@ -104,7 +104,8 @@ namespace ICUPro.Portal
             //this.ddlDoctor.DataBind();
 
             DropDownList ddl = sender as DropDownList;
-            if (ddl != null) { 
+            if (ddl != null)
+            {
                 string id = ddl.ID.Replace("ddlHospital", "");
                 DropDownList ddlDoctor = this.panDoctorGroup.FindControl("ddlDoctor" + id) as DropDownList;
                 ddlDoctor.DataSource = Consult_ApplicationDAL.GetDoctorList(ddl.SelectedValue, "");
@@ -116,11 +117,6 @@ namespace ICUPro.Portal
         {
             try
             {
-                if (FileUpload1.HasFile)
-                {
-                    string fileName = FileUpload1.FileName;
-                }
-
                 ApplicationMdl model = this.GetMdlFromGUI();
                 Consult_ApplicationMdl mdl = model.Consult_ApplicationMdl;
                 mdl.status = 0;   // 0—未提交（开始用户阶段 )
@@ -190,7 +186,7 @@ namespace ICUPro.Portal
         {
             ApplicationMdl model = new ApplicationMdl();
 
-            Consult_ApplicationMdl consultMdl = new Consult_ApplicationMdl();           
+            Consult_ApplicationMdl consultMdl = new Consult_ApplicationMdl();
 
             // Try to get guid
             consultMdl.guid = this.hidGUID.Value.Trim();
@@ -210,7 +206,7 @@ namespace ICUPro.Portal
 
             consultMdl.location_type = int.Parse(this.ddlLocalType.SelectedValue);
             consultMdl.local_hospital = this.txtLocalHospital.Text;
-         
+
 
             // 
             consultMdl.user_guid = Session["USER_GUID"].ToString();
@@ -221,20 +217,19 @@ namespace ICUPro.Portal
             emrMdl.user_guid = Session["USER_GUID"].ToString();
             emrMdl.name = this.txtName.Text.Trim();
             emrMdl.gender = int.Parse(this.ddlGender.SelectedValue);
-            int year = 0;
-            if (this.txtPatientAge.Text.Trim().Length == 0)
-            {
-                year = 0 - int.Parse(this.txtPatientAge.Text.Trim());
-            }
-            emrMdl.birthday = DateTime.Now.AddYears(year);
-            
+
+            string strDOB = this.txtDOB.Text;
+            DateTime dtDOB = DateTime.Now;
+            DateTime.TryParse(strDOB, out dtDOB);
+            emrMdl.birthday = dtDOB;
+
 
             Consult_Application_ConsultantMdl consultantMdl = new Consult_Application_ConsultantMdl();
             List<Consult_Application_ConsultantMdl> consultantMdlCollection = new List<Consult_Application_ConsultantMdl>();
 
-            int HospitalCount = int.Parse( this.ddlHospitalCount.SelectedValue );
+            int HospitalCount = int.Parse(this.ddlHospitalCount.SelectedValue);
 
-            for (int i = 1; i <= HospitalCount; i++ )
+            for (int i = 1; i <= HospitalCount; i++)
             {
                 DropDownList ddlLocaltion = this.panDoctorGroup.FindControl("ddlLocation" + i.ToString()) as DropDownList;
                 consultantMdl.location_guid = ddlLocaltion.SelectedValue;
@@ -258,7 +253,7 @@ namespace ICUPro.Portal
         }
 
         private Consult_ApplicationMdl BindGUI(Consult_ApplicationMdl mdl)
-        {            
+        {
 
             this.hidGUID.Value = mdl.guid;
 
@@ -272,7 +267,7 @@ namespace ICUPro.Portal
 
             //WebCtrlUtil.SetDropDownText(this.ddlDoctor, mdl.doctor_name);
 
-            this.txtLocalHospital.Text = mdl.local_hospital;            
+            this.txtLocalHospital.Text = mdl.local_hospital;
 
             //this.hidStatus.Value = mdl.status.ToString();
             if (mdl.status == 1)
@@ -300,9 +295,9 @@ namespace ICUPro.Portal
 
             for (int i = 0; i < hospitalCount; i++)
             {
-                CreateApplicationDoctorGroup(i+1);
+                CreateApplicationDoctorGroup(i + 1);
             }
-           
+
         }
 
         private void CreateApplicationDoctorGroup(int i)
@@ -313,7 +308,7 @@ namespace ICUPro.Portal
             panDoctorGroup.Controls.Add(lbl);
 
             DropDownList ddl = new DropDownList();
-            ddl.ID = "ddlLocation" + i.ToString();          
+            ddl.ID = "ddlLocation" + i.ToString();
             ddl.AutoPostBack = true;
             ddl.SelectedIndexChanged += new EventHandler(ddlLocation_SelectedIndexChanged);//给ddl添加事件
             ddl.CssClass = "input-control select";
@@ -367,6 +362,48 @@ namespace ICUPro.Portal
 
             return hospitalCount;
         }
-  
+
+        protected void btnUploadPurpose_Click(object sender, EventArgs e)
+        {
+            bool fileOK = false;
+            string path = Server.MapPath("~/Temp/");
+            String fileExtension = string.Empty;
+            if (this.FileUpload_Purpose.HasFile)
+            {
+                fileExtension = System.IO.Path.GetExtension(FileUpload_Purpose.FileName).ToLower();
+                String[] allowedExtensions = { ".jpg", ".png", ".bmp", ".jpeg" };
+                for (int i = 0; i < allowedExtensions.Length; i++)
+                {
+                    if (fileExtension == allowedExtensions[i])
+                    {
+                        fileOK = true;
+                        break;
+                    }
+                }
+            }
+            if (fileOK)
+            {
+                try
+                {
+                    string strFileName = Guid.NewGuid().ToString() + fileExtension;
+                    string strFilePath = path + strFileName;
+                    FileUpload_Purpose.SaveAs(strFilePath);
+                    string strScript = string.Format("window.setTimeout(\"{0}\", 100);", "alert('文件上传成功');");
+                    ClientScript.RegisterClientScriptBlock(typeof(string), "uploadPurposeImage", strScript, true);
+                    this.litPurposeImg.Text = string.Format("<img width=\"100\" height=\"100\" src=\"/temp/{0}\" />", strFileName);
+                }
+                catch
+                {
+                    string strScript = string.Format("window.setTimeout(\"{0}\", 100);", "alert('文件上传失败！请重试！');");
+                    ClientScript.RegisterClientScriptBlock(typeof(string), "uploadPurposeImage", strScript, true);
+                }
+            }
+            else
+            {
+                string strScript = string.Format("window.setTimeout(\"{0}\", 100);", "alert('仅支持上传图片格式的文件！');");
+                ClientScript.RegisterClientScriptBlock(typeof(string), "uploadPurposeImage", strScript, true);
+            }
+        }
+
     }
 }
