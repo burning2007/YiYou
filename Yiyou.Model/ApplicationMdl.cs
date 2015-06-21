@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Yiyou.Model
 {
-    public class ApplicationMdl
+    public class ApplicationAllInOneMdl
     {
-        public ApplicationMdl()
+        public ApplicationAllInOneMdl()
         {}
 
         private Consult_ApplicationMdl _consult_ApplicationMdl = new Consult_ApplicationMdl();

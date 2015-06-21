@@ -247,7 +247,7 @@ namespace Yiyou.SQLServerDAL
             strSql.Append("number_of_hospitals=@number_of_hospitals,");
             strSql.Append("location_guid=@location_guid,");
             strSql.Append("location_name=@location_name");
-            strSql.Append(" where guid=@guid and user_guid=@user_guid and user_name=@user_name and status=@status and patient_guid=@patient_guid and project_guid=@project_guid and project_name=@project_name and location_type=@location_type and purpose=@purpose and purpose_t=@purpose_t and local_hospital=@local_hospital and local_hospital_t=@local_hospital_t and preliminary_conclusions=@preliminary_conclusions and preliminary_conclusions_t=@preliminary_conclusions_t and final_conclusion=@final_conclusion and final_conclusion_t=@final_conclusion_t and created_dt=@created_dt and submitted_dt=@submitted_dt and accepted_dt=@accepted_dt and approved_dt=@approved_dt and concluded_dt=@concluded_dt and rejected_dt=@rejected_dt and completed_dt=@completed_dt and approver_guid=@approver_guid and approver_name=@approver_name and contract_content=@contract_content and amount_payable=@amount_payable and amount_receivable=@amount_receivable and paid_dt=@paid_dt and amount_payable2=@amount_payable2 and amount_receivable2=@amount_receivable2 and paid_dt2=@paid_dt2 and service_comments_for_user=@service_comments_for_user and service_comments_for_consultant=@service_comments_for_consultant and service_comments_for_consultant_t=@service_comments_for_consultant_t and specified_notes=@specified_notes and number_of_hospitals=@number_of_hospitals and location_guid=@location_guid and location_name=@location_name ");
+            strSql.Append(" where guid=@guid");
             SqlParameter[] parameters = {
 					new SqlParameter("@guid", SqlDbType.VarChar,36),
 					new SqlParameter("@user_guid", SqlDbType.VarChar,36),
@@ -723,6 +723,21 @@ namespace Yiyou.SQLServerDAL
 
                 int rows = SqlHelper.ExecuteNonQuery(strSql.ToString(), parameters);
             }
+        }
+
+
+        /// <summary>
+        /// Update data into table consult_application_consultant
+        /// </summary>
+        /// <param name="list"></param>
+        public void Update_application_consultant(List<Consult_Application_ConsultantMdl> list)
+        {
+            // First, Delete
+            string strSQL = "delete consult_application_consultant where consult_application_guid='" + list[0].consult_application_guid + "'";
+            int rows = SqlHelper.ExecuteNonQuery(strSQL);
+
+            // Then, Add
+            Add_application_consultant(list);
         }
 
     }

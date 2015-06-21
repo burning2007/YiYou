@@ -174,3 +174,18 @@ The statement has been terminated.
 2015-06-21 23:30:07,336 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
 2015-06-21 23:31:02,763 INFO  - Application_Start....
 2015-06-21 23:31:02,772 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 23:41:07,228 INFO  - Application_Start....
+2015-06-21 23:41:07,235 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 23:41:28,777 ERROR - Thread was being aborted.
+2015-06-21 23:41:53,645 ERROR - Thread was being aborted.
+2015-06-21 23:43:18,438 ERROR - Thread was being aborted.
+2015-06-21 23:43:50,556 INFO  - Application_Start....
+2015-06-21 23:43:50,565 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 23:44:24,029 ERROR - Thread was being aborted.
+2015-06-21 23:44:43,875 INFO  - Application_Start....
+2015-06-21 23:44:43,882 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 23:45:03,448 ERROR - Thread was being aborted.
+2015-06-21 23:46:16,577 ERROR - Thread was being aborted.
+2015-06-21 23:47:25,602 INFO  - Application_Start....
+2015-06-21 23:47:25,613 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 23:47:38,731 ERROR - Thread was being aborted.

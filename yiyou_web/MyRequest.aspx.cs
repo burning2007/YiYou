@@ -122,44 +122,15 @@ namespace ICUPro.Portal
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            try
-            {
-                ApplicationMdl model = this.GetMdlFromGUI();
-                Consult_ApplicationMdl mdl = model.Consult_ApplicationMdl;
-                mdl.status = 0;   // 0—未提交（开始用户阶段 )
 
-                Consult_ApplicationDAL dal = new Consult_ApplicationDAL();
-
-                if (dal.IsExist(mdl.guid))
-                {
-                    if (dal.Add(mdl))
-                    {
-                        Page.Response.Redirect("MyWorklist.aspx");
-                    }
-                }
-                else
-                {
-                    if (dal.Update(mdl))
-                    {
-                        Page.Response.Redirect("MyWorklist.aspx");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Log4NetLogger.GetLogger().Error(ex.Message);
-                this.lblErrorMsg.Text = ex.Message;
-            }
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             try
             {
-                ApplicationMdl model = this.GetMdlFromGUI();
-
+                ApplicationAllInOneMdl model = this.GetMdlFromGUI();
                 Consult_ApplicationMdl mdl = model.Consult_ApplicationMdl;
-                mdl.status = 1;   // 1—已提交           
                 Consult_ApplicationDAL dal = new Consult_ApplicationDAL();
 
                 if (!dal.IsExist(mdl.guid))
@@ -173,10 +144,12 @@ namespace ICUPro.Portal
                 }
                 else
                 {
-                    if (dal.Update(mdl))
-                    {
-                        Page.Response.Redirect("MyWorklist.aspx");
-                    }
+                    // Update Consult_ApplicationMdl
+                    dal.Update(mdl);
+                    // Update consult_application_consultant
+                    dal.Update_application_consultant(model.Consult_Application_ConsultantMdlCollection);
+
+                    Page.Response.Redirect("MyWorklist.aspx");
                 }
             }
             catch (Exception ex)
@@ -191,9 +164,9 @@ namespace ICUPro.Portal
 
         }
 
-        private ApplicationMdl GetMdlFromGUI()
+        private ApplicationAllInOneMdl GetMdlFromGUI()
         {
-            ApplicationMdl applicationMdl = new ApplicationMdl();
+            ApplicationAllInOneMdl totalMdl = new ApplicationAllInOneMdl();
 
             Consult_ApplicationMdl consultAppMdl = new Consult_ApplicationMdl();
 
@@ -204,7 +177,7 @@ namespace ICUPro.Portal
                 // New Application Request
                 consultAppMdl.guid = Guid.NewGuid().ToString();
                 consultAppMdl.created_dt = DateTime.Now;
-                consultAppMdl.status = 0;
+                consultAppMdl.status = 1; // After save, the status will be changed to 1;
             }
             else
             {
@@ -218,7 +191,7 @@ namespace ICUPro.Portal
             // 
             consultAppMdl.user_guid = Session["USER_GUID"].ToString();
             consultAppMdl.user_name = this.txtName.Text.Trim();
-
+            consultAppMdl.purpose = this.txtApplicationPurpose.Text;
 
             EMR_PatientMdl emrMdl = new EMR_PatientMdl();
 
@@ -263,10 +236,10 @@ namespace ICUPro.Portal
                 consultantMdlCollection.Add(consultantMdl);
             }
 
-            applicationMdl.Consult_ApplicationMdl = consultAppMdl;
-            applicationMdl.EMR_PatientMdl = emrMdl;
-            applicationMdl.Consult_Application_ConsultantMdlCollection = consultantMdlCollection;
-            return applicationMdl;
+            totalMdl.Consult_ApplicationMdl = consultAppMdl;
+            totalMdl.EMR_PatientMdl = emrMdl;
+            totalMdl.Consult_Application_ConsultantMdlCollection = consultantMdlCollection;
+            return totalMdl;
         }
 
         private void BindGUI(Consult_ApplicationMdl mdl)
@@ -274,18 +247,6 @@ namespace ICUPro.Portal
 
             this.hidGUID.Value = mdl.guid;
 
-            //WebCtrlUtil.SetDropDownText(this.ddlProject, mdl.project_name);
-
-            //WebCtrlUtil.SetDropDownText(this.ddlLocation, mdl.location_name);
-            //this.ddlLocation_SelectedIndexChanged(null, null);
-
-            //WebCtrlUtil.SetDropDownText(this.ddlHospital, mdl.hospital_name);
-            //this.ddlHospital_SelectedIndexChanged(null, null);
-
-            //WebCtrlUtil.SetDropDownText(this.ddlDoctor, mdl.doctor_name);
-
-
-            //this.hidStatus.Value = mdl.status.ToString();
             if (mdl.status == 1)
             {
                 lblStatus.Text = "已提交";
