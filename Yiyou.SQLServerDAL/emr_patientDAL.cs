@@ -10,19 +10,36 @@ namespace Yiyou.SQLServerDAL
 {
     public class EMR_PatientMdlDAL
     {
-        #region  BasicMethod
+        public static string GetPatientGUID(string name, string user_guid)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select patient_guid from  emr_patient ");
+            strSql.Append("where name=@name and user_guid=@user_guid");
 
+            SqlParameter[] parameters = {
+					new SqlParameter("@user_guid", SqlDbType.VarChar,36),
+					new SqlParameter("@name", SqlDbType.NVarChar,64)};
+            parameters[0].Value = user_guid;
+            parameters[1].Value = name;
+
+            DataSet ds = SqlHelper.ExecuteQuery(strSql.ToString(), parameters);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                return ds.Tables[0].Rows[0][0].ToString().Trim();
+            }
+            return string.Empty;
+        }
 
         /// <summary>
         /// 增加一条数据
         /// </summary>
-        public bool Add(EMR_PatientMdl model)
+        public static bool Add(EMR_PatientMdl model)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("insert into EMR_PatientMdl(");
+            strSql.Append("insert into emr_patient(");
             strSql.Append("patient_guid,user_guid,name,gender,birthday,diagnosis,diagnosis_t,created_dt,modified_dt)");
             strSql.Append(" values (");
-            strSql.Append("@patient_guid,@user_guid,@name,@gender,@birthday,@diagnosis,@diagnosis_t,@created_dt,@modified_dt)");
+            strSql.Append("@patient_guid,@user_guid,@name,@gender,@birthday,@diagnosis,@diagnosis_t,getdate(),getdate())");
             SqlParameter[] parameters = {
 					new SqlParameter("@patient_guid", SqlDbType.VarChar,36),
 					new SqlParameter("@user_guid", SqlDbType.VarChar,36),
@@ -30,9 +47,7 @@ namespace Yiyou.SQLServerDAL
 					new SqlParameter("@gender", SqlDbType.Int,4),
 					new SqlParameter("@birthday", SqlDbType.DateTime),
 					new SqlParameter("@diagnosis", SqlDbType.NVarChar,256),
-					new SqlParameter("@diagnosis_t", SqlDbType.NVarChar,256),
-					new SqlParameter("@created_dt", SqlDbType.DateTime),
-					new SqlParameter("@modified_dt", SqlDbType.DateTime)};
+					new SqlParameter("@diagnosis_t", SqlDbType.NVarChar,256)};
             parameters[0].Value = model.patient_guid;
             parameters[1].Value = model.user_guid;
             parameters[2].Value = model.name;
@@ -40,8 +55,6 @@ namespace Yiyou.SQLServerDAL
             parameters[4].Value = model.birthday;
             parameters[5].Value = model.diagnosis;
             parameters[6].Value = model.diagnosis_t;
-            parameters[7].Value = model.created_dt;
-            parameters[8].Value = model.modified_dt;
 
             int rows = SqlHelper.ExecuteNonQuery(strSql.ToString(), parameters);
             if (rows > 0)
@@ -53,23 +66,21 @@ namespace Yiyou.SQLServerDAL
                 return false;
             }
         }
+
         /// <summary>
         /// 更新一条数据
         /// </summary>
-        public bool Update(EMR_PatientMdl model)
+        public static bool Update(EMR_PatientMdl model)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("update EMR_PatientMdl set ");
-            strSql.Append("patient_guid=@patient_guid,");
-            strSql.Append("user_guid=@user_guid,");
+            strSql.Append("update emr_patient set ");
             strSql.Append("name=@name,");
             strSql.Append("gender=@gender,");
             strSql.Append("birthday=@birthday,");
             strSql.Append("diagnosis=@diagnosis,");
             strSql.Append("diagnosis_t=@diagnosis_t,");
-            strSql.Append("created_dt=@created_dt,");
-            strSql.Append("modified_dt=@modified_dt");
-            strSql.Append(" where patient_guid=@patient_guid and user_guid=@user_guid and name=@name and gender=@gender and birthday=@birthday and diagnosis=@diagnosis and diagnosis_t=@diagnosis_t and created_dt=@created_dt and modified_dt=@modified_dt ");
+            strSql.Append("modified_dt=getdate()");
+            strSql.Append(" where patient_guid=@patient_guid and user_guid=@user_guid");
             SqlParameter[] parameters = {
 					new SqlParameter("@patient_guid", SqlDbType.VarChar,36),
 					new SqlParameter("@user_guid", SqlDbType.VarChar,36),
@@ -77,9 +88,7 @@ namespace Yiyou.SQLServerDAL
 					new SqlParameter("@gender", SqlDbType.Int,4),
 					new SqlParameter("@birthday", SqlDbType.DateTime),
 					new SqlParameter("@diagnosis", SqlDbType.NVarChar,256),
-					new SqlParameter("@diagnosis_t", SqlDbType.NVarChar,256),
-					new SqlParameter("@created_dt", SqlDbType.DateTime),
-					new SqlParameter("@modified_dt", SqlDbType.DateTime)};
+					new SqlParameter("@diagnosis_t", SqlDbType.NVarChar,256)};
             parameters[0].Value = model.patient_guid;
             parameters[1].Value = model.user_guid;
             parameters[2].Value = model.name;
@@ -87,8 +96,6 @@ namespace Yiyou.SQLServerDAL
             parameters[4].Value = model.birthday;
             parameters[5].Value = model.diagnosis;
             parameters[6].Value = model.diagnosis_t;
-            parameters[7].Value = model.created_dt;
-            parameters[8].Value = model.modified_dt;
 
             int rows = SqlHelper.ExecuteNonQuery(strSql.ToString(), parameters);
             if (rows > 0)
@@ -100,8 +107,6 @@ namespace Yiyou.SQLServerDAL
                 return false;
             }
         }
-
-
 
         /// <summary>
         /// 得到一个对象实体
@@ -130,7 +135,6 @@ namespace Yiyou.SQLServerDAL
                 return null;
             }
         }
-
 
         /// <summary>
         /// 得到一个对象实体
@@ -195,7 +199,5 @@ namespace Yiyou.SQLServerDAL
             return SqlHelper.ExecuteQuery(strSql.ToString());
         }
 
-   
-        #endregion  BasicMethod
     }
 }

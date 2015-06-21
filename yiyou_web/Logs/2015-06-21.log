@@ -189,3 +189,5 @@ The statement has been terminated.
 2015-06-21 23:47:25,602 INFO  - Application_Start....
 2015-06-21 23:47:25,613 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
 2015-06-21 23:47:38,731 ERROR - Thread was being aborted.
+2015-06-21 23:48:48,552 ERROR - Thread was being aborted.
+2015-06-21 23:48:58,137 ERROR - Thread was being aborted.

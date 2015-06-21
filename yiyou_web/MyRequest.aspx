@@ -17,7 +17,7 @@
                         <div class="fg-gray">账号</div>
                         <div>
                             <div class="input-control">
-                                <asp:TextBox ID="txtName" runat="server" Width="100%"></asp:TextBox>
+                                <asp:TextBox ID="txtName" runat="server" Width="100%"></asp:TextBox><input type="hidden" runat="server" id="hidUserGUID" />
                             </div>
                         </div>
                         <div class="fg-gray">手机号</div>
@@ -96,7 +96,7 @@
                             </asp:DropDownList>
                         </div>
                         <%--This panel will create the Hospital and Doctor group based on the dropdown selection value--%>
-                        <asp:Panel ID="panDoctorGroup" runat="server"></asp:Panel>                       
+                        <asp:Panel ID="panDoctorGroup" runat="server"></asp:Panel>
                     </td>
                 </tr>
             </table>

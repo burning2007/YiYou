@@ -64,10 +64,13 @@ namespace ICUPro.Portal
             // New app
             if (Request.QueryString["guid"] == null)
             {
+                // When create new application, using current login user context
+                // When view and update, should use last saved user context
                 V_Sys_UserMdl model = V_Sys_UserDAL.GetModel(Session["USER_GUID"].ToString());
                 this.txtName.Text = model.name;
                 this.txtMobile.Text = model.login_name;
                 this.txtEmail.Text = model.email;
+                this.hidUserGUID.Value = Session["USER_GUID"].ToString();
             }
 
             // View and update app
@@ -129,16 +132,33 @@ namespace ICUPro.Portal
         {
             try
             {
-                ApplicationAllInOneMdl model = this.GetMdlFromGUI();
-                Consult_ApplicationMdl mdl = model.Consult_ApplicationMdl;
+                ApplicationAllInOneMdl totalMdl = this.GetMdlFromGUI();
+                Consult_ApplicationMdl mdl = totalMdl.Consult_ApplicationMdl;
                 Consult_ApplicationDAL dal = new Consult_ApplicationDAL();
+
+                // Save/Update the Patient info first
+                string patient_guid = EMR_PatientMdlDAL.GetPatientGUID(totalMdl.EMR_PatientMdl.name, totalMdl.EMR_PatientMdl.user_guid);
+                if (string.IsNullOrEmpty(patient_guid))
+                {
+                    // New
+                    totalMdl.EMR_PatientMdl.patient_guid = Guid.NewGuid().ToString();  // Create new GUID
+                    totalMdl.Consult_ApplicationMdl.patient_guid = totalMdl.EMR_PatientMdl.patient_guid;  // Copy GUID
+                    EMR_PatientMdlDAL.Add(totalMdl.EMR_PatientMdl);
+                }
+                else
+                {
+                    // Update
+                    totalMdl.EMR_PatientMdl.patient_guid = patient_guid;  // Create new GUID
+                    totalMdl.Consult_ApplicationMdl.patient_guid = totalMdl.EMR_PatientMdl.patient_guid;  // Copy GUID
+                    EMR_PatientMdlDAL.Update(totalMdl.EMR_PatientMdl);
+                }
 
                 if (!dal.IsExist(mdl.guid))
                 {
                     // Add Consult_ApplicationMdl
                     dal.Add(mdl);
                     // Add consult_application_consultant
-                    dal.Add_application_consultant(model.Consult_Application_ConsultantMdlCollection);
+                    dal.Add_application_consultant(totalMdl.Consult_Application_ConsultantMdlCollection);
 
                     Page.Response.Redirect("MyWorklist.aspx");
                 }
@@ -147,7 +167,7 @@ namespace ICUPro.Portal
                     // Update Consult_ApplicationMdl
                     dal.Update(mdl);
                     // Update consult_application_consultant
-                    dal.Update_application_consultant(model.Consult_Application_ConsultantMdlCollection);
+                    dal.Update_application_consultant(totalMdl.Consult_Application_ConsultantMdlCollection);
 
                     Page.Response.Redirect("MyWorklist.aspx");
                 }
@@ -169,7 +189,7 @@ namespace ICUPro.Portal
             ApplicationAllInOneMdl totalMdl = new ApplicationAllInOneMdl();
 
             Consult_ApplicationMdl consultAppMdl = new Consult_ApplicationMdl();
-
+            #region MyRegion
             // Try to get guid
             consultAppMdl.guid = this.hidGUID.Value.Trim();
             if (string.IsNullOrEmpty(consultAppMdl.guid))
@@ -187,29 +207,27 @@ namespace ICUPro.Portal
             }
 
             consultAppMdl.location_type = int.Parse(this.ddlLocalType.SelectedValue);
-
-            // 
             consultAppMdl.user_guid = Session["USER_GUID"].ToString();
             consultAppMdl.user_name = this.txtName.Text.Trim();
             consultAppMdl.purpose = this.txtApplicationPurpose.Text;
+            #endregion
 
-            EMR_PatientMdl emrMdl = new EMR_PatientMdl();
 
-            emrMdl.user_guid = Session["USER_GUID"].ToString(); // Pateint belongs to User
-            emrMdl.name = this.txtName.Text.Trim();
-            emrMdl.gender = int.Parse(this.ddlGender.SelectedValue);
-
+            EMR_PatientMdl patientMdl = new EMR_PatientMdl();
+            #region MyRegion
+            patientMdl.user_guid = this.hidUserGUID.Value; // Pateint belongs to User
+            patientMdl.name = this.txtPatientName.Text.Trim();
+            patientMdl.gender = int.Parse(this.ddlGender.SelectedValue);
             string strDOB = this.txtDOB.Text;
             DateTime dtDOB = DateTime.Now;
             DateTime.TryParse(strDOB, out dtDOB);
-            emrMdl.birthday = dtDOB;
-
+            patientMdl.birthday = dtDOB;
+            #endregion
 
 
             List<Consult_Application_ConsultantMdl> consultantMdlCollection = new List<Consult_Application_ConsultantMdl>();
-
+            #region MyRegion
             int HospitalCount = int.Parse(this.ddlHospitalCount.SelectedValue);
-
             for (int i = 1; i <= HospitalCount; i++)
             {
                 Consult_Application_ConsultantMdl consultantMdl = new Consult_Application_ConsultantMdl();
@@ -225,7 +243,6 @@ namespace ICUPro.Portal
                     consultantMdl.location_name = location_name;
                 }
 
-
                 DropDownList ddlDoctor = this.panDoctorGroup.FindControl("ddlDoctor" + i.ToString()) as DropDownList;
                 if (ddlDoctor.SelectedItem != null)
                 {
@@ -235,17 +252,19 @@ namespace ICUPro.Portal
                 consultantMdl.consult_application_guid = consultAppMdl.guid;
                 consultantMdlCollection.Add(consultantMdl);
             }
+            #endregion
+
 
             totalMdl.Consult_ApplicationMdl = consultAppMdl;
-            totalMdl.EMR_PatientMdl = emrMdl;
+            totalMdl.EMR_PatientMdl = patientMdl;
             totalMdl.Consult_Application_ConsultantMdlCollection = consultantMdlCollection;
             return totalMdl;
         }
 
         private void BindGUI(Consult_ApplicationMdl mdl)
         {
-
             this.hidGUID.Value = mdl.guid;
+            this.hidUserGUID.Value = mdl.user_guid;
 
             if (mdl.status == 1)
             {
