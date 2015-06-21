@@ -1,0 +1,31 @@
+2015-06-21 09:13:44,048 INFO  - Application_Start....
+2015-06-21 09:13:44,058 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 09:13:48,237 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:14:33,460 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:14:56,180 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:15:03,042 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:15:27,612 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:15:29,788 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:15:31,608 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:15:56,880 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:15:58,501 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:16:06,249 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:16:20,490 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:17:20,883 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:17:39,549 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:18:16,777 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:19:09,736 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:21:42,980 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:21:44,854 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:22:09,292 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:25:51,947 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:25:51,951 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:25:51,956 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:25:51,988 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:25:51,988 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:25:53,462 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:26:31,661 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:26:42,754 ERROR - Object reference not set to an instance of an object.
+2015-06-21 09:26:58,890 INFO  - Application_Start....
+2015-06-21 09:26:58,898 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 09:27:04,176 ERROR - Object reference not set to an instance of an object.
