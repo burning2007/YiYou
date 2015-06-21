@@ -80,7 +80,7 @@ namespace ICUPro.Portal
             ds.Tables[0].Columns.Add("hospitalList");
             foreach (DataRow item in ds.Tables[0].Rows)
             {
-                item["CommandText"] = "详情";
+                item["CommandText"] = "查看";
 
 
                 #region Gender

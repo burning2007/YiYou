@@ -28,6 +28,5 @@ F:\YiYou\Code\Yiyou.Log\obj\Debug\Yiyou.Log.pdb
 E:\MeeHealth\YiYou\Yiyou.Log\bin\Debug\Yiyou.Log.dll
 E:\MeeHealth\YiYou\Yiyou.Log\bin\Debug\Yiyou.Log.pdb
 E:\MeeHealth\YiYou\Yiyou.Log\bin\Debug\log4net.dll
-E:\MeeHealth\YiYou\Yiyou.Log\obj\Debug\Yiyou.Log.csprojResolveAssemblyReference.cache
 E:\MeeHealth\YiYou\Yiyou.Log\obj\Debug\Yiyou.Log.dll
 E:\MeeHealth\YiYou\Yiyou.Log\obj\Debug\Yiyou.Log.pdb
