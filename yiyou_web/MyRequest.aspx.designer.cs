@@ -49,6 +49,15 @@ namespace ICUPro.Portal {
         protected global::System.Web.UI.WebControls.TextBox txtPatientName;
         
         /// <summary>
+        /// rqPatientName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rqPatientName;
+        
+        /// <summary>
         /// ddlGender control.
         /// </summary>
         /// <remarks>
@@ -74,6 +83,15 @@ namespace ICUPro.Portal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtApplicationPurpose;
+        
+        /// <summary>
+        /// RequiredFieldValidator1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
         
         /// <summary>
         /// FileUpload_Purpose control.
@@ -129,24 +147,7 @@ namespace ICUPro.Portal {
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel panDoctorGroup;
         
-        /// <summary>
-        /// txtLocalHospital control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLocalHospital;
-        
-        /// <summary>
-        /// txtLocalHospitalT control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLocalHospitalT;
-        
+               
         /// <summary>
         /// btnSave control.
         /// </summary>
@@ -182,6 +183,15 @@ namespace ICUPro.Portal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblStatus;
+        
+        /// <summary>
+        /// ValidationSummary1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ValidationSummary ValidationSummary1;
         
         /// <summary>
         /// lblErrorMsg control.

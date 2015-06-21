@@ -36,6 +36,7 @@
                         <div>
                             <div class="input-control">
                                 <asp:TextBox ID="txtPatientName" runat="server" Width="100%"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="rqPatientName" runat="server" ControlToValidate="txtPatientName" SetFocusOnError="true" Display="None" ErrorMessage="请输入患者姓名"></asp:RequiredFieldValidator>
                             </div>
                         </div>
                         <div class="fg-gray">患者性别</div>
@@ -58,6 +59,7 @@
                         <div>
                             <div class="input-control textarea">
                                 <asp:TextBox ID="txtApplicationPurpose" runat="server" TextMode="MultiLine" Width="100%"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtApplicationPurpose" SetFocusOnError="true" Display="None" ErrorMessage="请输入会诊目的"></asp:RequiredFieldValidator>
                             </div>
                         </div>
                         <div>
@@ -65,7 +67,8 @@
                             <asp:Button ID="btnUploadPurpose" runat="server" OnClick="btnUploadPurpose_Click" Text="上传..." />
                         </div>
                         <div id="divImgContainer">
-                            <asp:Literal ID="litPurposeImg" runat="server"></asp:Literal></div>
+                            <asp:Literal ID="litPurposeImg" runat="server"></asp:Literal>
+                        </div>
                     </td>
                     <td class="size6" style="vertical-align: top; padding-left: 20px;">
                         <div class="fg-gray"><a href="#">既往病史</a> <span style="text-align: right; margin-right: 10px">点击这里编辑既往病史</span></div>
@@ -86,35 +89,30 @@
                                 <asp:ListItem Value="3" Selected="True">3</asp:ListItem>
                                 <asp:ListItem Value="4">4</asp:ListItem>
                                 <asp:ListItem Value="5">5</asp:ListItem>
+                                <asp:ListItem Value="6">6</asp:ListItem>
+                                <asp:ListItem Value="7">7</asp:ListItem>
+                                <asp:ListItem Value="8">8</asp:ListItem>
+                                <asp:ListItem Value="9">9</asp:ListItem>
                             </asp:DropDownList>
                         </div>
-                        <asp:Panel ID="panDoctorGroup" runat="server"></asp:Panel>
-                        <div class="fg-gray">当地诊断医院</div>
-                        <div>
-                            <div class="input-control">
-                                <asp:TextBox ID="txtLocalHospital" runat="server" Width="100%"></asp:TextBox>
-                            </div>
-                        </div>
-
-                        <div class="fg-gray" style="display: none;">当地诊断医院翻译</div>
-                        <div style="display: none;">
-                            <div class="input-control">
-                                <asp:TextBox ID="txtLocalHospitalT" runat="server" Width="100%"></asp:TextBox>
-                            </div>
-                        </div>
-
+                        <%--This panel will create the Hospital and Doctor group based on the dropdown selection value--%>
+                        <asp:Panel ID="panDoctorGroup" runat="server"></asp:Panel>                       
                     </td>
                 </tr>
             </table>
             <div style="padding-top: 20px; margin-top: 20px;" class="border-top">
                 <button style="display: none;" class="bg-main fg-white size2 btnSave" onclick="$('#MainContent_btnSave').click();return false;"><i class="icon-floppy"></i>&nbsp;保存</button>
-                <button class="bg-mainb fg-white size2 btnSubmit" onclick="if(!checkInput()) return false;$('#MainContent_btnSubmit').click();return false;"><i class="icon-checkmark"></i>&nbsp;提交申请</button>
+                <button class="bg-mainb fg-white size2 btnSubmit" onclick="$('#MainContent_btnSubmit').click();return false;"><i class="icon-checkmark"></i>&nbsp;提交申请</button>
                 <button style="display: none;" onclick="window.location = 'MyWorklist.aspx';return false;">取消</button>
                 <asp:Button ID="btnSave" runat="server" Style="display: none" OnClick="btnSave_Click" />
                 <asp:Button ID="btnSubmit" runat="server" Style="display: none" OnClick="btnSubmit_Click" />
                 <asp:Button ID="btnCancel" runat="server" Style="display: none" OnClick="btnCancel_Click" />
                 <span>当前状态 :
                             <asp:Label runat="server" ID="lblStatus"></asp:Label></span>
+            </div>
+            <div>
+                <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowSummary="False"
+                    ShowMessageBox="True" />
             </div>
             <asp:Label runat="server" ID="lblErrorMsg" ForeColor="Red"></asp:Label>
             <input type="hidden" runat="server" id="hidGUID" />
@@ -156,9 +154,6 @@
             $(".btnSubmit").hide();
         }
 
-        function checkInput() {
-            return true;
-        }
     </script>
 </asp:Content>
 

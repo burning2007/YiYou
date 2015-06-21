@@ -71,3 +71,106 @@
 2015-06-21 16:14:44,507 INFO  - Application_Start....
 2015-06-21 16:14:44,518 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
 2015-06-21 16:21:40,375 ERROR - Object reference not set to an instance of an object.
+2015-06-21 19:54:11,567 ERROR - Object reference not set to an instance of an object.
+2015-06-21 20:00:16,376 INFO  - Application_Start....
+2015-06-21 20:00:16,385 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 20:00:18,723 ERROR - Object reference not set to an instance of an object.
+2015-06-21 20:05:32,001 INFO  - Application_Start....
+2015-06-21 20:05:32,008 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 20:13:39,902 INFO  - Application_Start....
+2015-06-21 20:13:39,913 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 20:13:46,302 ERROR - Object reference not set to an instance of an object.
+2015-06-21 20:14:49,078 INFO  - Application_Start....
+2015-06-21 20:14:49,079 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 20:14:51,826 ERROR - Object reference not set to an instance of an object.
+2015-06-21 20:18:33,583 ERROR - Object reference not set to an instance of an object.
+2015-06-21 20:19:17,614 INFO  - Application_Start....
+2015-06-21 20:19:17,622 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 20:20:22,280 ERROR - Object reference not set to an instance of an object.
+2015-06-21 20:21:47,769 ERROR - Object reference not set to an instance of an object.
+2015-06-21 20:22:21,959 ERROR - Object reference not set to an instance of an object.
+2015-06-21 20:30:03,690 INFO  - Application_Start....
+2015-06-21 20:30:03,699 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 20:40:14,394 INFO  - Application_Start....
+2015-06-21 20:40:14,403 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 20:46:05,418 INFO  - Application_Start....
+2015-06-21 20:46:05,428 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 20:46:07,284 ERROR - Conversion failed when converting the varchar value 'loca____23' to data type int.
+2015-06-21 20:46:07,285 ERROR - Conversion failed when converting the varchar value 'loca____23' to data type int.
+2015-06-21 21:19:28,254 ERROR - Conversion failed when converting the varchar value 'loca____23' to data type int.
+2015-06-21 21:19:28,255 ERROR - Conversion failed when converting the varchar value 'loca____23' to data type int.
+2015-06-21 21:20:00,115 ERROR - Conversion failed when converting the varchar value 'loca____23' to data type int.
+2015-06-21 21:20:00,116 ERROR - Conversion failed when converting the varchar value 'loca____23' to data type int.
+2015-06-21 21:20:00,164 ERROR - Conversion failed when converting the varchar value 'loca____23' to data type int.
+2015-06-21 21:22:14,219 ERROR - Conversion failed when converting the varchar value 'loca____23' to data type int.
+2015-06-21 21:22:23,636 ERROR - Conversion failed when converting the varchar value 'loca____23' to data type int.
+2015-06-21 21:26:49,050 ERROR - Conversion failed when converting the varchar value 'loca____23' to data type int.
+2015-06-21 21:26:49,051 ERROR - Conversion failed when converting the varchar value 'loca____23' to data type int.
+2015-06-21 21:28:56,301 INFO  - Application_Start....
+2015-06-21 21:28:56,310 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 21:32:07,670 ERROR - Object reference not set to an instance of an object.
+2015-06-21 21:32:17,860 ERROR - Object reference not set to an instance of an object.
+2015-06-21 21:32:50,121 ERROR - Object reference not set to an instance of an object.
+2015-06-21 21:33:16,143 INFO  - Application_Start....
+2015-06-21 21:33:16,152 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 21:47:01,731 INFO  - Application_Start....
+2015-06-21 21:47:01,739 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 21:48:46,824 ERROR - Thread was being aborted.
+2015-06-21 21:48:58,835 ERROR - Object reference not set to an instance of an object.
+2015-06-21 21:49:09,210 ERROR - Object reference not set to an instance of an object.
+2015-06-21 21:49:31,202 ERROR - Object reference not set to an instance of an object.
+2015-06-21 21:49:56,276 ERROR - Object reference not set to an instance of an object.
+2015-06-21 21:50:22,237 ERROR - Object reference not set to an instance of an object.
+2015-06-21 21:51:08,905 INFO  - Application_Start....
+2015-06-21 21:51:08,913 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 22:07:13,087 INFO  - Application_Start....
+2015-06-21 22:07:13,095 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 22:12:46,740 INFO  - Application_Start....
+2015-06-21 22:12:46,749 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 22:14:50,468 INFO  - Application_Start....
+2015-06-21 22:14:50,479 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 22:17:36,512 INFO  - Application_Start....
+2015-06-21 22:17:36,522 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 22:19:26,829 INFO  - Application_Start....
+2015-06-21 22:19:26,836 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 22:47:10,251 INFO  - Application_Start....
+2015-06-21 22:47:10,259 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 22:49:04,974 ERROR - Cannot insert the value NULL into column 'guid', table 'mhCloudEMR.dbo.consult_application_consultant'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+2015-06-21 22:49:04,975 ERROR - Cannot insert the value NULL into column 'guid', table 'mhCloudEMR.dbo.consult_application_consultant'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+2015-06-21 22:50:14,732 ERROR - Cannot insert the value NULL into column 'guid', table 'mhCloudEMR.dbo.consult_application_consultant'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+2015-06-21 22:50:14,734 ERROR - Cannot insert the value NULL into column 'guid', table 'mhCloudEMR.dbo.consult_application_consultant'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+2015-06-21 22:50:38,151 INFO  - Application_Start....
+2015-06-21 22:50:38,158 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 22:51:29,875 ERROR - Cannot insert the value NULL into column 'guid', table 'mhCloudEMR.dbo.consult_application_consultant'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+2015-06-21 22:51:36,446 ERROR - Cannot insert the value NULL into column 'guid', table 'mhCloudEMR.dbo.consult_application_consultant'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+2015-06-21 22:52:34,487 INFO  - Application_Start....
+2015-06-21 22:52:34,494 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 22:53:21,110 ERROR - Cannot insert the value NULL into column 'consult_application_guid', table 'mhCloudEMR.dbo.consult_application_consultant'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+2015-06-21 22:53:46,697 ERROR - Cannot insert the value NULL into column 'consult_application_guid', table 'mhCloudEMR.dbo.consult_application_consultant'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+2015-06-21 22:59:00,554 INFO  - Application_Start....
+2015-06-21 22:59:00,562 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 22:59:27,687 INFO  - Application_Start....
+2015-06-21 22:59:27,696 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 23:00:46,658 ERROR - Thread was being aborted.
+2015-06-21 23:14:39,645 INFO  - Application_Start....
+2015-06-21 23:14:39,653 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 23:20:51,410 INFO  - Application_Start....
+2015-06-21 23:20:51,417 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 23:24:06,178 INFO  - Application_Start....
+2015-06-21 23:24:06,191 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 23:25:29,663 INFO  - Application_Start....
+2015-06-21 23:25:29,674 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 23:26:43,809 ERROR - Thread was being aborted.
+2015-06-21 23:28:55,585 ERROR - Thread was being aborted.
+2015-06-21 23:30:07,323 INFO  - Application_Start....
+2015-06-21 23:30:07,336 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-21 23:31:02,763 INFO  - Application_Start....
+2015-06-21 23:31:02,772 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;

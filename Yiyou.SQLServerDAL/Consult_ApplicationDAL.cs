@@ -10,7 +10,7 @@ namespace Yiyou.SQLServerDAL
 {
     public class Consult_ApplicationDAL
     {
-        public static DataSet GetLoctionList(string localType)
+        public static DataSet GetLoctionListByType(string localType)
         {
             string strSQL = @"SELECT [guid]
                                   ,[name]
@@ -20,12 +20,12 @@ namespace Yiyou.SQLServerDAL
                               FROM [mhCloudEMR].[dbo].[v_dic_location] where 1=1 ";
             if (!string.IsNullOrEmpty(localType))
             {
-                strSQL += " and type = " + localType ;
+                strSQL += " and type = " + localType;
             }
             return SqlHelper.ExecuteQuery(strSQL);
         }
 
-        public static DataSet GetHospitalList(string location_guid)
+        public static DataSet GetHospitalListByLoacationUID(string location_guid)
         {
             string strSQL = @"SELECT [guid]
                                       ,[name]
@@ -40,7 +40,20 @@ namespace Yiyou.SQLServerDAL
             return SqlHelper.ExecuteQuery(strSQL);
         }
 
-        public static DataSet GetDoctorList(string hospital_guid, string location_guid)
+        public static DataSet GetHospitalListByLocationType(string LocationType)
+        {
+            string strSQL = @"SELECT [guid]
+                                      ,[name]
+                                      ,[description]
+                                      ,[avatar]
+                                      ,[location_guid]
+                              FROM [mhCloudEMR].[dbo].[v_dic_hospital] 
+                              where location_guid in (select guid from [mhCloudEMR].[dbo].[v_dic_location] where type=" + LocationType + ")";
+
+            return SqlHelper.ExecuteQuery(strSQL);
+        }
+
+        public static DataSet GetDoctorList(string hospital_guid, string LocationType)
         {
             string strSQL = @"SELECT [guid]
                                   ,[name]
@@ -51,15 +64,30 @@ namespace Yiyou.SQLServerDAL
                                   ,[location_guid]
                                   ,[contact_guid]
                               FROM [mhCloudEMR].[dbo].[v_dic_doctor] where 1=1 ";
-            if (!string.IsNullOrEmpty(location_guid))
+            if (!string.IsNullOrEmpty(LocationType))
             {
-                strSQL += "and location_guid='" + location_guid + "'";
+                strSQL += @" and hospital_guid in (select guid from [mhCloudEMR].[dbo].v_dic_hospital 
+                                                   where location_guid in (select guid from [mhCloudEMR].[dbo].[v_dic_location] where type=" + LocationType + "))";
             }
             if (!string.IsNullOrEmpty(hospital_guid))
             {
-                strSQL += "and hospital_guid='" + hospital_guid + "'";
+                strSQL += " and hospital_guid='" + hospital_guid + "'";
             }
             return SqlHelper.ExecuteQuery(strSQL);
+        }
+
+        public static void GetLocationInfoByHospitalUID(string hospital_guid, ref string location_guid, ref string location_name)
+        {
+            string strSQL = @"SELECT loc.guid, loc.name
+                              FROM [mhCloudEMR].[dbo].[v_dic_hospital] hos
+                              inner join [mhCloudEMR].[dbo].v_dic_location loc on hos.location_guid=loc.guid
+                              where hos.guid='" + hospital_guid + "'";
+            DataSet ds = SqlHelper.ExecuteQuery(strSQL);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                location_guid = ds.Tables[0].Rows[0]["guid"].ToString().Trim();
+                location_name = ds.Tables[0].Rows[0]["name"].ToString().Trim();
+            }
         }
 
         public static DataSet GetProjectList()
@@ -314,7 +342,7 @@ namespace Yiyou.SQLServerDAL
         /// <summary>
         /// 删除一条数据
         /// </summary>
-        public bool Delete(string guid,string user_guid,string user_name,int status,string patient_guid,string project_guid,string project_name,int location_type,string purpose,string purpose_t,string local_hospital,string local_hospital_t,string preliminary_conclusions,string preliminary_conclusions_t,string final_conclusion,string final_conclusion_t,DateTime created_dt,DateTime submitted_dt,DateTime accepted_dt,DateTime approved_dt,DateTime concluded_dt,DateTime rejected_dt,DateTime completed_dt,string approver_guid,string approver_name,string contract_content,decimal amount_payable,decimal amount_receivable,DateTime paid_dt,decimal amount_payable2,decimal amount_receivable2,DateTime paid_dt2,string service_comments_for_user,string service_comments_for_consultant,string service_comments_for_consultant_t,string specified_notes,int number_of_hospitals,string location_guid,string location_name)
+        public bool Delete(string guid, string user_guid, string user_name, int status, string patient_guid, string project_guid, string project_name, int location_type, string purpose, string purpose_t, string local_hospital, string local_hospital_t, string preliminary_conclusions, string preliminary_conclusions_t, string final_conclusion, string final_conclusion_t, DateTime created_dt, DateTime submitted_dt, DateTime accepted_dt, DateTime approved_dt, DateTime concluded_dt, DateTime rejected_dt, DateTime completed_dt, string approver_guid, string approver_name, string contract_content, decimal amount_payable, decimal amount_receivable, DateTime paid_dt, decimal amount_payable2, decimal amount_receivable2, DateTime paid_dt2, string service_comments_for_user, string service_comments_for_consultant, string service_comments_for_consultant_t, string specified_notes, int number_of_hospitals, string location_guid, string location_name)
         {
 
             StringBuilder strSql = new StringBuilder();
@@ -418,7 +446,7 @@ namespace Yiyou.SQLServerDAL
         {
 
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select  top 1 * from consult_application ");
+            strSql.Append("select  top 1 * FROM [mhCloudEMR].[dbo].[consult_application] app left join emr_patient pat on app.patient_guid=pat.patient_guid ");
             strSql.Append(" where guid=@guid");
             SqlParameter[] parameters = { new SqlParameter("@guid", SqlDbType.VarChar, 36) };
             parameters[0].Value = guid;
@@ -435,10 +463,41 @@ namespace Yiyou.SQLServerDAL
             }
         }
 
+        public static DataSet GetApplication(string guid)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select  top 1 * FROM [mhCloudEMR].[dbo].[consult_application] app left join emr_patient pat on app.patient_guid=pat.patient_guid ");
+            strSql.Append(" where guid=@guid");
+            SqlParameter[] parameters = { new SqlParameter("@guid", SqlDbType.VarChar, 36) };
+            parameters[0].Value = guid;
+
+            Consult_ApplicationMdl model = new Consult_ApplicationMdl();
+            DataSet ds = SqlHelper.ExecuteQuery(strSql.ToString(), parameters);
+            return ds;
+        }
+
+        public static DataSet GetApplicationConsultant(string p)
+        {
+            string strSQL = @"SELECT [guid]
+                                  ,[consult_application_guid]
+                                  ,[location_guid]
+                                  ,[location_name]
+                                  ,[hospital_guid]
+                                  ,[hospital_name]
+                                  ,[doctor_guid]
+                                  ,[doctor_name]
+                                  ,[conclusion]
+                                  ,[conclusion_t]
+                                  ,[concluded_dt]
+                              FROM [mhCloudEMR].[dbo].[consult_application_consultant]
+                              where consult_application_guid='" + p + "'";
+            return SqlHelper.ExecuteQuery(strSQL); ;
+        }
+
         public bool IsExist(string guid)
         {
             Consult_ApplicationMdl mdl = GetModel(guid);
-            return (mdl == null);
+            return (mdl != null);
         }
 
 
@@ -616,7 +675,7 @@ namespace Yiyou.SQLServerDAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select * FROM consult_application ");           
+            strSql.Append("select * FROM consult_application ");
             if (strWhere.Trim() != "")
             {
                 strSql.Append(" where " + strWhere);
@@ -625,7 +684,46 @@ namespace Yiyou.SQLServerDAL
         }
 
 
+        /// <summary>
+        /// Add data into table consult_application_consultant
+        /// </summary>
+        /// <param name="list"></param>
+        public void Add_application_consultant(List<Consult_Application_ConsultantMdl> list)
+        {
+            foreach (Consult_Application_ConsultantMdl model in list)
+            {
+                StringBuilder strSql = new StringBuilder();
+                strSql.Append("insert into consult_application_consultant(");
+                strSql.Append("guid,consult_application_guid,location_guid,location_name,hospital_guid,hospital_name,doctor_guid,doctor_name,conclusion,conclusion_t,concluded_dt)");
+                strSql.Append(" values (");
+                strSql.Append("@guid,@consult_application_guid,@location_guid,@location_name,@hospital_guid,@hospital_name,@doctor_guid,@doctor_name,@conclusion,@conclusion_t,@concluded_dt)");
+                SqlParameter[] parameters = {
+					new SqlParameter("@guid", SqlDbType.VarChar,36),
+					new SqlParameter("@consult_application_guid", SqlDbType.VarChar,36),
+					new SqlParameter("@location_guid", SqlDbType.VarChar,36),
+					new SqlParameter("@location_name", SqlDbType.NVarChar,64),
+					new SqlParameter("@hospital_guid", SqlDbType.VarChar,36),
+					new SqlParameter("@hospital_name", SqlDbType.NVarChar,256),
+					new SqlParameter("@doctor_guid", SqlDbType.VarChar,36),
+					new SqlParameter("@doctor_name", SqlDbType.NVarChar,256),
+					new SqlParameter("@conclusion", SqlDbType.NVarChar,-1),
+					new SqlParameter("@conclusion_t", SqlDbType.NVarChar,-1),
+					new SqlParameter("@concluded_dt", SqlDbType.DateTime)};
+                parameters[0].Value = Guid.NewGuid().ToString();
+                parameters[1].Value = model.consult_application_guid;
+                parameters[2].Value = model.location_guid;
+                parameters[3].Value = model.location_name;
+                parameters[4].Value = model.hospital_guid;
+                parameters[5].Value = model.hospital_name;
+                parameters[6].Value = model.doctor_guid;
+                parameters[7].Value = model.doctor_name;
+                parameters[8].Value = model.conclusion;
+                parameters[9].Value = model.conclusion_t;
+                parameters[10].Value = model.concluded_dt;
 
+                int rows = SqlHelper.ExecuteNonQuery(strSql.ToString(), parameters);
+            }
+        }
 
     }
 }

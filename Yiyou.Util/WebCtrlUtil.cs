@@ -12,7 +12,7 @@ namespace Yiyou.Util
         {
             for (int i = 0; i < ddl.Items.Count; i++)
             {
-                if (string.Compare(ddl.Items[i].Text.Trim(), ItemText.Trim(), true) == 0)
+                if (string.Compare(ddl.Items[i].Text.Trim(), ItemText.Trim(), true) == 0 || string.Compare(ddl.Items[i].Value.Trim(), ItemText.Trim(), true) == 0)
                 {
                     ddl.SelectedIndex = i;
                     break;

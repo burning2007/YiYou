@@ -12,8 +12,17 @@ namespace Yiyou.Model
     public class Consult_ApplicationMdl
     {
         public Consult_ApplicationMdl()
-        { }
-        
+        {
+            this._EMR_PatientMdl = new EMR_PatientMdl();
+        }
+
+        private EMR_PatientMdl _EMR_PatientMdl;
+        public EMR_PatientMdl EMR_PatientMdl
+        {
+            set { _EMR_PatientMdl = value; }
+            get { return _EMR_PatientMdl; }
+        }
+
         #region Model
 		private string _guid;
 		private string _user_guid;

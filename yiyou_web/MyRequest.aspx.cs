@@ -57,13 +57,20 @@ namespace ICUPro.Portal
 
             lblStatus.Text = "未提交";
 
-            V_Sys_UserMdl model = V_Sys_UserDAL.GetModel(Session["USER_GUID"].ToString());
-            this.txtName.Text = model.name;
-            this.txtMobile.Text = model.login_name;
-            this.txtEmail.Text = model.email;
+
             this.txtName.Enabled = false;
             this.txtMobile.Enabled = false;
             this.txtEmail.Enabled = false;
+            // New app
+            if (Request.QueryString["guid"] == null)
+            {
+                V_Sys_UserMdl model = V_Sys_UserDAL.GetModel(Session["USER_GUID"].ToString());
+                this.txtName.Text = model.name;
+                this.txtMobile.Text = model.login_name;
+                this.txtEmail.Text = model.email;
+            }
+
+            // View and update app
             if (Request.QueryString["guid"] != null)
             {
                 string guid = Request.QueryString["guid"];
@@ -92,7 +99,7 @@ namespace ICUPro.Portal
             DropDownList ddl = sender as DropDownList;
             string id = ddl.ID.Replace("ddlLocation", "");
             DropDownList ddlHospital = this.panDoctorGroup.FindControl("ddlHospital" + id) as DropDownList;
-            ddlHospital.DataSource = Consult_ApplicationDAL.GetHospitalList(ddl.SelectedValue);
+            ddlHospital.DataSource = Consult_ApplicationDAL.GetHospitalListByLoacationUID(ddl.SelectedValue);
             ddlHospital.DataBind();
             //ddlHospital_SelectedIndexChanged(null, null);
         }
@@ -155,12 +162,14 @@ namespace ICUPro.Portal
                 mdl.status = 1;   // 1—已提交           
                 Consult_ApplicationDAL dal = new Consult_ApplicationDAL();
 
-                if (dal.IsExist(mdl.guid))
+                if (!dal.IsExist(mdl.guid))
                 {
-                    if (dal.Add(mdl))
-                    {
-                        Page.Response.Redirect("MyWorklist.aspx");
-                    }
+                    // Add Consult_ApplicationMdl
+                    dal.Add(mdl);
+                    // Add consult_application_consultant
+                    dal.Add_application_consultant(model.Consult_Application_ConsultantMdlCollection);
+
+                    Page.Response.Redirect("MyWorklist.aspx");
                 }
                 else
                 {
@@ -184,37 +193,36 @@ namespace ICUPro.Portal
 
         private ApplicationMdl GetMdlFromGUI()
         {
-            ApplicationMdl model = new ApplicationMdl();
+            ApplicationMdl applicationMdl = new ApplicationMdl();
 
-            Consult_ApplicationMdl consultMdl = new Consult_ApplicationMdl();
+            Consult_ApplicationMdl consultAppMdl = new Consult_ApplicationMdl();
 
             // Try to get guid
-            consultMdl.guid = this.hidGUID.Value.Trim();
-            if (string.IsNullOrEmpty(consultMdl.guid))
+            consultAppMdl.guid = this.hidGUID.Value.Trim();
+            if (string.IsNullOrEmpty(consultAppMdl.guid))
             {
                 // New Application Request
-                consultMdl.guid = Guid.NewGuid().ToString();
-                consultMdl.created_dt = DateTime.Now;
-                consultMdl.status = 0;
+                consultAppMdl.guid = Guid.NewGuid().ToString();
+                consultAppMdl.created_dt = DateTime.Now;
+                consultAppMdl.status = 0;
             }
             else
             {
                 // Get exists data first, then using new GUI to update
                 Consult_ApplicationDAL dal = new Consult_ApplicationDAL();
-                consultMdl = dal.GetModel(consultMdl.guid);
+                consultAppMdl = dal.GetModel(consultAppMdl.guid);
             }
 
-            consultMdl.location_type = int.Parse(this.ddlLocalType.SelectedValue);
-            consultMdl.local_hospital = this.txtLocalHospital.Text;
-
+            consultAppMdl.location_type = int.Parse(this.ddlLocalType.SelectedValue);
 
             // 
-            consultMdl.user_guid = Session["USER_GUID"].ToString();
-            consultMdl.user_name = this.txtName.Text.Trim();
+            consultAppMdl.user_guid = Session["USER_GUID"].ToString();
+            consultAppMdl.user_name = this.txtName.Text.Trim();
+
 
             EMR_PatientMdl emrMdl = new EMR_PatientMdl();
 
-            emrMdl.user_guid = Session["USER_GUID"].ToString();
+            emrMdl.user_guid = Session["USER_GUID"].ToString(); // Pateint belongs to User
             emrMdl.name = this.txtName.Text.Trim();
             emrMdl.gender = int.Parse(this.ddlGender.SelectedValue);
 
@@ -224,35 +232,44 @@ namespace ICUPro.Portal
             emrMdl.birthday = dtDOB;
 
 
-            Consult_Application_ConsultantMdl consultantMdl = new Consult_Application_ConsultantMdl();
+
             List<Consult_Application_ConsultantMdl> consultantMdlCollection = new List<Consult_Application_ConsultantMdl>();
 
             int HospitalCount = int.Parse(this.ddlHospitalCount.SelectedValue);
 
             for (int i = 1; i <= HospitalCount; i++)
             {
-                DropDownList ddlLocaltion = this.panDoctorGroup.FindControl("ddlLocation" + i.ToString()) as DropDownList;
-                consultantMdl.location_guid = ddlLocaltion.SelectedValue;
-                consultantMdl.location_name = ddlLocaltion.SelectedItem.Text;
-
+                Consult_Application_ConsultantMdl consultantMdl = new Consult_Application_ConsultantMdl();
                 DropDownList ddlHospital = this.panDoctorGroup.FindControl("ddlHospital" + i.ToString()) as DropDownList;
-                consultantMdl.hospital_guid = ddlHospital.SelectedValue;
-                consultantMdl.hospital_name = ddlHospital.SelectedItem.Text;
+                if (ddlHospital.SelectedItem != null)
+                {
+                    consultantMdl.hospital_guid = ddlHospital.SelectedValue;
+                    consultantMdl.hospital_name = ddlHospital.SelectedItem.Text;
+                    string location_guid = "";
+                    string location_name = "";
+                    Consult_ApplicationDAL.GetLocationInfoByHospitalUID(consultantMdl.hospital_guid, ref location_guid, ref location_name);
+                    consultantMdl.location_guid = location_guid;
+                    consultantMdl.location_name = location_name;
+                }
+
 
                 DropDownList ddlDoctor = this.panDoctorGroup.FindControl("ddlDoctor" + i.ToString()) as DropDownList;
-                consultantMdl.doctor_guid = ddlDoctor.SelectedValue;
-                consultantMdl.doctor_name = ddlDoctor.SelectedItem.Text;
-
+                if (ddlDoctor.SelectedItem != null)
+                {
+                    consultantMdl.doctor_guid = ddlDoctor.SelectedValue;
+                    consultantMdl.doctor_name = ddlDoctor.SelectedItem.Text;
+                }
+                consultantMdl.consult_application_guid = consultAppMdl.guid;
                 consultantMdlCollection.Add(consultantMdl);
             }
 
-            model.Consult_ApplicationMdl = consultMdl;
-            model.EMR_PatientMdl = emrMdl;
-            model.Consult_Application_ConsultantMdlCollection = consultantMdlCollection;
-            return model;
+            applicationMdl.Consult_ApplicationMdl = consultAppMdl;
+            applicationMdl.EMR_PatientMdl = emrMdl;
+            applicationMdl.Consult_Application_ConsultantMdlCollection = consultantMdlCollection;
+            return applicationMdl;
         }
 
-        private Consult_ApplicationMdl BindGUI(Consult_ApplicationMdl mdl)
+        private void BindGUI(Consult_ApplicationMdl mdl)
         {
 
             this.hidGUID.Value = mdl.guid;
@@ -267,7 +284,6 @@ namespace ICUPro.Portal
 
             //WebCtrlUtil.SetDropDownText(this.ddlDoctor, mdl.doctor_name);
 
-            this.txtLocalHospital.Text = mdl.local_hospital;
 
             //this.hidStatus.Value = mdl.status.ToString();
             if (mdl.status == 1)
@@ -275,11 +291,45 @@ namespace ICUPro.Portal
                 lblStatus.Text = "已提交";
             }
 
-            // 
-            mdl.user_guid = "DUMMY";
-            mdl.user_name = "DUMMY";
+            // Bind System User Info
+            V_Sys_UserMdl model = V_Sys_UserDAL.GetModel(mdl.user_guid);
+            this.txtName.Text = model.name;
+            this.txtMobile.Text = model.login_name;
+            this.txtEmail.Text = model.email;
 
-            return mdl;
+            // Bind Patient Info
+            DataSet ds = Consult_ApplicationDAL.GetApplication(mdl.guid);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                this.txtPatientName.Text = ds.Tables[0].Rows[0]["name"].ToString().Trim();
+                WebCtrlUtil.SetDropDownText(this.ddlGender, ds.Tables[0].Rows[0]["gender"].ToString().Trim());
+
+                DateTime dtDOB = DateTime.Now;
+                DateTime.TryParse(ds.Tables[0].Rows[0]["birthday"].ToString().Trim(), out dtDOB);
+                this.txtDOB.Text = dtDOB.ToString("yyyy-MM-dd");
+                this.txtApplicationPurpose.Text = ds.Tables[0].Rows[0]["purpose"].ToString().Trim();
+                // Location type
+                WebCtrlUtil.SetDropDownText(this.ddlLocalType, ds.Tables[0].Rows[0]["location_type"].ToString().Trim());
+            }
+
+            // Bind consult_application_consultant Info
+            ds = Consult_ApplicationDAL.GetApplicationConsultant(mdl.guid);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                WebCtrlUtil.SetDropDownText(this.ddlHospitalCount, ds.Tables[0].Rows.Count.ToString());
+                CreateDropdownListGroup();
+
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    // Bind Hospital
+                    DropDownList ddlHospital = this.panDoctorGroup.FindControl("ddlHospital" + (i + 1)) as DropDownList;
+                    WebCtrlUtil.SetDropDownText(ddlHospital, ds.Tables[0].Rows[i]["hospital_guid"].ToString().Trim());
+                    ddlHospital_SelectedIndexChanged(ddlHospital, null);
+                    // Bind Doctor
+                    DropDownList ddlDoctor = this.panDoctorGroup.FindControl("ddlDoctor" + (i + 1)) as DropDownList;
+                    WebCtrlUtil.SetDropDownText(ddlDoctor, ds.Tables[0].Rows[i]["doctor_guid"].ToString().Trim());
+                }
+            }
         }
 
         protected void ddlHospitalCount_SelectedIndexChanged(object sender, EventArgs e)
@@ -295,63 +345,62 @@ namespace ICUPro.Portal
 
             for (int i = 0; i < hospitalCount; i++)
             {
-                CreateApplicationDoctorGroup(i + 1);
+                CreateSingleHospitalDoctorGroup(i + 1);
             }
 
         }
 
-        private void CreateApplicationDoctorGroup(int i)
+        private void CreateSingleHospitalDoctorGroup(int i)
         {
-            Label lbl = new Label();
-            lbl.Text = "目的地";
-            lbl.CssClass = "fg-gray";
-            panDoctorGroup.Controls.Add(lbl);
+            // 1: 国内  2: 国外
+            string strLocationType = this.ddlLocalType.SelectedItem.Value;
 
-            DropDownList ddl = new DropDownList();
-            ddl.ID = "ddlLocation" + i.ToString();
-            ddl.AutoPostBack = true;
-            ddl.SelectedIndexChanged += new EventHandler(ddlLocation_SelectedIndexChanged);//给ddl添加事件
-            ddl.CssClass = "input-control select";
-            ddl.DataSource = Consult_ApplicationDAL.GetLoctionList(this.ddlLocalType.SelectedValue);
-            ddl.DataTextField = "name";
-            ddl.DataValueField = "guid";
-            ddl.DataBind();
-            panDoctorGroup.Controls.Add(ddl);
+            //Label lbl = new Label();
+            //lbl.Text = "目的地";
+            //lbl.CssClass = "fg-gray";
+            //panDoctorGroup.Controls.Add(lbl);
+
+            //DropDownList ddl = new DropDownList();
+            //ddl.ID = "ddlLocation" + i.ToString();
+            //ddl.AutoPostBack = true;
+            //ddl.SelectedIndexChanged += new EventHandler(ddlLocation_SelectedIndexChanged);//给ddl添加事件
+            //ddl.CssClass = "input-control select";
+            //ddl.DataSource = Consult_ApplicationDAL.GetLoctionList(this.ddlLocalType.SelectedValue);
+            //ddl.DataTextField = "name";
+            //ddl.DataValueField = "guid";
+            //ddl.DataBind();
+            //panDoctorGroup.Controls.Add(ddl);
 
 
-            lbl = new Label();
-            lbl.Text = "医院";
-            lbl.CssClass = "fg-gray";
-            panDoctorGroup.Controls.Add(lbl);
+            Label lblHospital = new Label();
+            lblHospital.Text = "医院";
+            lblHospital.CssClass = "fg-gray";
+            panDoctorGroup.Controls.Add(lblHospital);
 
-            ddl = new DropDownList();
-            ddl.ID = "ddlHospital" + i.ToString();
-            ddl.AutoPostBack = true;
-            ddl.SelectedIndexChanged += new EventHandler(ddlHospital_SelectedIndexChanged);//给ddl添加事件
-            ddl.CssClass = "input-control select";
+            DropDownList ddlHospital = new DropDownList();
+            ddlHospital.ID = "ddlHospital" + i.ToString();
+            ddlHospital.AutoPostBack = true;
+            ddlHospital.SelectedIndexChanged += new EventHandler(ddlHospital_SelectedIndexChanged);//给ddl添加事件
+            ddlHospital.CssClass = "input-control select";
+            ddlHospital.DataSource = Consult_ApplicationDAL.GetHospitalListByLocationType(strLocationType);
+            ddlHospital.DataTextField = "name";
+            ddlHospital.DataValueField = "guid";
+            ddlHospital.DataBind();
+            panDoctorGroup.Controls.Add(ddlHospital);
 
-            DropDownList ddlLocal = this.panDoctorGroup.FindControl("ddlLocation" + i.ToString()) as DropDownList;
-            ddl.DataSource = Consult_ApplicationDAL.GetHospitalList(ddlLocal.SelectedValue);
-            ddl.DataTextField = "name";
-            ddl.DataValueField = "guid";
-            ddl.DataBind();
-            panDoctorGroup.Controls.Add(ddl);
+            Label lblDoctor = new Label();
+            lblDoctor.Text = "医生";
+            lblDoctor.CssClass = "fg-gray";
+            panDoctorGroup.Controls.Add(lblDoctor);
 
-            lbl = new Label();
-            lbl.Text = "医生";
-            lbl.CssClass = "fg-gray";
-            panDoctorGroup.Controls.Add(lbl);
-
-            ddl = new DropDownList();
-            ddl.ID = "ddlDoctor" + i.ToString();
-            ddl.CssClass = "input-control select";
-
-            DropDownList ddlHospital = this.panDoctorGroup.FindControl("ddlHospital" + i.ToString()) as DropDownList;
-            ddl.DataSource = Consult_ApplicationDAL.GetDoctorList(ddlHospital.SelectedValue, "");
-            ddl.DataTextField = "name";
-            ddl.DataValueField = "guid";
-            ddl.DataBind();
-            panDoctorGroup.Controls.Add(ddl);
+            DropDownList ddlDoctor = new DropDownList();
+            ddlDoctor.ID = "ddlDoctor" + i.ToString();
+            ddlDoctor.CssClass = "input-control select";
+            ddlDoctor.DataSource = Consult_ApplicationDAL.GetDoctorList(ddlHospital.SelectedValue, strLocationType);
+            ddlDoctor.DataTextField = "name";
+            ddlDoctor.DataValueField = "guid";
+            ddlDoctor.DataBind();
+            panDoctorGroup.Controls.Add(ddlDoctor);
         }
 
         private int GetApplicationDoctorCount()
@@ -381,26 +430,35 @@ namespace ICUPro.Portal
                     }
                 }
             }
-            if (fileOK)
-            {
-                try
-                {
-                    string strFileName = Guid.NewGuid().ToString() + fileExtension;
-                    string strFilePath = path + strFileName;
-                    FileUpload_Purpose.SaveAs(strFilePath);
-                    string strScript = string.Format("window.setTimeout(\"{0}\", 100);", "alert('文件上传成功');");
-                    ClientScript.RegisterClientScriptBlock(typeof(string), "uploadPurposeImage", strScript, true);
-                    this.litPurposeImg.Text = string.Format("<img width=\"100\" height=\"100\" src=\"/temp/{0}\" />", strFileName);
-                }
-                catch
-                {
-                    string strScript = string.Format("window.setTimeout(\"{0}\", 100);", "alert('文件上传失败！请重试！');");
-                    ClientScript.RegisterClientScriptBlock(typeof(string), "uploadPurposeImage", strScript, true);
-                }
-            }
-            else
+
+            // Check file type
+            if (!fileOK)
             {
                 string strScript = string.Format("window.setTimeout(\"{0}\", 100);", "alert('仅支持上传图片格式的文件！');");
+                ClientScript.RegisterClientScriptBlock(typeof(string), "uploadPurposeImage", strScript, true);
+                return;
+            }
+
+            // Check length, can't exceed 4M
+            if (FileUpload_Purpose.FileBytes.Length > 4 * 1024 * 1024)
+            {
+                string strScript = string.Format("window.setTimeout(\"{0}\", 100);", "alert('文件大小超过限制，请编辑后重试！');");
+                ClientScript.RegisterClientScriptBlock(typeof(string), "uploadPurposeImage", strScript, true);
+                return;
+            }
+
+            try
+            {
+                string strFileName = Guid.NewGuid().ToString() + fileExtension;
+                string strFilePath = path + strFileName;
+                FileUpload_Purpose.SaveAs(strFilePath);
+                string strScript = string.Format("window.setTimeout(\"{0}\", 100);", "alert('文件上传成功');");
+                ClientScript.RegisterClientScriptBlock(typeof(string), "uploadPurposeImage", strScript, true);
+                this.litPurposeImg.Text = string.Format("<img width=\"100\" height=\"100\" src=\"/temp/{0}\" />", strFileName);
+            }
+            catch
+            {
+                string strScript = string.Format("window.setTimeout(\"{0}\", 100);", "alert('文件上传失败！请重试！');");
                 ClientScript.RegisterClientScriptBlock(typeof(string), "uploadPurposeImage", strScript, true);
             }
         }
