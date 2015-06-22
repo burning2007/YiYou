@@ -35,6 +35,15 @@ namespace Yiyou.SQLServerDAL
         /// </summary>
         public static bool Add(EMR_PatientMdl model)
         {
+            if (model.name.Trim().Length == 0)
+            {
+                return false;
+            }
+            if (IsExist(model.name, model.user_guid))
+            {
+                return false;
+            }
+
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into emr_patient(");
             strSql.Append("patient_guid,user_guid,name,gender,birthday,diagnosis,diagnosis_t,created_dt,modified_dt)");
@@ -111,17 +120,14 @@ namespace Yiyou.SQLServerDAL
         /// <summary>
         /// 得到一个对象实体
         /// </summary>
-        public EMR_PatientMdl GetModel(string patient_guid, string user_guid)
+        public static EMR_PatientMdl GetModel(string patient_guid)
         {
-
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select  top 1 patient_guid,user_guid,name,gender,birthday,diagnosis,diagnosis_t,created_dt,modified_dt from EMR_PatientMdl ");
-            strSql.Append(" where patient_guid=@patient_guid and user_guid=@user_guid  ");
+            strSql.Append("select  top 1 patient_guid,user_guid,name,gender,birthday,diagnosis,diagnosis_t,created_dt,modified_dt from EMR_Patient ");
+            strSql.Append(" where patient_guid=@patient_guid   ");
             SqlParameter[] parameters = {
-					new SqlParameter("@patient_guid", SqlDbType.VarChar,36),
-					new SqlParameter("@user_guid", SqlDbType.VarChar,36)	};
+					new SqlParameter("@patient_guid", SqlDbType.VarChar,36) };
             parameters[0].Value = patient_guid;
-            parameters[1].Value = user_guid;
 
 
             EMR_PatientMdl model = new EMR_PatientMdl();
@@ -139,7 +145,7 @@ namespace Yiyou.SQLServerDAL
         /// <summary>
         /// 得到一个对象实体
         /// </summary>
-        public EMR_PatientMdl DataRowToModel(DataRow row)
+        public static EMR_PatientMdl DataRowToModel(DataRow row)
         {
             EMR_PatientMdl model = new EMR_PatientMdl();
             if (row != null)
@@ -197,6 +203,13 @@ namespace Yiyou.SQLServerDAL
                 strSql.Append(" where " + strWhere);
             }
             return SqlHelper.ExecuteQuery(strSql.ToString());
+        }
+
+        public static bool IsExist(string patient_name, string user_guid)
+        {
+            string strSQL = "select [name] from [mhCloudEMR].[dbo].[emr_patient]  where [name]='" + patient_name + "' and [user_guid]='" + user_guid + "'";
+            string strName = SqlHelper.ExecuteSingleValueQuery(strSQL);
+            return strName.Trim().Length > 0;
         }
 
 

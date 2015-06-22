@@ -1,13 +1,19 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/main.Master" AutoEventWireup="true" CodeBehind="MyRequest.aspx.cs" Inherits="ICUPro.Portal.MyRequest" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <style type="text/css">
+        .highlightTabMenu
+        {
+            background-color: orange;
+        }
+    </style>
     <div class="bg-main5 padding15">
-        <div style="height: 40px;">
-            <div onclick="chgtab(1);" class="fg-main" style="padding: 10px; float: left; cursor: hand; border: 1px solid grey;">
-                <i class="icon-new"></i>&nbsp;申请会诊
+        <div style="height: 40px;" class="subTabMenu">
+            <div id="menu1" onclick="chgtab(1);" class="fg-main highlightTabMenu" style="padding: 10px; float: left; cursor: hand; border: 1px solid grey;">
+                &nbsp;申请会诊
             </div>
-            <div onclick="chgtab(2);" class="fg-main" style="padding: 10px; float: left; cursor: hand; border-right: 1px solid grey; border-top: 1px solid grey; border-bottom: 1px solid grey;">
-                <i class="icon-folder"></i>&nbsp;患者病历
+            <div id="menu2" onclick="chgtab(2);" class="fg-main" style="padding: 10px; float: left; cursor: hand; border-right: 1px solid grey; border-top: 1px solid grey; border-bottom: 1px solid grey;">
+                &nbsp;患者病历
             </div>
         </div>
         <div id="panel1" style="padding: 15px 15px 15px 15px; border: 1px solid grey;" class="pagetab">
@@ -121,9 +127,6 @@
         </div>
         <div id="panel2" class="pagetab" style="padding-top: 15px; border: 1px solid grey; display: none;">
             <div class="bg-main5 padding15">
-                <div class="fg-main border-bottom large" style="padding-bottom: 5px; margin-bottom: 15px;">
-                    <i class="icon-folder"></i>&nbsp;我的病历
-                </div>
                 <div>
                     <iframe id="iframeEMR" src="MyCase.aspx" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes" width="100%" height="1000"></iframe>
                 </div>
@@ -147,6 +150,10 @@
     </script>
     <script type="text/javascript">
         function chgtab(index) {
+            // css
+            $(".subTabMenu .fg-main").removeClass("highlightTabMenu");
+            $("#menu" + index).addClass("highlightTabMenu");
+
             $(".pagetab").hide();
             $("#panel" + index).show();
             if (index == 2) {

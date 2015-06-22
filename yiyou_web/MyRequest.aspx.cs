@@ -350,7 +350,11 @@ namespace ICUPro.Portal
                 WebCtrlUtil.SetDropDownText(this.ddlGender, ds.Tables[0].Rows[0]["gender"].ToString().Trim());
 
                 DateTime dtDOB = DateTime.Now;
-                DateTime.TryParse(ds.Tables[0].Rows[0]["birthday"].ToString().Trim(), out dtDOB);
+                if (!(ds.Tables[0].Rows[0]["birthday"] is DBNull))
+                {
+                    DateTime.TryParse(ds.Tables[0].Rows[0]["birthday"].ToString().Trim(), out dtDOB);
+                }
+
                 this.txtDOB.Text = dtDOB.ToString("yyyy-MM-dd");
                 this.txtApplicationPurpose.Text = ds.Tables[0].Rows[0]["purpose"].ToString().Trim();
                 // Location type

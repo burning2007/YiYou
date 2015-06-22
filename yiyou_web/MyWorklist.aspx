@@ -43,10 +43,10 @@
                             <asp:TemplateField HeaderText="操作" ItemStyle-Width="230px">
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbtnOperate" class="bg-main fg-white" Text='<%# Eval("CommandText")%>' guid='<%# Eval("guid")%>' OnClientClick='showApplicationDetail(this);return false;' runat="Server"></asp:LinkButton>
-                                    <asp:LinkButton ID="lbtnSupplement" class="bg-main fg-white" runat="server" Text="补充资料"> </asp:LinkButton>
-                                    <asp:LinkButton ID="LinkButton1" class="bg-main fg-white" runat="server" Text="进展"> </asp:LinkButton>
-                                    <asp:LinkButton ID="LinkButton2" class="bg-main fg-white" runat="server" Text="购买"> </asp:LinkButton>
-                                    <asp:LinkButton ID="LinkButton3" class="bg-main fg-white" runat="server" Text="档案"> </asp:LinkButton>
+                                    <asp:LinkButton ID="lbtnSupplement" class="bg-main fg-white" runat="server" Text="补充资料" patient_guid='<%# Eval("patient_guid")%>' OnClientClick='addEMRContent(this);return false;' > </asp:LinkButton>
+                                    <asp:LinkButton ID="LinkButton1" class="bg-main fg-white" runat="server" Text="进展" guid='<%# Eval("guid")%>' OnClientClick='return false;' > </asp:LinkButton>
+                                    <asp:LinkButton ID="LinkButton2" class="bg-main fg-white" runat="server" Text="购买" guid='<%# Eval("guid")%>' OnClientClick='return false;' > </asp:LinkButton>
+                                    <asp:LinkButton ID="LinkButton3" class="bg-main fg-white" runat="server" Text="档案" patient_guid='<%# Eval("patient_guid")%>' OnClientClick='viewEMRContent(this);return false;' > </asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -100,6 +100,14 @@
         function showApplicationDetail(obj) {
             var uid = $('#' + obj.id).attr('guid')
             window.location = "MyRequest.aspx?guid=" + uid;
+        }
+        function addEMRContent(obj) {
+            var uid = $('#' + obj.id).attr('patient_guid')
+            window.location = "MyEMR_New.aspx?type=new&guid=" + uid;
+        }
+        function viewEMRContent(obj) {
+            var uid = $('#' + obj.id).attr('patient_guid')
+            window.location = "MyEMR_New.aspx?type=view&guid=" + uid;
         }
     </script>
     <script>

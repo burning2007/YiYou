@@ -10,7 +10,7 @@ namespace Yiyou.SQLServerDAL
     {
         public static DataSet GetWorklist(string strFilterStatus)
         {
-            string strSQL = @"SELECT app.*, p.name, p.gender, '' as gendertext, p.birthday
+            string strSQL = @"SELECT app.*, p.name, p.gender, '' as gendertext, p.birthday, p.patient_guid
                                 FROM [mhCloudEMR].[dbo].[consult_application]  app 
                                 LEFT JOIN [mhCloudEMR].[dbo].[emr_patient] p ON P.patient_guid = app.patient_guid WHERE 1=1 ";
             if (!string.IsNullOrEmpty(strFilterStatus))

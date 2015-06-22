@@ -21,6 +21,12 @@ namespace ICUPro.Portal
             if (!Page.IsPostBack)
             {
                 InitUI();
+                if (Page.Request.QueryString["patient_guid"] != null
+                    && Page.Request.QueryString["type"] != null && Page.Request.QueryString["type"] == "new")
+                {
+                    // createNewEMR()
+                    Page.ClientScript.RegisterStartupScript(typeof(string), "createNewEMR", "createNewEMR();", true);
+                }
             }
             else
             {
@@ -102,12 +108,28 @@ namespace ICUPro.Portal
                 #region Come from the Worklist
                 this.hidPatientGUID.Value = Page.Request.QueryString["patient_guid"];
                 RefreshEMRListByPatientUidAndEMRType();
+                EMR_PatientMdl mdl = EMR_PatientMdlDAL.GetModel(this.hidPatientGUID.Value);
+                this.txtName.Text = mdl.name;
+                if (mdl.gender == 0)
+                {
+                    this.txtGender.Text = "未知";
+                }
+                if (mdl.gender == 1)
+                {
+                    this.txtGender.Text = "女";
+                }
+                if (mdl.gender == 2)
+                {
+                    this.txtGender.Text = "男";
+                }
+                DateTime dtDOB = Convert.ToDateTime(mdl.birthday);
+                this.txtAge.Text = dtDOB.ToString("yyyy-MM-dd");
                 #endregion
             }
             else
             {
                 #region Come from the Application Request Page
-                if (Page.Request.QueryString["patname"] != null)
+                if (Page.Request.QueryString["patname"] != null && Page.Request.QueryString["patname"].Trim().Length > 0)
                 {
                     this.txtName.Text = Page.Request.QueryString["patname"];
                 }

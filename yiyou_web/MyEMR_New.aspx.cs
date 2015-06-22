@@ -11,7 +11,17 @@ namespace ICUPro.Portal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!Page.IsPostBack)
+            {
+                if (Page.Request.QueryString["guid"] != null)
+                {
+                    this.hidPatientGUID.Value = Page.Request.QueryString["guid"];
+                }
+                if (Page.Request.QueryString["type"] != null)
+                {
+                    this.hidType.Value = Page.Request.QueryString["type"];
+                }
+            }
         }
     }
 }

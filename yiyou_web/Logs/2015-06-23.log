@@ -1,0 +1,37 @@
+2015-06-23 01:02:36,315 INFO  - Application_Start....
+2015-06-23 01:02:36,333 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-23 01:24:38,379 INFO  - Application_Start....
+2015-06-23 01:24:38,386 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-23 01:39:08,622 ERROR - SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+2015-06-23 01:39:31,641 ERROR - Thread was being aborted.
+2015-06-23 01:39:50,804 ERROR - SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+2015-06-23 01:40:15,339 ERROR - Thread was being aborted.
+2015-06-23 01:48:52,534 INFO  - Application_Start....
+2015-06-23 01:48:52,546 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-23 01:49:00,509 ERROR - Invalid object name 'EMR_PatientMdl'.
+2015-06-23 01:49:07,027 ERROR - Invalid object name 'EMR_PatientMdl'.
+2015-06-23 01:49:11,235 ERROR - Invalid object name 'EMR_PatientMdl'.
+2015-06-23 01:50:46,597 INFO  - Application_Start....
+2015-06-23 01:50:46,605 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-23 01:50:50,439 ERROR - Invalid object name 'EMR_PatientMdl'.
+2015-06-23 01:51:10,304 INFO  - Application_Start....
+2015-06-23 01:51:10,311 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-23 01:51:17,005 ERROR - Invalid object name 'EMR_PatientMdl'.
+2015-06-23 01:52:13,833 ERROR - Invalid object name 'EMR_PatientMdl'.
+2015-06-23 01:53:15,257 ERROR - Invalid object name 'EMR_PatientMdl'.
+2015-06-23 01:53:39,850 INFO  - Application_Start....
+2015-06-23 01:53:39,858 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-23 01:57:16,871 INFO  - Application_Start....
+2015-06-23 01:57:16,882 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-23 01:58:04,894 INFO  - Application_Start....
+2015-06-23 01:58:04,906 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-23 01:59:04,425 ERROR - SqlDateTime overflow. Must be between 1/1/1753 12:00:00 AM and 12/31/9999 11:59:59 PM.
+2015-06-23 02:01:23,973 INFO  - Application_Start....
+2015-06-23 02:01:23,984 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
+2015-06-23 02:03:26,857 INFO  - LRU failed:    at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileSystemEnumerableIterator`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.IO.Directory.GetFiles(String path, String searchPattern, SearchOption searchOption)
+   at ICUPro.Portal.Global.TempImgLRU() in e:\MeeHealth\YiYou\yiyou_web\Global.asax.cs:line 46
+2015-06-23 02:08:15,910 INFO  - Application_Start....
+2015-06-23 02:08:15,918 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;

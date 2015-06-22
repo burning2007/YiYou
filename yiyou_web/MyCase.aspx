@@ -169,7 +169,11 @@
             </div>
         </div>
         <div style="display: none">
-            <asp:Button ID="btnFilter" runat="server" OnClick="btnFilter_Click" />
+            <asp:UpdatePanel runat="server">
+                <ContentTemplate>
+                    <asp:Button ID="btnFilter" runat="server" OnClick="btnFilter_Click" />
+                </ContentTemplate>
+            </asp:UpdatePanel>
             <input type="hidden" id="hidFilterType" runat="server" />
             <input type="hidden" id="hidPatientGUID" runat="server" />
         </div>
