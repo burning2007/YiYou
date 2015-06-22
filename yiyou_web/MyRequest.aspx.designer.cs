@@ -22,15 +22,6 @@ namespace ICUPro.Portal {
         protected global::System.Web.UI.WebControls.TextBox txtName;
         
         /// <summary>
-        /// hidUserGUID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hidUserGUID;
-        
-        /// <summary>
         /// txtMobile control.
         /// </summary>
         /// <remarks>
@@ -220,12 +211,30 @@ namespace ICUPro.Portal {
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden hidGUID;
         
         /// <summary>
-        /// FileUpload1 control.
+        /// hidUserGUID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hidUserGUID;
+        
+        /// <summary>
+        /// hidPurposeImgGUID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hidPurposeImgGUID;
+        
+        /// <summary>
+        /// hidPurposeImg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hidPurposeImg;
     }
 }

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ApplicationMdl.cs" />
     <Compile Include="Consult_ApplicationMdl.cs" />
+    <Compile Include="consult_application_accessoryMdl.cs" />
     <Compile Include="Consult_Application_ConsultantMdl.cs" />
     <Compile Include="EMR_PatientMdl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

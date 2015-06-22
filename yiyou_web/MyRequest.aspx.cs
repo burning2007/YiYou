@@ -14,12 +14,14 @@ using Yiyou.Model;
 using Yiyou.SQLServerDAL;
 using System.Text;
 using Yiyou.Util;
+using System.IO;
 
 namespace ICUPro.Portal
 {
     public partial class MyRequest : System.Web.UI.Page
     {
 
+        #region Page Event
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -137,6 +139,7 @@ namespace ICUPro.Portal
                 Consult_ApplicationDAL dal = new Consult_ApplicationDAL();
 
                 // Save/Update the Patient info first
+                #region MyRegion
                 string patient_guid = EMR_PatientMdlDAL.GetPatientGUID(totalMdl.EMR_PatientMdl.name, totalMdl.EMR_PatientMdl.user_guid);
                 if (string.IsNullOrEmpty(patient_guid))
                 {
@@ -152,22 +155,29 @@ namespace ICUPro.Portal
                     totalMdl.Consult_ApplicationMdl.patient_guid = totalMdl.EMR_PatientMdl.patient_guid;  // Copy GUID
                     EMR_PatientMdlDAL.Update(totalMdl.EMR_PatientMdl);
                 }
+                #endregion
 
+
+                // Continue save the others info
                 if (!dal.IsExist(mdl.guid))
                 {
                     // Add Consult_ApplicationMdl
-                    dal.Add(mdl);
+                    dal.Add_consult_application(mdl);
                     // Add consult_application_consultant
-                    dal.Add_application_consultant(totalMdl.Consult_Application_ConsultantMdlCollection);
+                    dal.Add_consult_application_consultant(totalMdl.Consult_Application_ConsultantMdlCollection);
+                    // Add the Purpose Image
+                    dal.Add_consult_application_accessory(totalMdl.consult_application_accessoryMdl);
 
                     Page.Response.Redirect("MyWorklist.aspx");
                 }
                 else
                 {
                     // Update Consult_ApplicationMdl
-                    dal.Update(mdl);
+                    dal.Update_consult_application(mdl);
                     // Update consult_application_consultant
-                    dal.Update_application_consultant(totalMdl.Consult_Application_ConsultantMdlCollection);
+                    dal.Update_consult_application_consultant(totalMdl.Consult_Application_ConsultantMdlCollection);
+                    // Update the Purpose Image
+                    dal.Update_consult_application_accessory(totalMdl.consult_application_accessoryMdl);
 
                     Page.Response.Redirect("MyWorklist.aspx");
                 }
@@ -184,10 +194,34 @@ namespace ICUPro.Portal
 
         }
 
+        /// <summary>
+        /// Upload image
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnUploadPurpose_Click(object sender, EventArgs e)
+        {
+            string strSavedFile = ImageUtils.uploadImageFile(FileUpload_Purpose, litPurposeImg, Page);
+            if (!string.IsNullOrEmpty(strSavedFile))
+            {
+                this.hidPurposeImg.Value = strSavedFile;
+            }
+        }
+
+        protected void ddlHospitalCount_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.CreateDropdownListGroup();
+        }
+        #endregion
+
+
+
+        #region Method
         private ApplicationAllInOneMdl GetMdlFromGUI()
         {
             ApplicationAllInOneMdl totalMdl = new ApplicationAllInOneMdl();
 
+            // Basic info
             Consult_ApplicationMdl consultAppMdl = new Consult_ApplicationMdl();
             #region MyRegion
             // Try to get guid
@@ -213,6 +247,7 @@ namespace ICUPro.Portal
             #endregion
 
 
+            // Patient Info
             EMR_PatientMdl patientMdl = new EMR_PatientMdl();
             #region MyRegion
             patientMdl.user_guid = this.hidUserGUID.Value; // Pateint belongs to User
@@ -225,6 +260,7 @@ namespace ICUPro.Portal
             #endregion
 
 
+            // Hospital Info
             List<Consult_Application_ConsultantMdl> consultantMdlCollection = new List<Consult_Application_ConsultantMdl>();
             #region MyRegion
             int HospitalCount = int.Parse(this.ddlHospitalCount.SelectedValue);
@@ -255,30 +291,59 @@ namespace ICUPro.Portal
             #endregion
 
 
+            // consult_application_accessory info
+            #region MyRegion
+            consult_application_accessoryMdl thumbnailMdl = null;
+            if (!string.IsNullOrEmpty(this.hidPurposeImg.Value) && File.Exists(this.hidPurposeImg.Value))
+            {
+                thumbnailMdl = new consult_application_accessoryMdl();
+                if (string.IsNullOrEmpty(this.hidPurposeImgGUID.Value))
+                {
+                    thumbnailMdl.guid = Guid.NewGuid().ToString();
+                }
+                else
+                {
+                    thumbnailMdl.guid = this.hidPurposeImgGUID.Value;
+                }
+
+                thumbnailMdl.consult_application_guid = consultAppMdl.guid;
+                thumbnailMdl.type = 0;
+                thumbnailMdl.content = File.ReadAllBytes(this.hidPurposeImg.Value);
+                thumbnailMdl.thumbnail = ImageUtils.getThumbnail(thumbnailMdl.content);
+            }
+            #endregion
+
+
+
             totalMdl.Consult_ApplicationMdl = consultAppMdl;
             totalMdl.EMR_PatientMdl = patientMdl;
             totalMdl.Consult_Application_ConsultantMdlCollection = consultantMdlCollection;
+            totalMdl.consult_application_accessoryMdl = thumbnailMdl;
             return totalMdl;
         }
 
-        private void BindGUI(Consult_ApplicationMdl mdl)
+        private void BindGUI(Consult_ApplicationMdl applicationMdl)
         {
-            this.hidGUID.Value = mdl.guid;
-            this.hidUserGUID.Value = mdl.user_guid;
+            // Very importand, remember the uid
+            this.hidGUID.Value = applicationMdl.guid;
+            this.hidUserGUID.Value = applicationMdl.user_guid;
 
-            if (mdl.status == 1)
+            if (applicationMdl.status == 1)
             {
                 lblStatus.Text = "已提交";
             }
 
             // Bind System User Info
-            V_Sys_UserMdl model = V_Sys_UserDAL.GetModel(mdl.user_guid);
+            #region MyRegion
+            V_Sys_UserMdl model = V_Sys_UserDAL.GetModel(applicationMdl.user_guid);
             this.txtName.Text = model.name;
             this.txtMobile.Text = model.login_name;
             this.txtEmail.Text = model.email;
+            #endregion
 
             // Bind Patient Info
-            DataSet ds = Consult_ApplicationDAL.GetApplication(mdl.guid);
+            #region MyRegion
+            DataSet ds = Consult_ApplicationDAL.GetApplication(applicationMdl.guid);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 this.txtPatientName.Text = ds.Tables[0].Rows[0]["name"].ToString().Trim();
@@ -291,9 +356,11 @@ namespace ICUPro.Portal
                 // Location type
                 WebCtrlUtil.SetDropDownText(this.ddlLocalType, ds.Tables[0].Rows[0]["location_type"].ToString().Trim());
             }
+            #endregion
 
             // Bind consult_application_consultant Info
-            ds = Consult_ApplicationDAL.GetApplicationConsultant(mdl.guid);
+            #region MyRegion
+            ds = Consult_ApplicationDAL.GetApplicationConsultant(applicationMdl.guid);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 WebCtrlUtil.SetDropDownText(this.ddlHospitalCount, ds.Tables[0].Rows.Count.ToString());
@@ -310,11 +377,21 @@ namespace ICUPro.Portal
                     WebCtrlUtil.SetDropDownText(ddlDoctor, ds.Tables[0].Rows[i]["doctor_guid"].ToString().Trim());
                 }
             }
-        }
+            #endregion
 
-        protected void ddlHospitalCount_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.CreateDropdownListGroup();
+            // Bind the PurposeImage
+            ds = Consult_ApplicationDAL.GetPurposeThumbnail(applicationMdl.guid);
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                string strTempFolder = ImageUtils.GetTempFolderPath(Page);
+                byte[] bImage = (byte[])(ds.Tables[0].Rows[0]["thumbnail"]);
+                string strFileName = Guid.NewGuid().ToString() + ".jpg";
+                string strFilePath = Path.Combine(strTempFolder, strFileName);
+                File.WriteAllBytes(strFilePath, bImage);
+                ImageUtils.ShowThumbnail(this.litPurposeImg, strFileName);
+                this.hidPurposeImg.Value = strFilePath;
+                this.hidPurposeImgGUID.Value = ds.Tables[0].Rows[0]["guid"].ToString();
+            }
         }
 
         private void CreateDropdownListGroup()
@@ -391,57 +468,9 @@ namespace ICUPro.Portal
 
             return hospitalCount;
         }
+        #endregion
 
-        protected void btnUploadPurpose_Click(object sender, EventArgs e)
-        {
-            bool fileOK = false;
-            string path = Server.MapPath("~/Temp/");
-            String fileExtension = string.Empty;
-            if (this.FileUpload_Purpose.HasFile)
-            {
-                fileExtension = System.IO.Path.GetExtension(FileUpload_Purpose.FileName).ToLower();
-                String[] allowedExtensions = { ".jpg", ".png", ".bmp", ".jpeg" };
-                for (int i = 0; i < allowedExtensions.Length; i++)
-                {
-                    if (fileExtension == allowedExtensions[i])
-                    {
-                        fileOK = true;
-                        break;
-                    }
-                }
-            }
 
-            // Check file type
-            if (!fileOK)
-            {
-                string strScript = string.Format("window.setTimeout(\"{0}\", 100);", "alert('仅支持上传图片格式的文件！');");
-                ClientScript.RegisterClientScriptBlock(typeof(string), "uploadPurposeImage", strScript, true);
-                return;
-            }
-
-            // Check length, can't exceed 4M
-            if (FileUpload_Purpose.FileBytes.Length > 4 * 1024 * 1024)
-            {
-                string strScript = string.Format("window.setTimeout(\"{0}\", 100);", "alert('文件大小超过限制，请编辑后重试！');");
-                ClientScript.RegisterClientScriptBlock(typeof(string), "uploadPurposeImage", strScript, true);
-                return;
-            }
-
-            try
-            {
-                string strFileName = Guid.NewGuid().ToString() + fileExtension;
-                string strFilePath = path + strFileName;
-                FileUpload_Purpose.SaveAs(strFilePath);
-                string strScript = string.Format("window.setTimeout(\"{0}\", 100);", "alert('文件上传成功');");
-                ClientScript.RegisterClientScriptBlock(typeof(string), "uploadPurposeImage", strScript, true);
-                this.litPurposeImg.Text = string.Format("<img width=\"100\" height=\"100\" src=\"/temp/{0}\" />", strFileName);
-            }
-            catch
-            {
-                string strScript = string.Format("window.setTimeout(\"{0}\", 100);", "alert('文件上传失败！请重试！');");
-                ClientScript.RegisterClientScriptBlock(typeof(string), "uploadPurposeImage", strScript, true);
-            }
-        }
 
     }
 }

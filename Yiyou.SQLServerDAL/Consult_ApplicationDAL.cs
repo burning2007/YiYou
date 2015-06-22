@@ -104,7 +104,7 @@ namespace Yiyou.SQLServerDAL
         /// <summary>
         /// 增加一条数据
         /// </summary>
-        public bool Add(Consult_ApplicationMdl model)
+        public bool Add_consult_application(Consult_ApplicationMdl model)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into consult_application(");
@@ -204,7 +204,7 @@ namespace Yiyou.SQLServerDAL
         /// <summary>
         /// 更新一条数据
         /// </summary>
-        public bool Update(Consult_ApplicationMdl model)
+        public bool Update_consult_application(Consult_ApplicationMdl model)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update consult_application set ");
@@ -327,106 +327,6 @@ namespace Yiyou.SQLServerDAL
             parameters[36].Value = model.number_of_hospitals;
             parameters[37].Value = model.location_guid;
             parameters[38].Value = model.location_name;
-
-            int rows = SqlHelper.ExecuteNonQuery(strSql.ToString(), parameters);
-            if (rows > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// 删除一条数据
-        /// </summary>
-        public bool Delete(string guid, string user_guid, string user_name, int status, string patient_guid, string project_guid, string project_name, int location_type, string purpose, string purpose_t, string local_hospital, string local_hospital_t, string preliminary_conclusions, string preliminary_conclusions_t, string final_conclusion, string final_conclusion_t, DateTime created_dt, DateTime submitted_dt, DateTime accepted_dt, DateTime approved_dt, DateTime concluded_dt, DateTime rejected_dt, DateTime completed_dt, string approver_guid, string approver_name, string contract_content, decimal amount_payable, decimal amount_receivable, DateTime paid_dt, decimal amount_payable2, decimal amount_receivable2, DateTime paid_dt2, string service_comments_for_user, string service_comments_for_consultant, string service_comments_for_consultant_t, string specified_notes, int number_of_hospitals, string location_guid, string location_name)
-        {
-
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("delete from consult_application ");
-            strSql.Append(" where guid=@guid and user_guid=@user_guid and user_name=@user_name and status=@status and patient_guid=@patient_guid and project_guid=@project_guid and project_name=@project_name and location_type=@location_type and purpose=@purpose and purpose_t=@purpose_t and local_hospital=@local_hospital and local_hospital_t=@local_hospital_t and preliminary_conclusions=@preliminary_conclusions and preliminary_conclusions_t=@preliminary_conclusions_t and final_conclusion=@final_conclusion and final_conclusion_t=@final_conclusion_t and created_dt=@created_dt and submitted_dt=@submitted_dt and accepted_dt=@accepted_dt and approved_dt=@approved_dt and concluded_dt=@concluded_dt and rejected_dt=@rejected_dt and completed_dt=@completed_dt and approver_guid=@approver_guid and approver_name=@approver_name and contract_content=@contract_content and amount_payable=@amount_payable and amount_receivable=@amount_receivable and paid_dt=@paid_dt and amount_payable2=@amount_payable2 and amount_receivable2=@amount_receivable2 and paid_dt2=@paid_dt2 and service_comments_for_user=@service_comments_for_user and service_comments_for_consultant=@service_comments_for_consultant and service_comments_for_consultant_t=@service_comments_for_consultant_t and specified_notes=@specified_notes and number_of_hospitals=@number_of_hospitals and location_guid=@location_guid and location_name=@location_name ");
-            SqlParameter[] parameters = {
-					new SqlParameter("@guid", SqlDbType.VarChar,36),
-					new SqlParameter("@user_guid", SqlDbType.VarChar,36),
-					new SqlParameter("@user_name", SqlDbType.NVarChar,64),
-					new SqlParameter("@status", SqlDbType.Int,4),
-					new SqlParameter("@patient_guid", SqlDbType.VarChar,36),
-					new SqlParameter("@project_guid", SqlDbType.VarChar,36),
-					new SqlParameter("@project_name", SqlDbType.NVarChar,64),
-					new SqlParameter("@location_type", SqlDbType.Int,4),
-					new SqlParameter("@purpose", SqlDbType.NVarChar,-1),
-					new SqlParameter("@purpose_t", SqlDbType.NVarChar,-1),
-					new SqlParameter("@local_hospital", SqlDbType.NVarChar,256),
-					new SqlParameter("@local_hospital_t", SqlDbType.NVarChar,256),
-					new SqlParameter("@preliminary_conclusions", SqlDbType.NVarChar,-1),
-					new SqlParameter("@preliminary_conclusions_t", SqlDbType.NVarChar,-1),
-					new SqlParameter("@final_conclusion", SqlDbType.NVarChar,-1),
-					new SqlParameter("@final_conclusion_t", SqlDbType.NVarChar,-1),
-					new SqlParameter("@created_dt", SqlDbType.DateTime),
-					new SqlParameter("@submitted_dt", SqlDbType.DateTime),
-					new SqlParameter("@accepted_dt", SqlDbType.DateTime),
-					new SqlParameter("@approved_dt", SqlDbType.DateTime),
-					new SqlParameter("@concluded_dt", SqlDbType.DateTime),
-					new SqlParameter("@rejected_dt", SqlDbType.DateTime),
-					new SqlParameter("@completed_dt", SqlDbType.DateTime),
-					new SqlParameter("@approver_guid", SqlDbType.VarChar,36),
-					new SqlParameter("@approver_name", SqlDbType.NVarChar,64),
-					new SqlParameter("@contract_content", SqlDbType.NVarChar,-1),
-					new SqlParameter("@amount_payable", SqlDbType.Float,8),
-					new SqlParameter("@amount_receivable", SqlDbType.Float,8),
-					new SqlParameter("@paid_dt", SqlDbType.DateTime),
-					new SqlParameter("@amount_payable2", SqlDbType.Float,8),
-					new SqlParameter("@amount_receivable2", SqlDbType.Float,8),
-					new SqlParameter("@paid_dt2", SqlDbType.DateTime),
-					new SqlParameter("@service_comments_for_user", SqlDbType.NVarChar,-1),
-					new SqlParameter("@service_comments_for_consultant", SqlDbType.NVarChar,-1),
-					new SqlParameter("@service_comments_for_consultant_t", SqlDbType.NVarChar,-1),
-					new SqlParameter("@specified_notes", SqlDbType.NVarChar,-1),
-					new SqlParameter("@number_of_hospitals", SqlDbType.Int,4),
-					new SqlParameter("@location_guid", SqlDbType.VarChar,36),
-					new SqlParameter("@location_name", SqlDbType.NVarChar,64)			};
-            parameters[0].Value = guid;
-            parameters[1].Value = user_guid;
-            parameters[2].Value = user_name;
-            parameters[3].Value = status;
-            parameters[4].Value = patient_guid;
-            parameters[5].Value = project_guid;
-            parameters[6].Value = project_name;
-            parameters[7].Value = location_type;
-            parameters[8].Value = purpose;
-            parameters[9].Value = purpose_t;
-            parameters[10].Value = local_hospital;
-            parameters[11].Value = local_hospital_t;
-            parameters[12].Value = preliminary_conclusions;
-            parameters[13].Value = preliminary_conclusions_t;
-            parameters[14].Value = final_conclusion;
-            parameters[15].Value = final_conclusion_t;
-            parameters[16].Value = created_dt;
-            parameters[17].Value = submitted_dt;
-            parameters[18].Value = accepted_dt;
-            parameters[19].Value = approved_dt;
-            parameters[20].Value = concluded_dt;
-            parameters[21].Value = rejected_dt;
-            parameters[22].Value = completed_dt;
-            parameters[23].Value = approver_guid;
-            parameters[24].Value = approver_name;
-            parameters[25].Value = contract_content;
-            parameters[26].Value = amount_payable;
-            parameters[27].Value = amount_receivable;
-            parameters[28].Value = paid_dt;
-            parameters[29].Value = amount_payable2;
-            parameters[30].Value = amount_receivable2;
-            parameters[31].Value = paid_dt2;
-            parameters[32].Value = service_comments_for_user;
-            parameters[33].Value = service_comments_for_consultant;
-            parameters[34].Value = service_comments_for_consultant_t;
-            parameters[35].Value = specified_notes;
-            parameters[36].Value = number_of_hospitals;
-            parameters[37].Value = location_guid;
-            parameters[38].Value = location_name;
 
             int rows = SqlHelper.ExecuteNonQuery(strSql.ToString(), parameters);
             if (rows > 0)
@@ -669,26 +569,12 @@ namespace Yiyou.SQLServerDAL
             return model;
         }
 
-        /// <summary>
-        /// 获得数据列表
-        /// </summary>
-        public DataSet GetList(string strWhere)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select * FROM consult_application ");
-            if (strWhere.Trim() != "")
-            {
-                strSql.Append(" where " + strWhere);
-            }
-            return SqlHelper.ExecuteQuery(strSql.ToString());
-        }
-
 
         /// <summary>
         /// Add data into table consult_application_consultant
         /// </summary>
         /// <param name="list"></param>
-        public void Add_application_consultant(List<Consult_Application_ConsultantMdl> list)
+        public void Add_consult_application_consultant(List<Consult_Application_ConsultantMdl> list)
         {
             foreach (Consult_Application_ConsultantMdl model in list)
             {
@@ -730,15 +616,79 @@ namespace Yiyou.SQLServerDAL
         /// Update data into table consult_application_consultant
         /// </summary>
         /// <param name="list"></param>
-        public void Update_application_consultant(List<Consult_Application_ConsultantMdl> list)
+        public void Update_consult_application_consultant(List<Consult_Application_ConsultantMdl> list)
         {
             // First, Delete
             string strSQL = "delete consult_application_consultant where consult_application_guid='" + list[0].consult_application_guid + "'";
             int rows = SqlHelper.ExecuteNonQuery(strSQL);
 
             // Then, Add
-            Add_application_consultant(list);
+            Add_consult_application_consultant(list);
         }
+
+
+        public static DataSet GetPurposeThumbnail(string p)
+        {
+            string strSQL = @"SELECT [guid]
+                              ,[consult_application_guid]
+                              ,[type]
+                              ,[content]
+                              ,[thumbnail]
+                              ,[comments]
+                              ,[created_dt]
+                              ,[modified_dt]
+                          FROM [mhCloudEMR].[dbo].[consult_application_accessory]
+                          where consult_application_guid='" + p + "'";
+            return SqlHelper.ExecuteQuery(strSQL);
+        }
+
+
+        public bool Add_consult_application_accessory(consult_application_accessoryMdl model)
+        {
+            if (model == null || model.content == null || model.content.Length == 0)
+            {
+                return false;
+            }
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("insert into consult_application_accessory(");
+            strSql.Append("guid,consult_application_guid,type,content,thumbnail,comments,created_dt,modified_dt)");
+            strSql.Append(" values (");
+            strSql.Append("@guid,@consult_application_guid,0,@content,@thumbnail,NULL,getdate(),getdate())");
+            SqlParameter[] parameters = {
+					new SqlParameter("@guid", SqlDbType.VarChar,36),
+					new SqlParameter("@consult_application_guid", SqlDbType.VarChar,36),
+					new SqlParameter("@content", SqlDbType.VarBinary,-1),
+					new SqlParameter("@thumbnail", SqlDbType.VarBinary,-1)};
+            parameters[0].Value = model.guid;
+            parameters[1].Value = model.consult_application_guid;
+            parameters[2].Value = model.content;
+            parameters[3].Value = model.thumbnail;
+
+            int rows = SqlHelper.ExecuteNonQuery(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool Update_consult_application_accessory(consult_application_accessoryMdl model)
+        {
+            if (model == null || model.content == null || model.content.Length == 0)
+            {
+                return false;
+            }
+            // First, Delete
+            string strSQL = "delete consult_application_accessory where guid='" + model.guid + "'";
+            int rows = SqlHelper.ExecuteNonQuery(strSQL);
+
+            // Then, Add
+            return Add_consult_application_accessory(model);
+        }
+
 
     }
 }

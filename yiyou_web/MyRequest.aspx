@@ -17,7 +17,7 @@
                         <div class="fg-gray">账号</div>
                         <div>
                             <div class="input-control">
-                                <asp:TextBox ID="txtName" runat="server" Width="100%"></asp:TextBox><input type="hidden" runat="server" id="hidUserGUID" />
+                                <asp:TextBox ID="txtName" runat="server" Width="100%"></asp:TextBox>
                             </div>
                         </div>
                         <div class="fg-gray">手机号</div>
@@ -116,10 +116,9 @@
             </div>
             <asp:Label runat="server" ID="lblErrorMsg" ForeColor="Red"></asp:Label>
             <input type="hidden" runat="server" id="hidGUID" />
-
-            <div style="display: none;">
-                <asp:FileUpload ID="FileUpload1" runat="server" />
-            </div>
+            <input type="hidden" runat="server" id="hidUserGUID" />
+            <input type="hidden" runat="server" id="hidPurposeImgGUID" />
+            <input type="hidden" runat="server" id="hidPurposeImg" />
         </div>
         <div id="panel2" class="pagetab" style="padding-top: 15px; border: 1px solid grey; display: none;">
             <div class="bg-main5 padding15">

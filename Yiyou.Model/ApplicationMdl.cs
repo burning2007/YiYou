@@ -8,7 +8,7 @@ namespace Yiyou.Model
     public class ApplicationAllInOneMdl
     {
         public ApplicationAllInOneMdl()
-        {}
+        { }
 
         private Consult_ApplicationMdl _consult_ApplicationMdl = new Consult_ApplicationMdl();
 
@@ -32,6 +32,14 @@ namespace Yiyou.Model
         {
             get { return _consult_Application_ConsultantMdlCollection; }
             set { _consult_Application_ConsultantMdlCollection = value; }
+        }
+
+
+        private consult_application_accessoryMdl _consult_application_accessoryMdl ;
+        public consult_application_accessoryMdl consult_application_accessoryMdl
+        {
+            get { return _consult_application_accessoryMdl; }
+            set { _consult_application_accessoryMdl = value; }
         }
     }
 }
