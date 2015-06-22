@@ -126,7 +126,7 @@
                     <i class="icon-folder"></i>&nbsp;我的病历
                 </div>
                 <div>
-                    <iframe src="MyCase.aspx" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes" width="100%" height="1000"></iframe>
+                    <iframe id="iframeEMR" src="MyCase.aspx" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes" width="100%" height="1000"></iframe>
                 </div>
             </div>
         </div>
@@ -141,6 +141,23 @@
         function chgtab(index) {
             $(".pagetab").hide();
             $("#panel" + index).show();
+            if (index == 2) {
+                // if view/edit EMR, should pass through the UserGUID and PatientName
+                // **** WARNING ***
+                // The patient_guid is useless, because the user can change the patientName at anytime, and the new
+                // PatientName will be treated as the new patient under the user, and the previous one will not be deleted.
+                // So we should use the userGUID and PatientName to manage the EMR List
+                var userGUID = $("#MainContent_hidUserGUID").val();
+                var patientName = $("#MainContent_txtPatientName").val();
+                var gender = $("#MainContent_ddlGender").find("option:selected").text();
+                var dob = $("#MainContent_txtDOB").val();
+                var url = "MyCase.aspx?userid=" + userGUID
+                    + "&patname=" + escape(patientName)
+                    + "&gender=" + escape(gender)
+                    + "&dob=" + escape(dob);
+                //alert(url);
+                document.getElementById("iframeEMR").src = url;
+            }
         }
 
     </script>

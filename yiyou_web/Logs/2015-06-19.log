@@ -1,8 +1,0 @@
-2015-06-19 15:00:50,495 INFO  - Application_Start....
-2015-06-19 15:00:50,501 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;
-2015-06-19 15:01:54,580 ERROR - Input string was not in a correct format.
-2015-06-19 15:02:17,808 ERROR - Input string was not in a correct format.
-2015-06-19 15:02:31,756 ERROR - Input string was not in a correct format.
-2015-06-19 15:03:13,016 ERROR - Thread was being aborted.
-2015-06-19 17:29:17,692 INFO  - Application_Start....
-2015-06-19 17:29:17,698 INFO  - ConnectionStringSettings: Data Source=.\GCPACSWS;Initial Catalog=mhCloudEMR;User ID=sa;Password=sa20021224$;Persist Security Info=True;

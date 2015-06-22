@@ -383,7 +383,7 @@ namespace ICUPro.Portal
             ds = Consult_ApplicationDAL.GetPurposeThumbnail(applicationMdl.guid);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
-                string strTempFolder = ImageUtils.GetTempFolderPath(Page);
+                string strTempFolder = ImageUtils.GetTempFolderPath();
                 byte[] bImage = (byte[])(ds.Tables[0].Rows[0]["thumbnail"]);
                 string strFileName = Guid.NewGuid().ToString() + ".jpg";
                 string strFilePath = Path.Combine(strTempFolder, strFileName);

@@ -199,5 +199,32 @@ namespace Yiyou.SQLServerDAL
             return SqlHelper.ExecuteQuery(strSql.ToString());
         }
 
+
+        public static DataSet GetEMRDetailList(string userGUID, string patientName)
+        {
+            string strSQL = @"SELECT [patient_guid]
+                              ,[type_guid]
+                              ,[type_name]
+                              ,[img_count]
+                              ,[content]
+                              ,[content_t]
+                              ,[hospital]
+                              ,[hospital_t]
+                              ,[created_dt]
+                              ,[modified_dt], emr_image.img_content, emr_image.img_type, emr_image.img_url, emr_image.thumbnail
+                          FROM [mhCloudEMR].[dbo].[emr_index]
+                          left join emr_image on [emr_index].guid=emr_image.emr_guid
+                          where patient_guid in (select patient_guid from emr_patient where user_guid=@user_guid and name=@name)
+                          order by created_dt desc";
+
+            SqlParameter[] parameters = {
+					new SqlParameter("@user_guid", SqlDbType.VarChar,36),
+					new SqlParameter("@name", SqlDbType.NVarChar,64)};
+            parameters[0].Value = userGUID;
+            parameters[1].Value = patientName;
+
+            DataSet ds = SqlHelper.ExecuteQuery(strSQL, parameters);
+            return ds;
+        }
     }
 }

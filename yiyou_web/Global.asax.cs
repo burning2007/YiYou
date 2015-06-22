@@ -24,20 +24,46 @@ namespace ICUPro.Portal
             SqlHelper.ConnectionStringSettings = ConfigurationManager.ConnectionStrings["DBConnection"].ConnectionString;
             Log4NetLogger.GetLogger().Info("ConnectionStringSettings: " + SqlHelper.ConnectionStringSettings);
 
-            //DataSet dsGlobalInfo = new DataSet();
-            //Log4NetLogger.GetLogger().Info("Get tbProject");
-            //dsGlobalInfo.Tables.Add(ApplicationDAL.GetProjectList().Tables[0].Copy().TableName = "tbProject");
-
-            //Log4NetLogger.GetLogger().Info("Get tbLoction");
-            //dsGlobalInfo.Tables.Add(ApplicationDAL.GetLoctionList().Tables[0].Copy().TableName = "tbLoction");
-
-            //Log4NetLogger.GetLogger().Info("Get tbHospital");
-            //dsGlobalInfo.Tables.Add(ApplicationDAL.GetHospitalList().Tables[0].Copy().TableName = "tbHospital");
-
-            //Log4NetLogger.GetLogger().Info("Get tbDoctor");
-            //dsGlobalInfo.Tables.Add(ApplicationDAL.GetDoctorList().Tables[0].Copy().TableName = "tbDoctor");
-            //Application["dsGlobalInfo"] = dsGlobalInfo;
+            System.Threading.Thread t = new System.Threading.Thread(TempImgLRU);
+            t.Start();
         }
 
+        /// <summary>
+        /// Remove the old, unnecessary files
+        /// </summary>
+        private void TempImgLRU()
+        {
+            int nLURInterval = 30;   // LUR every ? seconds
+            int nMaxFilesCount = 100;  // Only LRU when files count exceed this threshold
+            int nMaxExpiredMinutes = 30;   // Only delete the files expired with specified minutes
+
+            string strTempFolder = Yiyou.Util.ImageUtils.GetTempFolderPath();
+
+            while (System.IO.Directory.Exists(strTempFolder))
+            {
+                try
+                {
+                    string[] FileList = System.IO.Directory.GetFiles(strTempFolder, "*.*", System.IO.SearchOption.AllDirectories);
+                    if (FileList.Length > nMaxFilesCount)
+                    {
+                        foreach (string filePath in FileList)
+                        {
+                            System.IO.FileInfo fi = new System.IO.FileInfo(filePath);
+                            if (fi.LastAccessTime.AddMinutes(nMaxExpiredMinutes) < DateTime.Now)
+                            {
+                                fi.Attributes = System.IO.FileAttributes.Normal;
+                                fi.Delete();
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log4NetLogger.GetLogger().Info("LRU failed: " + ex.StackTrace);
+                }
+
+                System.Threading.Thread.Sleep(nLURInterval * 1000);
+            }
+        }
     }
 }

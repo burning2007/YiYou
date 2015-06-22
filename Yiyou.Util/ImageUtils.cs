@@ -4,12 +4,15 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
 
 namespace Yiyou.Util
 {
     public class ImageUtils
     {
         const int THUMBNAIL_MIN_SIDE = 100;
+        private static Page _Page = new Page();
+
 
         #region image thumbnail functions
 
@@ -83,9 +86,20 @@ namespace Yiyou.Util
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
-        public static string GetTempFolderPath(System.Web.UI.Page page)
+        public static string GetTempFolderPath()
         {
-            return page.Server.MapPath("~/Temp/");
+            try
+            {
+                return HttpContext.Current.Server.MapPath("~/Temp/");
+            }
+            catch { }
+            try
+            {
+                string strTempPath = System.AppDomain.CurrentDomain.BaseDirectory;
+                return Path.Combine(strTempPath, "Temp");
+            }
+            catch { }
+            return string.Empty;
         }
 
         /// <summary>
@@ -110,7 +124,7 @@ namespace Yiyou.Util
         {
             bool fileOK = false;
             String fileExtension = string.Empty;
-            string uploadTempFolder = GetTempFolderPath(page);
+            string uploadTempFolder = GetTempFolderPath();
             if (ctrlFileUpload.HasFile)
             {
                 fileExtension = System.IO.Path.GetExtension(ctrlFileUpload.FileName).ToLower();
