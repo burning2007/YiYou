@@ -226,5 +226,112 @@ namespace Yiyou.SQLServerDAL
             DataSet ds = SqlHelper.ExecuteQuery(strSQL, parameters);
             return ds;
         }
+
+        public static DataSet GetEMRDetailListByPatientUID(string patient_guid, string type_guid)
+        {
+            string strSQL = @"SELECT [patient_guid]
+                              ,[type_guid]
+                              ,[type_name]
+                              ,[img_count]
+                              ,[content]
+                              ,[content_t]
+                              ,[hospital]
+                              ,[hospital_t]
+                              ,[created_dt]
+                              ,[modified_dt], emr_image.img_content, emr_image.img_type, emr_image.img_url, emr_image.thumbnail
+                          FROM [mhCloudEMR].[dbo].[emr_index]
+                          left join emr_image on [emr_index].guid=emr_image.emr_guid
+                          where patient_guid ='" + patient_guid + "'";
+
+            if (!string.IsNullOrEmpty(type_guid))
+            {
+                strSQL = strSQL + " and type_guid='" + type_guid + "'";
+            }
+            strSQL = strSQL + " order by created_dt desc";
+
+            DataSet ds = SqlHelper.ExecuteQuery(strSQL);
+            return ds;
+        }
+
+        public static DataSet GetEMRType()
+        {
+            string strSQL = @"SELECT [guid]
+                              ,[name]
+                              ,[description]
+                          FROM [mhCloudEMR].[dbo].[emr_type]";
+            return SqlHelper.ExecuteQuery(strSQL);
+        }
+
+
+        public static bool Add_emr_index(emr_indexMdl model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("insert into emr_index(");
+            strSql.Append("guid,patient_guid,type_guid,type_name,img_count,content,content_t,hospital,hospital_t,created_dt,modified_dt)");
+            strSql.Append(" values (");
+            strSql.Append("@guid,@patient_guid,@type_guid,@type_name,@img_count,@content,@content_t,@hospital,@hospital_t,getdate(),getdate())");
+            SqlParameter[] parameters = {
+					new SqlParameter("@guid", SqlDbType.VarChar,36),
+					new SqlParameter("@patient_guid", SqlDbType.VarChar,36),
+					new SqlParameter("@type_guid", SqlDbType.VarChar,36),
+					new SqlParameter("@type_name", SqlDbType.VarChar,64),
+					new SqlParameter("@img_count", SqlDbType.Int,4),
+					new SqlParameter("@content", SqlDbType.NVarChar,-1),
+					new SqlParameter("@content_t", SqlDbType.NVarChar,-1),
+					new SqlParameter("@hospital", SqlDbType.NVarChar,256),
+					new SqlParameter("@hospital_t", SqlDbType.NVarChar,256)};
+            parameters[0].Value = model.guid;
+            parameters[1].Value = model.patient_guid;
+            parameters[2].Value = model.type_guid;
+            parameters[3].Value = model.type_name;
+            parameters[4].Value = model.img_count;
+            parameters[5].Value = model.content;
+            parameters[6].Value = model.content_t;
+            parameters[7].Value = model.hospital;
+            parameters[8].Value = model.hospital_t;
+
+            int rows = SqlHelper.ExecuteNonQuery(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool Add_emr_image(emr_imageMdl model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("insert into emr_image(");
+            strSql.Append("guid,emr_guid,img_type,img_content,thumbnail,img_url)");
+            strSql.Append(" values (");
+            strSql.Append("@guid,@emr_guid,@img_type,@img_content,@thumbnail,@img_url)");
+            SqlParameter[] parameters = {
+					new SqlParameter("@guid", SqlDbType.VarChar,36),
+					new SqlParameter("@emr_guid", SqlDbType.VarChar,36),
+					new SqlParameter("@img_type", SqlDbType.Int,4),
+					new SqlParameter("@img_content", SqlDbType.VarBinary,-1),
+					new SqlParameter("@thumbnail", SqlDbType.VarBinary,-1),
+					new SqlParameter("@img_url", SqlDbType.NVarChar,512)};
+            parameters[0].Value = model.guid;
+            parameters[1].Value = model.emr_guid;
+            parameters[2].Value = model.img_type;
+            parameters[3].Value = model.img_content;
+            parameters[4].Value = model.thumbnail;
+            parameters[5].Value = model.img_url;
+
+            int rows = SqlHelper.ExecuteNonQuery(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

@@ -64,14 +64,13 @@
                         </div>
                         <div>
                             <asp:FileUpload ID="FileUpload_Purpose" runat="server" />
-                            <asp:Button ID="btnUploadPurpose" runat="server" OnClick="btnUploadPurpose_Click" Text="上传..." />
+                            <asp:Button ID="btnUploadPurpose" runat="server" OnClientClick="if(!checkImage()) return false;" OnClick="btnUploadPurpose_Click" Text="上传..." />
                         </div>
-                        <div id="divImgContainer">
+                        <div id="divImgContainer" style="width: 200px; height: 200px;">
                             <asp:Literal ID="litPurposeImg" runat="server"></asp:Literal>
                         </div>
                     </td>
                     <td class="size6" style="vertical-align: top; padding-left: 20px;">
-                        <div class="fg-gray"><a href="#">既往病史</a> <span style="text-align: right; margin-right: 10px">点击这里编辑既往病史</span></div>
                         <div class="fg-gray">目的地类型</div>
                         <div>
                             <div class="input-control select">
@@ -136,6 +135,15 @@
     <script>
         // Highlight the menu
         $(".icon-new").parent().addClass("fg-main bg-main5");
+
+        // Check if user selected image before upload
+        function checkImage() {
+            if ($("#MainContent_FileUpload_Purpose").val() == "") {
+                alert("请选择图片！");
+                return false;
+            }
+            return true;
+        }
     </script>
     <script type="text/javascript">
         function chgtab(index) {
@@ -150,10 +158,12 @@
                 var userGUID = $("#MainContent_hidUserGUID").val();
                 var patientName = $("#MainContent_txtPatientName").val();
                 var gender = $("#MainContent_ddlGender").find("option:selected").text();
+                var genderType = $("#MainContent_ddlGender").val();
                 var dob = $("#MainContent_txtDOB").val();
                 var url = "MyCase.aspx?userid=" + userGUID
                     + "&patname=" + escape(patientName)
                     + "&gender=" + escape(gender)
+                    + "&genderType=" + escape(genderType)
                     + "&dob=" + escape(dob);
                 //alert(url);
                 document.getElementById("iframeEMR").src = url;

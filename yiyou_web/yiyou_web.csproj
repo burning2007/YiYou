@@ -295,6 +295,7 @@
     <Content Include="MyEMR_New.aspx" />
     <Content Include="MyRequest.aspx" />
     <Content Include="MyWorklist.aspx" />
+    <Content Include="NewEMRContent.aspx" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -748,6 +749,13 @@
     </Compile>
     <Compile Include="MyWorklist.aspx.designer.cs">
       <DependentUpon>MyWorklist.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NewEMRContent.aspx.cs">
+      <DependentUpon>NewEMRContent.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NewEMRContent.aspx.designer.cs">
+      <DependentUpon>NewEMRContent.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

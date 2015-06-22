@@ -38,21 +38,23 @@
                 <%--Site Scripts--%>
             </Scripts>
         </asp:ScriptManager>
-        <div>
-            <table style="width: 100%; margin: 0; background: none;" cellpadding="0">
+
+        <div id="divBaseContent">
+            <table style="width: 100%; margin: 0; background: none;">
                 <tr>
                     <td class="size3" style="vertical-align: top; padding-right: 15px;">
                         <nav class="sidebar light">
                             <ul>
-                                <li><a href="#" class="fg-main bold bg-main4">全部</a></li>
-                                <li><a href="#">病历</a></li>
-                                <li><a href="#">检验</a></li>
-                                <li><a href="#">影像</a></li>
-                                <li><a href="#">其他</a></li>
+                                <li><a href="#" onclick="filterEMRList();">全部</a></li>
+                                <asp:Repeater ID="rptEMRType" runat="server">
+                                    <ItemTemplate>
+                                        <li><a href="#" onclick="filterEMRList('<%#Eval("guid")%>');"><%#Eval("name")%></a></li>
+                                    </ItemTemplate>
+                                </asp:Repeater>
                             </ul>
                         </nav>
                         <div style="padding-top: 15px;">
-                            <button class="bg-mainb fg-white size2" id="addnew"><i class="icon-plus"></i>&nbsp;新增病历</button>
+                            <button class="bg-mainb fg-white size2" id="addnew" onclick="createNewEMR();return false;"><i class="icon-plus"></i>&nbsp;新增病历</button>
                         </div>
                     </td>
                     <td style="vertical-align: top;" class="">
@@ -86,107 +88,90 @@
                             </table>
                         </div>
                         <div style="height: 800px; overflow-y: scroll;">
-                            <asp:Repeater ID="rptList" runat="server">
-                                <ItemTemplate>
-                                    <div class="fg-gray" style="padding-top: 30px;">
-                                        <b><%#Eval("type_name")%></b>
-                                        <div class="place-right fg-main"><%#Eval("created_dt")%></div>
-                                    </div>
-                                    <div>
-                                        <table style="width: 100%; margin: 0;" class="table bordered">
-                                            <tr>
-                                                <td><%#Eval("content")%></td>
-                                                <td class="size3"><%#Eval("imgthumbnail")%></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </ItemTemplate>
-                            </asp:Repeater>
+                            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                <ContentTemplate>
+                                    <asp:Repeater ID="rptList" runat="server">
+                                        <ItemTemplate>
+                                            <div class="fg-gray" style="padding-top: 30px;">
+                                                <b><%#Eval("type_name")%></b>
+                                                <div class="place-right fg-main"><%#Eval("created_dt")%></div>
+                                            </div>
+                                            <div>
+                                                <table style="width: 100%; margin: 0;" class="table bordered">
+                                                    <tr>
+                                                        <td><%#Eval("content")%></td>
+                                                        <td class="size3"><%#Eval("imgthumbnail")%></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
                         </div>
                     </td>
                 </tr>
             </table>
         </div>
-        <%--popup dialogs--%>
-        <div style="display: none;">
-            <div id="new">
-                <div class="bg-main5 padding20" style="width: 800px;">
-                    <table style="width: 100%; background: none; margin: 0; table-layout: fixed;">
-                        <tr>
-                            <td>
-                                <div class="fg-gray">类型</div>
-                                <div>
-                                    <div class="input-control select">
-                                        <select>
-                                            <option>病历</option>
-                                            <option>检验</option>
-                                            <option>影像</option>
-                                            <option>其他</option>
-                                        </select>
-                                    </div>
+        <%--Popup Dialog--%>
+        <div id="divNewContent" style="display: none;">
+            <div class="bg-main5 padding20" style="width: 800px;">
+                <table style="width: 100%; background: none; margin: 0; table-layout: fixed;">
+                    <tr>
+                        <td>
+                            <div class="fg-gray">类型</div>
+                            <div>
+                                <div class="input-control select">
+                                    <asp:DropDownList ID="ddlEMRType" runat="server"></asp:DropDownList>
                                 </div>
-                            </td>
-                            <td rowspan="4" style="vertical-align: top; padding-left: 20px;">
-                                <div class="fg-gray">图片</div>
-                                <div>
-                                    <div style="padding-bottom: 10px;">
-                                        <img src="images/化验单.jpg" style="width: 100%; padding: 4px;" class="bg-white border" />
-                                    </div>
-                                    <button id="btnUpload" onclick="fnUpload();"><i class="icon-pictures"></i>&nbsp;上传...</button>
-                                    <div style="display: none;">
-                                        <asp:FileUpload ID="FileUpload1" runat="server" />
-                                    </div>
+                            </div>
+                        </td>
+                        <td rowspan="3" style="vertical-align: top; padding-left: 20px;">
+                            <div class="fg-gray">图片</div>
+                            <div>
+                                <asp:FileUpload ID="FileUpload_EMR" runat="server" />
+                                <asp:Button ID="btnUploadEMR" runat="server" OnClientClick="if(!checkImage()) return false;" OnClick="btnUploadEMR_Click" Text="上传..." />
+                                <input type="hidden" id="hidEMRImageURL" runat="server" />
+                            </div>
+                            <div id="divImgContainer" style="width: 200px; height: 200px;">
+                                <asp:Literal ID="litEMRImg" runat="server"></asp:Literal>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="fg-gray">内容</div>
+                            <div>
+                                <div class="input-control textarea" style="">
+                                    <asp:TextBox ID="txtContent" runat="server" TextMode="MultiLine" Width="100%"></asp:TextBox>
                                 </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="fg-gray">医院</div>
-                                <div>
-                                    <div class="input-control select">
-                                        <select>
-                                            <option>上海市第九人民医院</option>
-                                        </select>
-                                    </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="fg-gray">翻译</div>
+                            <div>
+                                <div class="input-control textarea" style="margin: 0;">
+                                    <asp:TextBox ID="txtContent_t" runat="server" TextMode="MultiLine" Width="100%"></asp:TextBox>
                                 </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="fg-gray">内容</div>
-                                <div>
-                                    <div class="input-control textarea" style="">
-                                        <textarea></textarea>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="fg-gray">翻译</div>
-                                <div>
-                                    <div class="input-control textarea" style="margin: 0;">
-                                        <textarea></textarea>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <div style="padding-top: 20px; margin-top: 20px;" class="border-top">
-                        <button class="bg-main fg-white size2"><i class="icon-floppy"></i>&nbsp;保存</button>
-                        <button>取消</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div style="padding-top: 20px; margin-top: 20px;" class="border-top">
+                    <button class="bg-main fg-white size2" onclick="saveNewEMR();return false;"><i class="icon-floppy"></i>&nbsp;保存</button>
+                    <button>取消</button>
+                    <div style="display: none;">
+                        <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" CssClass="bg-main fg-white size2" Text="保存" />
                     </div>
                 </div>
             </div>
-            <div id="labtest">
-                <div class="bg-main5 padding20" style="width: 800px;">
-                    <div style="padding-bottom: 10px;">血红蛋白（HGB）108 g/L，咯为低于正常，可以肯定为“贫血，但仅属轻度（HGB 91~110g/L，属于轻度）。平均红细胞体积（MCV）为 78.8 fl、红细胞平均血红蛋白含量（MCH）为24.9 pg、红细胞平均血红蛋白浓度（MCHC）为317 g/L，以上三项均低于正常，说明是一种“小细胞低色素性贫血”。“小细胞低色素贫血”最常见于“缺铁性贫血”，“缺铁性贫血”最常见的原因是由慢性失血引起，诸如月经过多、痔疮慢性出血、消化道慢性失血等，其次见于铁摄入不足或肠道吸收障碍等，老年人还要警惕消化道肿瘤。</div>
-                    <div>
-                        <img src="images/化验单.jpg" style="width: 100%; padding: 4px;" class="bg-white border" />
-                    </div>
-
-                </div>
-            </div>
+        </div>
+        <div style="display: none">
+            <asp:Button ID="btnFilter" runat="server" OnClick="btnFilter_Click" />
+            <input type="hidden" id="hidFilterType" runat="server" />
+            <input type="hidden" id="hidPatientGUID" runat="server" />
         </div>
 
         <!-- Load JavaScript Libraries -->
@@ -207,36 +192,51 @@
         <!-- Custom Javascript -->
         <script src="Scripts/main.js"></script>
         <script>
-            $("#addnew").on('click', function () {
-                $.Dialog({
-                    overlay: true,
-                    shadow: true,
-                    flat: true,
-                    onShow: function (_dialog) {
-                        var content = $('#new').html();
-                        $.Dialog.title("新增病历");
-                        $.Dialog.content(content);
-                    }
-                });
-                return false;
-            });
+            //$("#addnew").on('click', function () {
+            //    var dialogUrl = "MeasurementCalibration.aspx";
+            //    var windowParameter = "dialogWidth=850px;dialogHeight=550px";
+            //    window.showModalDialog("NewEMRContent.aspx?guid=", "", windowParameter);
+            //});
+            //$("#addnew").on('click', function () {
+            //    $.Dialog({
+            //        overlay: true,
+            //        shadow: true,
+            //        flat: true,
+            //        onShow: function (_dialog) {
+            //            var content = $('#divNewContent').html();
+            //            $.Dialog.title("新增病历");
+            //            $.Dialog.content(content);
+            //        }
+            //    });
+            //    return false;
+            //});
+            function createNewEMR() {
+                $("#divBaseContent").hide();
+                $("#divNewContent").show();
+            }
+            function checkImage() {
+                if ($("#FileUpload_EMR").val() == "") {
+                    alert("请选择图片！");
+                    return false;
+                }
+                return true;
+            }
+            function saveNewEMR() {
+                if ($("#txtContent").val() == "") {
+                    alert("内容不能为空");
+                    return false;
+                }
+                document.getElementById('btnSave').click();
+            }
 
-            $("#btnlabtest").on('click', function () {
-                $.Dialog({
-                    overlay: true,
-                    shadow: true,
-                    flat: true,
-                    onShow: function (_dialog) {
-                        var content = $('#labtest').html();
-                        $.Dialog.title("检验化验 (2015/04/15)");
-                        $.Dialog.content(content);
-                    }
-                });
-                return false;
-            });
+            function filterEMRList(type) {
+                // Highlight the menu
+                $(".sidebar a").removeClass("fg-main bold bg-main4");
+                $(this).addClass("fg-main bold bg-main4");
 
-            function fnUpload() {
-                $("#FileUpload1").click();
+                $("#hidFilterType").val(type);
+                //alert($("#hidFilterType").val());
+                document.getElementById('btnFilter').click();
             }
 
         </script>

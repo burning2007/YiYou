@@ -109,7 +109,7 @@ namespace Yiyou.Util
         /// <param name="strFileName">Only File Name, not path</param>
         public static void ShowThumbnail(System.Web.UI.WebControls.Literal litImagePreview, string strFileName)
         {
-            litImagePreview.Text = string.Format("<img width=\"100\" height=\"100\" src=\"/temp/{0}\" />", strFileName);
+            litImagePreview.Text = string.Format("<img style=\"width: 100%; padding: 4px;\" class=\"bg-white border\"  src=\"/temp/{0}\" />", strFileName);
         }
 
         /// <summary>
