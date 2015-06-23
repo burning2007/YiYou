@@ -20,7 +20,23 @@ namespace ICUPro.Portal
         {
             if (!Page.IsPostBack)
             {
-                Session["USER_GUID"] = "7";
+                if (Session["USER_GUID"] == null)
+                {
+                    if (Page.Request.QueryString["userid"] == null)
+                    {
+                        // no user parameter
+                        Page.ClientScript.RegisterStartupScript(typeof(string), "chkuser", "chkuserfailed(1);", true);
+                        return;
+                    }
+                    // Check user
+                    if (V_Sys_UserDAL.GetModel(Page.Request.QueryString["userid"]) == null)
+                    {
+                        // user not exist
+                        Page.ClientScript.RegisterStartupScript(typeof(string), "chkuser", "chkuserfailed(2);", true);
+                        return;
+                    }
+                    Session["USER_GUID"] = Page.Request.QueryString["userid"];
+                }
 
                 RefreshGUI();
 

@@ -127,71 +127,89 @@ namespace ICUPro.Portal
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            if (this.hidStatus.Value == "1")
+            {
+                this.SaveApplication();
 
+                // 1 已提交，计算初审费
+                // Continue save the pre-pay amount
+                consult_application_orderMdl orderMdl = new consult_application_orderMdl();
+                orderMdl.amount_payable = int.Parse(this.txtPreTypePay.Text);
+                orderMdl.consult_application_guid = this.hidGUID.Value;
+                orderMdl.order_type = 1;
+                Consult_ApplicationDAL.Add_consult_application_order(orderMdl);
+                Consult_ApplicationDAL.UpdateApplicationStatus(orderMdl.consult_application_guid, 2);  // Pass
+                Page.Response.Redirect("MyWorklist.aspx");
+            }
+            else if (this.hidStatus.Value == "4")
+            {
+                this.SaveApplication();
+
+                // 4 初审中，计算会诊费
+                // Continue save the second amount
+                consult_application_orderMdl orderMdl = new consult_application_orderMdl();
+                orderMdl.amount_payable = int.Parse(this.txtConsultPay.Text);
+                orderMdl.consult_application_guid = this.hidGUID.Value;
+                orderMdl.order_type = 2;
+                Consult_ApplicationDAL.Add_consult_application_order(orderMdl);
+                Consult_ApplicationDAL.Add_preliminary_conclusions(orderMdl.consult_application_guid, this.txtPreliminary_conclusions.Text);  // Pass
+                Consult_ApplicationDAL.UpdateApplicationStatus(orderMdl.consult_application_guid, 5);  // Pass
+                Page.Response.Redirect("MyWorklist.aspx");
+            }
+        }
+
+        protected void btnConfirmPay_Click(object sender, EventArgs e)
+        {
+            if (this.hidStatus.Value == "3")
+            {
+                // 3 已付初审费，需要确认收费
+                Consult_ApplicationDAL.UpdateApplicationStatus(this.hidGUID.Value, 4);  // Pass
+                Page.Response.Redirect("MyWorklist.aspx");
+            }
+            else if (this.hidStatus.Value == "6")
+            {
+                // 6 已付会诊费，需要确认收费
+                Consult_ApplicationDAL.UpdateApplicationStatus(this.hidGUID.Value, 7);  // Pass
+                Page.Response.Redirect("MyWorklist.aspx");
+            }
+        }
+
+        protected void btnCompleteTranslate_Click(object sender, EventArgs e)
+        {
+            if (this.hidStatus.Value == "8")
+            {
+                // 8 已出结论，确认完成翻译
+                Consult_ApplicationDAL.UpdateApplicationStatus(this.hidGUID.Value, 9);  // Pass
+                Page.Response.Redirect("MyWorklist.aspx");
+            }
+        }
+
+        protected void btnCompleteApplication_Click(object sender, EventArgs e)
+        {
+            if (this.hidStatus.Value == "9")
+            {
+                // 9 已翻译，可以完成会诊
+                Consult_ApplicationDAL.UpdateApplicationStatus(this.hidGUID.Value, 99);  // Pass
+                Page.Response.Redirect("MyWorklist.aspx");
+            }
+        }
+
+        protected void btnReject_Click(object sender, EventArgs e)
+        {
+            if (this.SaveApplication())
+            {
+                // Reject with comments    
+                Consult_ApplicationDAL.RejectApplication(this.hidGUID.Value, 0, this.txtRejectComments.Text);   // Reject
+                Page.Response.Redirect("MyWorklist.aspx");
+            }
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            try
+            if (SaveApplication())
             {
-                ApplicationAllInOneMdl totalMdl = this.GetMdlFromGUI();
-                Consult_ApplicationMdl mdl = totalMdl.Consult_ApplicationMdl;
-                Consult_ApplicationDAL dal = new Consult_ApplicationDAL();
-
-                // Save/Update the Patient info first
-                #region MyRegion
-                string patient_guid = EMR_PatientMdlDAL.GetPatientGUID(totalMdl.EMR_PatientMdl.name, totalMdl.EMR_PatientMdl.user_guid);
-                if (string.IsNullOrEmpty(patient_guid))
-                {
-                    // New
-                    totalMdl.EMR_PatientMdl.patient_guid = Guid.NewGuid().ToString();  // Create new GUID
-                    totalMdl.Consult_ApplicationMdl.patient_guid = totalMdl.EMR_PatientMdl.patient_guid;  // Copy GUID
-                    EMR_PatientMdlDAL.Add(totalMdl.EMR_PatientMdl);
-                }
-                else
-                {
-                    // Update
-                    totalMdl.EMR_PatientMdl.patient_guid = patient_guid;  // Create new GUID
-                    totalMdl.Consult_ApplicationMdl.patient_guid = totalMdl.EMR_PatientMdl.patient_guid;  // Copy GUID
-                    EMR_PatientMdlDAL.Update(totalMdl.EMR_PatientMdl);
-                }
-                #endregion
-
-
-                // Continue save the others info
-                if (!dal.IsExist(mdl.guid))
-                {
-                    // Add Consult_ApplicationMdl
-                    dal.Add_consult_application(mdl);
-                    // Add consult_application_consultant
-                    dal.Add_consult_application_consultant(totalMdl.Consult_Application_ConsultantMdlCollection);
-                    // Add the Purpose Image
-                    dal.Add_consult_application_accessory(totalMdl.consult_application_accessoryMdl);
-
-                    Page.Response.Redirect("MyWorklist.aspx");
-                }
-                else
-                {
-                    // Update Consult_ApplicationMdl
-                    dal.Update_consult_application(mdl);
-                    // Update consult_application_consultant
-                    dal.Update_consult_application_consultant(totalMdl.Consult_Application_ConsultantMdlCollection);
-                    // Update the Purpose Image
-                    dal.Update_consult_application_accessory(totalMdl.consult_application_accessoryMdl);
-
-                    Page.Response.Redirect("MyWorklist.aspx");
-                }
+                Page.Response.Redirect("MyWorklist.aspx");
             }
-            catch (Exception ex)
-            {
-                Log4NetLogger.GetLogger().Error(ex.Message);
-                this.lblErrorMsg.Text = ex.Message;
-            }
-        }
-
-        protected void btnCancel_Click(object sender, EventArgs e)
-        {
-
         }
 
         /// <summary>
@@ -232,12 +250,18 @@ namespace ICUPro.Portal
                 consultAppMdl.guid = Guid.NewGuid().ToString();
                 consultAppMdl.created_dt = DateTime.Now;
                 consultAppMdl.status = 1; // After save, the status will be changed to 1;
+                this.hidGUID.Value = consultAppMdl.guid;
             }
             else
             {
                 // Get exists data first, then using new GUI to update
                 Consult_ApplicationDAL dal = new Consult_ApplicationDAL();
                 consultAppMdl = dal.GetModel(consultAppMdl.guid);
+                // Update status from 0 to 1
+                if (consultAppMdl.status == 0)
+                {
+                    consultAppMdl.status = 1;
+                }
             }
 
             consultAppMdl.location_type = int.Parse(this.ddlLocalType.SelectedValue);
@@ -327,11 +351,51 @@ namespace ICUPro.Portal
             // Very importand, remember the uid
             this.hidGUID.Value = applicationMdl.guid;
             this.hidUserGUID.Value = applicationMdl.user_guid;
+            this.hidStatus.Value = applicationMdl.status.ToString();
+            this.lblStatus.Text = GlobalConstant.dicApplicationStatus[applicationMdl.status];
 
-            if (applicationMdl.status == 1)
+            // Check status and Open/Enable the GUI
+            #region
+            if (applicationMdl.status == 0)
             {
-                lblStatus.Text = "已提交";
+                this.panReject.Visible = true;
             }
+            else if (applicationMdl.status == 1)
+            {
+                // 已提交，客服审核
+                this.panReject.Visible = true;
+                this.panFirstpay.Visible = true;
+                this.panReject.Enabled = true;
+                this.panFirstpay.Enabled = true;
+                this.txtRejectComments.Text = "补充资料";
+            }
+            else if (applicationMdl.status == 3)
+            {
+                // 3 已付初审费，确认收费
+                this.panFirstpay.Visible = true;
+            }
+            else if (applicationMdl.status == 4)
+            {
+                // 4 初审中，计算会诊费  
+                this.panFirstpay.Visible = true;
+                this.panPreliminary_conclusions.Visible = true;
+                this.panPreliminary_conclusions.Enabled = true;
+                this.panConsultPay.Visible = true;
+                this.panConsultPay.Enabled = true;
+            }
+            else if (applicationMdl.status == 6 
+                || applicationMdl.status == 7 
+                || applicationMdl.status == 8 
+                || applicationMdl.status == 9 
+                || applicationMdl.status == 99)
+            {
+                // 6 已付会诊费，确认收款
+                this.panFirstpay.Visible = true;
+                this.panPreliminary_conclusions.Visible = true;
+                this.panConsultPay.Visible = true;
+            }
+            #endregion
+
 
             // Bind System User Info
             #region MyRegion
@@ -342,59 +406,68 @@ namespace ICUPro.Portal
             #endregion
 
             // Bind Patient Info
+            DataSet dsApplication = Consult_ApplicationDAL.GetApplication(applicationMdl.guid);
             #region MyRegion
-            DataSet ds = Consult_ApplicationDAL.GetApplication(applicationMdl.guid);
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            if (dsApplication != null && dsApplication.Tables.Count > 0 && dsApplication.Tables[0].Rows.Count > 0)
             {
-                this.txtPatientName.Text = ds.Tables[0].Rows[0]["name"].ToString().Trim();
-                WebCtrlUtil.SetDropDownText(this.ddlGender, ds.Tables[0].Rows[0]["gender"].ToString().Trim());
+                this.txtPatientName.Text = dsApplication.Tables[0].Rows[0]["name"].ToString().Trim();
+                WebCtrlUtil.SetDropDownText(this.ddlGender, dsApplication.Tables[0].Rows[0]["gender"].ToString().Trim());
 
                 DateTime dtDOB = DateTime.Now;
-                if (!(ds.Tables[0].Rows[0]["birthday"] is DBNull))
+                if (!(dsApplication.Tables[0].Rows[0]["birthday"] is DBNull))
                 {
-                    DateTime.TryParse(ds.Tables[0].Rows[0]["birthday"].ToString().Trim(), out dtDOB);
+                    DateTime.TryParse(dsApplication.Tables[0].Rows[0]["birthday"].ToString().Trim(), out dtDOB);
                 }
 
                 this.txtDOB.Text = dtDOB.ToString("yyyy-MM-dd");
-                this.txtApplicationPurpose.Text = ds.Tables[0].Rows[0]["purpose"].ToString().Trim();
+                this.txtApplicationPurpose.Text = dsApplication.Tables[0].Rows[0]["purpose"].ToString().Trim();
                 // Location type
-                WebCtrlUtil.SetDropDownText(this.ddlLocalType, ds.Tables[0].Rows[0]["location_type"].ToString().Trim());
+                WebCtrlUtil.SetDropDownText(this.ddlLocalType, dsApplication.Tables[0].Rows[0]["location_type"].ToString().Trim());
             }
             #endregion
 
+
+            // Reject Info
+            this.txtRejectComments.Text = dsApplication.Tables[0].Rows[0]["service_comments_for_user"].ToString().Trim();
+            this.txtPreliminary_conclusions.Text = dsApplication.Tables[0].Rows[0]["Preliminary_conclusions"].ToString().Trim();
+            // fill payinfo
+            this.txtPreTypePay.Text = Consult_ApplicationDAL.getFirstPayInfo(applicationMdl.guid);
+            this.txtConsultPay.Text = Consult_ApplicationDAL.getSecondPayInfo(applicationMdl.guid);
+
+
             // Bind consult_application_consultant Info
             #region MyRegion
-            ds = Consult_ApplicationDAL.GetApplicationConsultant(applicationMdl.guid);
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            dsApplication = Consult_ApplicationDAL.GetApplicationConsultant(applicationMdl.guid);
+            if (dsApplication != null && dsApplication.Tables.Count > 0 && dsApplication.Tables[0].Rows.Count > 0)
             {
-                WebCtrlUtil.SetDropDownText(this.ddlHospitalCount, ds.Tables[0].Rows.Count.ToString());
+                WebCtrlUtil.SetDropDownText(this.ddlHospitalCount, dsApplication.Tables[0].Rows.Count.ToString());
                 CreateDropdownListGroup();
 
-                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                for (int i = 0; i < dsApplication.Tables[0].Rows.Count; i++)
                 {
                     // Bind Hospital
                     DropDownList ddlHospital = this.panDoctorGroup.FindControl("ddlHospital" + (i + 1)) as DropDownList;
-                    WebCtrlUtil.SetDropDownText(ddlHospital, ds.Tables[0].Rows[i]["hospital_guid"].ToString().Trim());
+                    WebCtrlUtil.SetDropDownText(ddlHospital, dsApplication.Tables[0].Rows[i]["hospital_guid"].ToString().Trim());
                     ddlHospital_SelectedIndexChanged(ddlHospital, null);
                     // Bind Doctor
                     DropDownList ddlDoctor = this.panDoctorGroup.FindControl("ddlDoctor" + (i + 1)) as DropDownList;
-                    WebCtrlUtil.SetDropDownText(ddlDoctor, ds.Tables[0].Rows[i]["doctor_guid"].ToString().Trim());
+                    WebCtrlUtil.SetDropDownText(ddlDoctor, dsApplication.Tables[0].Rows[i]["doctor_guid"].ToString().Trim());
                 }
             }
             #endregion
 
             // Bind the PurposeImage
-            ds = Consult_ApplicationDAL.GetPurposeThumbnail(applicationMdl.guid);
-            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            DataSet dsPurposeImage = Consult_ApplicationDAL.GetPurposeThumbnail(applicationMdl.guid);
+            if (dsPurposeImage != null && dsPurposeImage.Tables.Count > 0 && dsPurposeImage.Tables[0].Rows.Count > 0)
             {
                 string strTempFolder = ImageUtils.GetTempFolderPath();
-                byte[] bImage = (byte[])(ds.Tables[0].Rows[0]["thumbnail"]);
+                byte[] bImage = (byte[])(dsPurposeImage.Tables[0].Rows[0]["thumbnail"]);
                 string strFileName = Guid.NewGuid().ToString() + ".jpg";
                 string strFilePath = Path.Combine(strTempFolder, strFileName);
                 File.WriteAllBytes(strFilePath, bImage);
                 ImageUtils.ShowThumbnail(this.litPurposeImg, strFileName);
                 this.hidPurposeImg.Value = strFilePath;
-                this.hidPurposeImgGUID.Value = ds.Tables[0].Rows[0]["guid"].ToString();
+                this.hidPurposeImgGUID.Value = dsPurposeImage.Tables[0].Rows[0]["guid"].ToString();
             }
         }
 
@@ -472,8 +545,68 @@ namespace ICUPro.Portal
 
             return hospitalCount;
         }
-        #endregion
 
+        private bool SaveApplication()
+        {
+            try
+            {
+                ApplicationAllInOneMdl totalMdl = this.GetMdlFromGUI();
+                Consult_ApplicationMdl mdl = totalMdl.Consult_ApplicationMdl;
+                Consult_ApplicationDAL dal = new Consult_ApplicationDAL();
+
+                // Save/Update the Patient info first
+                #region MyRegion
+                string patient_guid = EMR_PatientMdlDAL.GetPatientGUID(totalMdl.EMR_PatientMdl.name, totalMdl.EMR_PatientMdl.user_guid);
+                if (string.IsNullOrEmpty(patient_guid))
+                {
+                    // New
+                    totalMdl.EMR_PatientMdl.patient_guid = Guid.NewGuid().ToString();  // Create new GUID
+                    totalMdl.Consult_ApplicationMdl.patient_guid = totalMdl.EMR_PatientMdl.patient_guid;  // Copy GUID
+                    EMR_PatientMdlDAL.Add(totalMdl.EMR_PatientMdl);
+                }
+                else
+                {
+                    // Update
+                    totalMdl.EMR_PatientMdl.patient_guid = patient_guid;  // Create new GUID
+                    totalMdl.Consult_ApplicationMdl.patient_guid = totalMdl.EMR_PatientMdl.patient_guid;  // Copy GUID
+                    EMR_PatientMdlDAL.Update(totalMdl.EMR_PatientMdl);
+                }
+                #endregion
+
+
+                // Continue save the others info
+                if (!dal.IsExist(mdl.guid))
+                {
+                    // Add Consult_ApplicationMdl
+                    dal.Add_consult_application(mdl);
+                    // Add consult_application_consultant
+                    dal.Add_consult_application_consultant(totalMdl.Consult_Application_ConsultantMdlCollection);
+                    // Add the Purpose Image
+                    dal.Add_consult_application_accessory(totalMdl.consult_application_accessoryMdl);
+
+                    return true;
+                }
+                else
+                {
+                    // Update Consult_ApplicationMdl
+                    dal.Update_consult_application(mdl);
+                    // Update consult_application_consultant
+                    dal.Update_consult_application_consultant(totalMdl.Consult_Application_ConsultantMdlCollection);
+                    // Update the Purpose Image
+                    dal.Update_consult_application_accessory(totalMdl.consult_application_accessoryMdl);
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log4NetLogger.GetLogger().Error(ex.Message);
+                this.lblErrorMsg.Text = ex.Message;
+            }
+            return false;
+        }
+
+        #endregion
 
 
     }

@@ -42,11 +42,11 @@
                             <asp:BoundField HeaderText="会诊医院" DataField="hospitalList" ItemStyle-Width="200px" ItemStyle-Wrap="true" />
                             <asp:TemplateField HeaderText="操作" ItemStyle-Width="230px">
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lbtnOperate" class="bg-main fg-white" Text='<%# Eval("CommandText")%>' guid='<%# Eval("guid")%>' OnClientClick='showApplicationDetail(this);return false;' runat="Server"></asp:LinkButton>
-                                    <asp:LinkButton ID="lbtnSupplement" class="bg-main fg-white" runat="server" Text="补充资料" patient_guid='<%# Eval("patient_guid")%>' OnClientClick='addEMRContent(this);return false;' > </asp:LinkButton>
-                                    <asp:LinkButton ID="LinkButton1" class="bg-main fg-white" runat="server" Text="进展" guid='<%# Eval("guid")%>' OnClientClick='return false;' > </asp:LinkButton>
-                                    <asp:LinkButton ID="LinkButton2" class="bg-main fg-white" runat="server" Text="购买" guid='<%# Eval("guid")%>' OnClientClick='return false;' > </asp:LinkButton>
-                                    <asp:LinkButton ID="LinkButton3" class="bg-main fg-white" runat="server" Text="档案" patient_guid='<%# Eval("patient_guid")%>' OnClientClick='viewEMRContent(this);return false;' > </asp:LinkButton>
+                                    <asp:LinkButton ID="lbtnOperate" class="bg-main fg-white" Text='查看' OnClientClick='showApplicationDetail(this);return false;' guid='<%# Eval("guid")%>' runat="Server"></asp:LinkButton>
+                                    <asp:LinkButton ID="lbtnSupplement" class="bg-main fg-white" Text="补充资料" OnClientClick='addEMRContent(this);return false;' patient_guid='<%# Eval("patient_guid")%>' runat="server"> </asp:LinkButton>
+                                    <asp:LinkButton ID="lbtnTips" class="bg-main fg-white" Text="进展" OnClientClick='showTips(this);return false;' guid='<%# Eval("guid")%>' status='<%# Eval("status")%>' service_comments_for_user='<%# Eval("service_comments_for_user")%>' runat="server"> </asp:LinkButton>
+                                    <asp:LinkButton ID="LinkButton2" class="bg-main fg-white" Text="购买" OnClientClick='showPayPage(this);return false;' guid='<%# Eval("guid")%>' status='<%# Eval("status")%>' runat="server"> </asp:LinkButton>
+                                    <asp:LinkButton ID="LinkButton3" class="bg-main fg-white" Text="档案" OnClientClick='viewEMRContent(this);return false;' patient_guid='<%# Eval("patient_guid")%>' runat="server"> </asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -81,6 +81,15 @@
         $(".icon-list").parent().addClass("fg-main bg-main5");
     </script>
     <script>
+        // Check user failed
+        function chkuserfailed(type) {
+            if (type == 1) {
+                alert('请提供系统用户参数！');
+            }
+            else if (type == 2) {
+                alert('系统用户参数无效！');
+            }
+        }
         function refreshGrid(type) {
             // This is only a indicator, not the ApplicationStatus, the Status should be coded in the behind
             document.getElementById('MainContent_hidFilter').value = type;
@@ -99,15 +108,77 @@
         }
         function showApplicationDetail(obj) {
             var uid = $('#' + obj.id).attr('guid')
+            if (uid == "") {
+                alert("资料不完整，无法执行此操作！");
+                return;
+            }
             window.location = "MyRequest.aspx?guid=" + uid;
         }
         function addEMRContent(obj) {
-            var uid = $('#' + obj.id).attr('patient_guid')
+            var uid = $('#' + obj.id).attr('patient_guid');
+            if (uid == "") {
+                alert("资料不完整，无法执行此操作！");
+                return;
+            }
             window.location = "MyEMR_New.aspx?type=new&guid=" + uid;
         }
         function viewEMRContent(obj) {
-            var uid = $('#' + obj.id).attr('patient_guid')
+            var uid = $('#' + obj.id).attr('patient_guid');
+            if (uid == "") {
+                alert("资料不完整，无法执行此操作！");
+                return;
+            }
             window.location = "MyEMR_New.aspx?type=view&guid=" + uid;
+        }
+        function showTips(obj) {
+            var uid = $('#' + obj.id).attr('patient_guid');
+            if (uid == "") {
+                alert("资料不完整，无法执行此操作！");
+                return;
+            }
+            var status = $('#' + obj.id).attr('status');
+            if (status == 0) {
+                // 未提交
+                // When reject, show comments
+                var service_comments_for_user = $('#' + obj.id).attr('service_comments_for_user');
+                if (service_comments_for_user != "") {
+                    alert(service_comments_for_user);
+                }
+            } else if (status == 1) {
+                // 已提交
+                alert('资料已收到，请等待客服通知。');
+            } else if (status == 2) {
+                // 已接受，需要付款
+                showPayPage(obj);
+            } else if (status == 3) {
+                // 已支付初审费
+                alert('初审中，请等待客服通知。');
+            } else if (status == 5) {
+                // 已初审，需要付款
+                showPayPage(obj);
+            } else if (status == 7) {
+                // 会诊中
+                alert('会诊中，请等待客服通知。');
+            } else if (status == 99) {
+                // 会诊中
+                showApplicationDetail(obj);
+            } else {
+                // 其他状态
+                alert('请等待客服通知。');
+            }
+        }
+        function showPayPage(obj) {
+            var uid = $('#' + obj.id).attr('patient_guid');
+            if (uid == "") {
+                alert("资料不完整，无法执行此操作！");
+                return;
+            }
+            var status = $('#' + obj.id).attr('status');
+            if (status == 2 || status == 5) {
+                alert("显示支付页面。。。");
+            } else {
+                alert("当前没有需要支付的款项。。。");
+            }
         }
     </script>
     <script>

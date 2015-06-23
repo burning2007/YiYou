@@ -689,6 +689,62 @@ namespace Yiyou.SQLServerDAL
             return Add_consult_application_accessory(model);
         }
 
+        public static bool Add_consult_application_order(consult_application_orderMdl model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            // First, delete the same type payment info??
+            strSql.Append("delete consult_application_order where consult_application_guid=@consult_application_guid and order_type=@order_type;");
+            // New
+            strSql.Append("insert into consult_application_order(");
+            strSql.Append("consult_application_guid,order_type,created_dt,modified_dt,amount_payable)");
+            strSql.Append(" values (");
+            strSql.Append("@consult_application_guid,@order_type,getdate(),getdate(),@amount_payable)");
+            strSql.Append(";select @@IDENTITY");
+            SqlParameter[] parameters = {
+					new SqlParameter("@consult_application_guid", SqlDbType.VarChar,36),
+					new SqlParameter("@order_type", SqlDbType.Int,4),
+					new SqlParameter("@amount_payable", SqlDbType.Float,8)};
+            parameters[0].Value = model.consult_application_guid;
+            parameters[1].Value = model.order_type;
+            parameters[2].Value = model.amount_payable;
 
+            int nCount = SqlHelper.ExecuteNonQuery(strSql.ToString(), parameters);
+            return true;
+        }
+
+        public static void UpdateApplicationStatus(string guid, int status)
+        {
+            string strSQL = "update consult_application set status={0} where guid='{1}'";
+            strSQL = string.Format(strSQL, status, guid);
+            SqlHelper.ExecuteNonQuery(strSQL);
+        }
+
+        public static void RejectApplication(string guid, int status, string rejectComments)
+        {
+            string strSQL = "update consult_application set status={0},service_comments_for_user='{1}' where guid='{2}'";
+            strSQL = string.Format(strSQL, status, rejectComments, guid);
+            SqlHelper.ExecuteNonQuery(strSQL);
+        }
+
+        public static string getFirstPayInfo(string guid)
+        {
+            string strSQL = "select top 1 amount_payable from consult_application_order where consult_application_guid='{0}' and order_type=1";
+            strSQL = string.Format(strSQL, guid);
+            return SqlHelper.ExecuteSingleValueQuery(strSQL);
+        }
+
+        public static string getSecondPayInfo(string guid)
+        {
+            string strSQL = "select top 1 amount_payable from consult_application_order where consult_application_guid='{0}' and order_type=2";
+            strSQL = string.Format(strSQL, guid);
+            return SqlHelper.ExecuteSingleValueQuery(strSQL);
+        }
+
+        public static void Add_preliminary_conclusions(string guid, string preliminary_conclusions)
+        {
+            string strSQL = "update consult_application set preliminary_conclusions='{0}' where guid='{1}'";
+            strSQL = string.Format(strSQL, preliminary_conclusions, guid);
+            SqlHelper.ExecuteNonQuery(strSQL);
+        }
     }
 }
