@@ -164,31 +164,11 @@ namespace ICUPro.Portal
                     return;
 
 
-                #region Bind EMR Detail List
-                DataSet ds = EMR_PatientMdlDAL.GetEMRDetailList(userGUID, patientName);
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                // First, check if the patient is exist or not
+                #region Check Patient and Create New Patient
+                if (EMR_PatientMdlDAL.IsExist(patientName, userGUID))
                 {
-                    this.hidPatientGUID.Value = ds.Tables[0].Rows[0]["patient_guid"].ToString();
-                    ds.Tables[0].Columns.Add("imgthumbnail", typeof(string));
-                    foreach (DataRow row in ds.Tables[0].Rows)
-                    {
-                        if (row["thumbnail"] is DBNull)
-                        {
-                            row["imgthumbnail"] = "";
-                        }
-                        else
-                        {
-                            string strTempFolder = ImageUtils.GetTempFolderPath();
-                            byte[] bImage = (byte[])(row["thumbnail"]);
-                            string strFileName = Guid.NewGuid().ToString() + ".jpg";
-                            string strFilePath = Path.Combine(strTempFolder, strFileName);
-                            File.WriteAllBytes(strFilePath, bImage);
-                            string strThumbnailCtrl = string.Format("<img width=\"100\" height=\"100\" src=\"/temp/{0}\" />", strFileName);
-                            row["imgthumbnail"] = strThumbnailCtrl;
-                        }
-                    }
-                    this.rptList.DataSource = ds.Tables[0];
-                    this.rptList.DataBind();
+                    this.hidPatientGUID.Value = EMR_PatientMdlDAL.GetPatientGUID(patientName, userGUID);
                 }
                 else
                 {
@@ -207,6 +187,10 @@ namespace ICUPro.Portal
                     this.hidPatientGUID.Value = newPatient.patient_guid;
                 }
                 #endregion
+
+
+                // Bind EMR Detail List
+                RefreshEMRListByPatientUidAndEMRType();
 
 
                 #endregion

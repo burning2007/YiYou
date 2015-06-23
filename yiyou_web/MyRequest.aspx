@@ -15,6 +15,12 @@
             <div id="menu2" onclick="chgtab(2);" class="fg-main" style="padding: 10px; float: left; cursor: hand; border-right: 1px solid grey; border-top: 1px solid grey; border-bottom: 1px solid grey;">
                 &nbsp;患者病历
             </div>
+            <div id="menu3" onclick="chgtab(3);" class="fg-main" style="padding: 10px; float: left; cursor: hand; border-right: 1px solid grey; border-top: 1px solid grey; border-bottom: 1px solid grey;">
+                &nbsp;会诊结论
+            </div>
+            <div id="menu4" onclick="chgtab(4);" class="fg-main" style="padding: 10px; float: left; cursor: hand; border-right: 1px solid grey; border-top: 1px solid grey; border-bottom: 1px solid grey;">
+                &nbsp;支付信息
+            </div>
         </div>
         <div id="panel1" style="padding: 15px 15px 15px 15px; border: 1px solid grey;" class="pagetab">
             <table style="width: 100%; background: none; margin: 0;">
@@ -162,11 +168,6 @@
                     ShowMessageBox="True" />
             </div>
             <asp:Label runat="server" ID="lblErrorMsg" ForeColor="Red"></asp:Label>
-            <input type="hidden" runat="server" id="hidGUID" />
-            <input type="hidden" runat="server" id="hidUserGUID" />
-            <input type="hidden" runat="server" id="hidPurposeImgGUID" />
-            <input type="hidden" runat="server" id="hidPurposeImg" />
-            <input type="hidden" runat="server" id="hidStatus" />
         </div>
         <div id="panel2" class="pagetab" style="padding-top: 15px; border: 1px solid grey; display: none;">
             <div class="bg-main5 padding15">
@@ -175,7 +176,22 @@
                 </div>
             </div>
         </div>
+        <div id="panel3" class="pagetab" style="padding-top: 15px; border: 1px solid grey; display: none;">
+            <div class="bg-main5 padding15">
+                会诊结论
+            </div>
+        </div>
+        <div id="panel4" class="pagetab" style="padding-top: 15px; border: 1px solid grey; display: none;">
+            <div class="bg-main5 padding15">
+                支付信息
+            </div>
+        </div>
     </div>
+    <input type="hidden" runat="server" id="hidGUID" />
+    <input type="hidden" runat="server" id="hidUserGUID" />
+    <input type="hidden" runat="server" id="hidPurposeImgGUID" />
+    <input type="hidden" runat="server" id="hidPurposeImg" />
+    <input type="hidden" runat="server" id="hidStatus" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ActionHolder" runat="server">
     <script>
